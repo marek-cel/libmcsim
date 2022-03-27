@@ -1,22 +1,6 @@
 HEADERS += \
     $$PWD/defs.h \
-    $$PWD/doxygen.h \
-    $$PWD/Aircraft.h \
-    $$PWD/CrashCause.h \
-    $$PWD/IAerodynamics.h \
-    $$PWD/IAircraft.h \
-    $$PWD/IBuilder.h \
-    $$PWD/IControls.h \
-    $$PWD/IEnvironment.h \
-    $$PWD/IIntersections.h \
-    $$PWD/ILandingGear.h \
-    $$PWD/IMass.h \
-    $$PWD/IPropulsion.h \
-    $$PWD/IRecorder.h \
-    $$PWD/StateIndex.h
-
-SOURCES += \
-    $$PWD/Aircraft.cpp
+    $$PWD/doxygen.h
 
 ################################################################################
 

@@ -88,7 +88,7 @@ void WingRunner::update( double timeStep, const Vector3 &vel_bas, bool onGround 
 {
     if ( _active )
     {
-        if ( timeStep > MCSIM_TIME_STEP_MIN )
+        if ( timeStep > 0.0 )
         {
             if ( vel_bas.getLength() > 1.0 || ( !onGround ) )
             {

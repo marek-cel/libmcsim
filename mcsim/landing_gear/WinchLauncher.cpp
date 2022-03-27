@@ -95,7 +95,7 @@ void WinchLauncher::update( double timeStep,
 {
     if ( _active )
     {
-        if ( timeStep > MCSIM_TIME_STEP_MIN )
+        if ( timeStep > 0.0 )
         {
             _for = Physics::inertia( _for_max, _for, timeStep, _tc_for );
             _vel = Physics::inertia( _vel_max, _vel, timeStep, _tc_vel );
