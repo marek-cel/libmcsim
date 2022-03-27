@@ -4,6 +4,6 @@
 
 rm -f out_cppcheck.txt
 
-cppcheck --enable=style --std=c++17 -I ./include ./src 2> out_cppcheck.txt
+cppcheck --enable=style --std=c++17 -I ./mcsim 2> out_cppcheck.txt
 
 ################################################################################
