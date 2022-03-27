@@ -25,9 +25,7 @@ HEADERS += \
     $$PWD/aerodynamics/Fuselage.h \
     $$PWD/aerodynamics/MAC.h \
     $$PWD/aerodynamics/MainRotor.h \
-    $$PWD/aerodynamics/MainRotorBE.h \
     $$PWD/aerodynamics/PrandtlGlauert.h \
-    $$PWD/aerodynamics/RotorBlade.h \
     $$PWD/aerodynamics/Schrenk.h \
     $$PWD/aerodynamics/SimpleRotor.h \
     $$PWD/aerodynamics/StabilizerHor.h \
@@ -40,9 +38,7 @@ SOURCES += \
     $$PWD/aerodynamics/Fuselage.cpp \
     $$PWD/aerodynamics/MAC.cpp \
     $$PWD/aerodynamics/MainRotor.cpp \
-    $$PWD/aerodynamics/MainRotorBE.cpp \
     $$PWD/aerodynamics/PrandtlGlauert.cpp \
-    $$PWD/aerodynamics/RotorBlade.cpp \
     $$PWD/aerodynamics/Schrenk.cpp \
     $$PWD/aerodynamics/SimpleRotor.cpp \
     $$PWD/aerodynamics/StabilizerHor.cpp \
@@ -62,14 +58,10 @@ SOURCES += \
 ################################################################################
 
 HEADERS += \
-    $$PWD/environment/AtmosphereMars.h \
-    $$PWD/environment/AtmosphereUS76.h \
-    $$PWD/environment/WindShearFAA.h
+    $$PWD/environment/AtmosphereUS76.h
 
 SOURCES += \
-    $$PWD/environment/AtmosphereMars.cpp \
-    $$PWD/environment/AtmosphereUS76.cpp \
-    $$PWD/environment/WindShearFAA.cpp
+    $$PWD/environment/AtmosphereUS76.cpp
 
 ################################################################################
 
@@ -96,19 +88,11 @@ SOURCES += \
 ################################################################################
 
 HEADERS += \
-    $$PWD/propulsion/Battery.h \
-    $$PWD/propulsion/ElectricMotor.h \
-    $$PWD/propulsion/FuelTank.h \
     $$PWD/propulsion/Governor.h \
     $$PWD/propulsion/PistonEngine.h \
-    $$PWD/propulsion/Propeller.h \
-    $$PWD/propulsion/Turbofan.h
+    $$PWD/propulsion/Propeller.h
 
 SOURCES += \
-    $$PWD/propulsion/Battery.cpp \
-    $$PWD/propulsion/ElectricMotor.cpp \
-    $$PWD/propulsion/FuelTank.cpp \
     $$PWD/propulsion/Governor.cpp \
     $$PWD/propulsion/PistonEngine.cpp \
-    $$PWD/propulsion/Propeller.cpp \
-    $$PWD/propulsion/Turbofan.cpp
+    $$PWD/propulsion/Propeller.cpp
