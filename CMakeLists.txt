@@ -1,12 +1,12 @@
 cmake_minimum_required( VERSION 2.8 )
 
-project( mcutil )
+project( mcsim )
 
-set( MCUTIL_VERSION_MAJOR 1 )
-set( MCUTIL_VERSION_MINOR 0 )
-set( MCUTIL_VERSION_PATCH 0 )
-set( MCUTIL_VERSION_STRING
-    ${MCUTIL_VERSION_MAJOR}.${MCUTIL_VERSION_MINOR}.${MCUTIL_VERSION_PATCH}
+set( MCSIM_VERSION_MAJOR 0 )
+set( MCSIM_VERSION_MINOR 1 )
+set( MCSIM_VERSION_PATCH 0 )
+set( MCSIM_VERSION_STRING
+    ${MCSIM_VERSION_MAJOR}.${MCSIM_VERSION_MINOR}.${MCSIM_VERSION_PATCH}
 )
 
 ################################################################################
@@ -70,6 +70,6 @@ find_package( LibXml2 REQUIRED )
 
 ################################################################################
 
-add_subdirectory( mcutil )
+add_subdirectory( mcsim )
 
 ################################################################################
