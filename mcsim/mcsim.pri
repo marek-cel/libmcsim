@@ -14,6 +14,7 @@ HEADERS += \
     $$PWD/aero/MainRotor.h \
     $$PWD/aero/PrandtlGlauert.h \
     $$PWD/aero/Schrenk.h \
+    $$PWD/aero/SimpleRotor.h \
     $$PWD/aero/StabilizerHor.h \
     $$PWD/aero/StabilizerVer.h \
     $$PWD/aero/TailOff.h \
@@ -26,6 +27,7 @@ SOURCES += \
     $$PWD/aero/MainRotor.cpp \
     $$PWD/aero/PrandtlGlauert.cpp \
     $$PWD/aero/Schrenk.cpp \
+    $$PWD/aero/SimpleRotor.cpp \
     $$PWD/aero/StabilizerHor.cpp \
     $$PWD/aero/StabilizerVer.cpp \
     $$PWD/aero/TailOff.cpp \

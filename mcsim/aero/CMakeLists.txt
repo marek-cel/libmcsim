@@ -9,6 +9,7 @@ set( HEADERS
     MainRotor.h
     PrandtlGlauert.h
     Schrenk.h
+    SimpleRotor.h
     StabilizerHor.h
     StabilizerVer.h
     TailOff.cpp
@@ -23,6 +24,7 @@ set( SOURCES
     MainRotor.cpp
     PrandtlGlauert.cpp
     Schrenk.cpp
+    SimpleRotor.cpp
     StabilizerHor.cpp
     StabilizerVer.cpp
     TailOff.cpp
