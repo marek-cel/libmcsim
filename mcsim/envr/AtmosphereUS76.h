@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_ENVR_ATMOSPHEREUS76_H
-#define LIBMCSIM_ENVR_ATMOSPHEREUS76_H
+#ifndef MCSIM_ENVR_ATMOSPHEREUS76_H_
+#define MCSIM_ENVR_ATMOSPHEREUS76_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -140,8 +140,8 @@ using AtmosphereUS76PtrS = std::shared_ptr < AtmosphereUS76 >;
 using AtmosphereUS76PtrU = std::unique_ptr < AtmosphereUS76 >;
 using AtmosphereUS76PtrW = std::weak_ptr   < AtmosphereUS76 >;
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_ENVR_ATMOSPHEREUS76_H
+#endif // MCSIM_ENVR_ATMOSPHEREUS76_H_

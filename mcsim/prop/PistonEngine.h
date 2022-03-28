@@ -19,15 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_PROP_PISTONENGINE_H
-#define LIBMCSIM_PROP_PISTONENGINE_H
+#ifndef MCSIM_PROP_PISTONENGINE_H_
+#define MCSIM_PROP_PISTONENGINE_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Table.h>
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/math/Table.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -274,8 +274,8 @@ protected:
                                 bool fuel, bool magneto_l, bool magneto_r );
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_PROP_PISTONENGINE_H
+#endif // MCSIM_PROP_PISTONENGINE_H_

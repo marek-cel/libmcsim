@@ -24,8 +24,8 @@
 
 #include <cmath>
 
-#include <mcutil/misc/Log.h>
-#include <mcutil/physics/Physics.h>
+#include <mcutils/misc/Log.h>
+#include <mcutils/physics/Physics.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -276,4 +276,4 @@ void AtmosphereUS76::setTemperatureSL( double t_sl )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

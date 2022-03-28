@@ -19,15 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_PROP_GOVERNOR_H
-#define LIBMCSIM_PROP_GOVERNOR_H
+#ifndef MCSIM_PROP_GOVERNOR_H_
+#define MCSIM_PROP_GOVERNOR_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Table.h>
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/math/Table.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -74,8 +74,8 @@ protected:
     double _pitch;          ///< <0.0;1.0> normalized propeller pitch
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_PROP_GOVERNOR_H
+#endif // MCSIM_PROP_GOVERNOR_H_

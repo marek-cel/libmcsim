@@ -22,8 +22,8 @@
 
 #include <mcsim/aero/PrandtlGlauert.h>
 
-#include <mcutil/math/Math.h>
-#include <mcutil/misc/Check.h>
+#include <mcutils/math/Math.h>
+#include <mcutils/misc/Check.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -55,4 +55,4 @@ double getPrandtlGlauertCoef( double machNumber, double max )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

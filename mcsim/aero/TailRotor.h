@@ -19,16 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_AERO_TAILROTOR_H
-#define LIBMCSIM_AERO_TAILROTOR_H
+#ifndef MCSIM_AERO_TAILROTOR_H_
+#define MCSIM_AERO_TAILROTOR_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Matrix3x3.h>
+#include <mcutils/math/Matrix3x3.h>
 
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -156,8 +156,8 @@ protected:
     double _torque;             ///< [N*m] rotor torque
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_AERO_TAILROTOR_H
+#endif // MCSIM_AERO_TAILROTOR_H_

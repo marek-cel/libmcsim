@@ -19,16 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_GEAR_WINCHLAUNCHER_H
-#define LIBMCSIM_GEAR_WINCHLAUNCHER_H
+#ifndef MCSIM_GEAR_WINCHLAUNCHER_H_
+#define MCSIM_GEAR_WINCHLAUNCHER_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Matrix3x3.h>
+#include <mcutils/math/Matrix3x3.h>
 
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -119,8 +119,8 @@ protected:
     bool _active;           ///< specify if winch is active
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_GEAR_WINCHLAUNCHER_H
+#endif // MCSIM_GEAR_WINCHLAUNCHER_H_

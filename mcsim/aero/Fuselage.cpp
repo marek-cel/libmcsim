@@ -22,8 +22,8 @@
 
 #include <mcsim/aero/Fuselage.h>
 
-#include <mcutil/math/Math.h>
-#include <mcutil/misc/Units.h>
+#include <mcutils/math/Math.h>
+#include <mcutils/misc/Units.h>
 
 #include <mcsim/aero/AeroAngles.h>
 
@@ -160,4 +160,4 @@ double Fuselage::getCn( double sideslipAngle ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

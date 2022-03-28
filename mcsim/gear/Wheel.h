@@ -19,16 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_GEAR_WHEEL_H
-#define LIBMCSIM_GEAR_WHEEL_H
+#ifndef MCSIM_GEAR_WHEEL_H_
+#define MCSIM_GEAR_WHEEL_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Vector3.h>
+#include <mcutils/math/Vector3.h>
 
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -205,8 +205,8 @@ protected:
                              double *v_slip );
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_GEAR_WHEEL_H
+#endif // MCSIM_GEAR_WHEEL_H_

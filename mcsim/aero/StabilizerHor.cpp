@@ -22,7 +22,7 @@
 
 #include <mcsim/aero/StabilizerHor.h>
 
-#include <mcutil/misc/Units.h>
+#include <mcutils/misc/Units.h>
 
 #include <mcsim/aero/AeroAngles.h>
 
@@ -112,4 +112,4 @@ double StabilizerHor::getCz( double angle ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

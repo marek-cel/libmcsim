@@ -19,18 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_PROP_PROPELLER_H
-#define LIBMCSIM_PROP_PROPELLER_H
+#ifndef MCSIM_PROP_PROPELLER_H_
+#define MCSIM_PROP_PROPELLER_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Table.h>
-#include <mcutil/math/Table2D.h>
-#include <mcutil/math/Vector3.h>
+#include <mcutils/math/Table.h>
+#include <mcutils/math/Table2D.h>
+#include <mcutils/math/Vector3.h>
 
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -243,8 +243,8 @@ protected:
     virtual double getPropellerPitch( double propellerLever );
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_PROP_PROPELLER_H
+#endif // MCSIM_PROP_PROPELLER_H_

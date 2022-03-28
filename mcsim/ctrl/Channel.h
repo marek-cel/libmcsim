@@ -19,15 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_CTRL_CHANNEL_H
-#define LIBMCSIM_CTRL_CHANNEL_H
+#ifndef MCSIM_CTRL_CHANNEL_H_
+#define MCSIM_CTRL_CHANNEL_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
 #include <libmcsim/data/sl_DataRef.h>
-#include <mcutil/math/Table.h>
+#include <mcutils/math/Table.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -42,8 +42,8 @@ struct Channel
     double  output;     ///< channel output
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_CTRL_CHANNEL_H
+#endif // MCSIM_CTRL_CHANNEL_H_

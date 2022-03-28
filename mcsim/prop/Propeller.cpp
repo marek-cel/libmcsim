@@ -24,10 +24,10 @@
 
 #include <cmath>
 
-#include <mcutil/math/Math.h>
-#include <mcutil/misc/String.h>
-#include <mcutil/misc/Units.h>
-#include <mcutil/physics/Physics.h>
+#include <mcutils/math/Math.h>
+#include <mcutils/misc/String.h>
+#include <mcutils/misc/Units.h>
+#include <mcutils/physics/Physics.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -170,4 +170,4 @@ double Propeller::getPropellerPitch( double propellerLever )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

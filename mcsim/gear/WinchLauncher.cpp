@@ -24,8 +24,8 @@
 
 #include <cmath>
 
-#include <mcutil/misc/String.h>
-#include <mcutil/physics/Physics.h>
+#include <mcutils/misc/String.h>
+#include <mcutils/physics/Physics.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -121,4 +121,4 @@ void WinchLauncher::update( double timeStep,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

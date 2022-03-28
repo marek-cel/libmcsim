@@ -19,16 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_MASS_INERTIAMATRIX_H
-#define LIBMCSIM_MASS_INERTIAMATRIX_H
+#ifndef MCSIM_MASS_INERTIAMATRIX_H_
+#define MCSIM_MASS_INERTIAMATRIX_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Matrix3x3.h>
-#include <mcutil/math/Matrix6x6.h>
-#include <mcutil/math/Vector3.h>
+#include <mcutils/math/Matrix3x3.h>
+#include <mcutils/math/Matrix6x6.h>
+#include <mcutils/math/Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -49,8 +49,8 @@ namespace mc
  */
 Matrix6x6 getInertiaMatrix( double mass, Vector3 s_bas, Matrix3x3 i_bas );
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_MASS_INERTIAMATRIX_H
+#endif // MCSIM_MASS_INERTIAMATRIX_H_

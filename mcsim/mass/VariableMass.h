@@ -19,16 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_MASS_VARIABLEMASS_H
-#define LIBMCSIM_MASS_VARIABLEMASS_H
+#ifndef MCSIM_MASS_VARIABLEMASS_H_
+#define MCSIM_MASS_VARIABLEMASS_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Matrix3x3.h>
-#include <mcutil/math/Vector3.h>
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/math/Matrix3x3.h>
+#include <mcutils/math/Vector3.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -90,8 +90,8 @@ private:
     double _mass;           ///< [kg] current mass
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_MASS_VARIABLEMASS_H
+#endif // MCSIM_MASS_VARIABLEMASS_H_

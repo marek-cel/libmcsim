@@ -22,8 +22,8 @@
 
 #include <mcsim/gear/Wheel.h>
 
-#include <mcutil/math/Math.h>
-#include <mcutil/misc/String.h>
+#include <mcutils/math/Math.h>
+#include <mcutils/misc/String.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -312,4 +312,4 @@ void Wheel::calculateVariables( const Vector3 &vel_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

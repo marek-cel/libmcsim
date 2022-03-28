@@ -19,14 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_CTRL_HINGEMOMENT_H
-#define LIBMCSIM_CTRL_HINGEMOMENT_H
+#ifndef MCSIM_CTRL_HINGEMOMENT_H_
+#define MCSIM_CTRL_HINGEMOMENT_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -88,8 +88,8 @@ protected:
     double _dch_ddelta_t;   ///< [1/rad] hinge moment coefficient due to trim deflection
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_CTRL_HINGEMOMENT_H
+#endif // MCSIM_CTRL_HINGEMOMENT_H_

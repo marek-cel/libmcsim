@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_DEFS_H_
-#define LIBMCSIM_DEFS_H_
+#ifndef MCSIM_DEFS_H_
+#define MCSIM_DEFS_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -46,4 +46,4 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_DEFS_H_
+#endif // MCSIM_DEFS_H_

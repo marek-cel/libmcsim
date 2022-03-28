@@ -22,9 +22,9 @@
 
 #include <mcsim/aero/MainRotor.h>
 
-#include <mcutil/math/Math.h>
-#include <mcutil/misc/String.h>
-#include <mcutil/misc/Units.h>
+#include <mcutils/math/Math.h>
+#include <mcutils/misc/String.h>
+#include <mcutils/misc/Units.h>
 
 #include <mcsim/aero/AeroAngles.h>
 
@@ -384,4 +384,4 @@ void MainRotor::update( double omega,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

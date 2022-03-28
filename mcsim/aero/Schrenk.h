@@ -19,14 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_AERO_SCHRENK_H
-#define LIBMCSIM_AERO_SCHRENK_H
+#ifndef MCSIM_AERO_SCHRENK_H_
+#define MCSIM_AERO_SCHRENK_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Table.h>
+#include <mcutils/math/Table.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -99,8 +99,8 @@ protected:
     void updateAxiliaryParameters();
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_AERO_SCHRENK_H
+#endif // MCSIM_AERO_SCHRENK_H_

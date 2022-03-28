@@ -22,7 +22,7 @@
 
 #include <mcsim/gear/WingRunner.h>
 
-#include <mcutil/misc/String.h>
+#include <mcutils/misc/String.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -100,4 +100,4 @@ void WingRunner::update( double timeStep, const Vector3 &vel_bas, bool onGround 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

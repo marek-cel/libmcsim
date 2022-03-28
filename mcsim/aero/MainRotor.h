@@ -19,16 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_AERO_MAINROTOR_H
-#define LIBMCSIM_AERO_MAINROTOR_H
+#ifndef MCSIM_AERO_MAINROTOR_H_
+#define MCSIM_AERO_MAINROTOR_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Matrix3x3.h>
+#include <mcutils/math/Matrix3x3.h>
 
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -290,8 +290,8 @@ protected:
     double _wakeSkew;           ///< [rad] rotor wake skew angle
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_AERO_MAINROTOR_H
+#endif // MCSIM_AERO_MAINROTOR_H_

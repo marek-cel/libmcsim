@@ -22,7 +22,7 @@
 
 #include <mcsim/aero/StabilizerVer.h>
 
-#include <mcutil/misc/Units.h>
+#include <mcutils/misc/Units.h>
 
 #include <mcsim/aero/AeroAngles.h>
 
@@ -99,4 +99,4 @@ double StabilizerVer::getCy( double angle ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

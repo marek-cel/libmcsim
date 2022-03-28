@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_AERO_PRANDTLGLAUERT_H
-#define LIBMCSIM_AERO_PRANDTLGLAUERT_H
+#ifndef MCSIM_AERO_PRANDTLGLAUERT_H_
+#define MCSIM_AERO_PRANDTLGLAUERT_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -40,8 +40,8 @@ namespace mc
  */
 double MCSIMEXPORT getPrandtlGlauertCoef( double machNumber, double max = 5.0 );
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_AERO_PRANDTLGLAUERT_H
+#endif // MCSIM_AERO_PRANDTLGLAUERT_H_

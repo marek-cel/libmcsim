@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_DOXYGEN_H_
-#define LIBMCSIM_DOXYGEN_H_
+#ifndef MCSIM_DOXYGEN_H_
+#define MCSIM_DOXYGEN_H_
 
 /***************************************************************************//**
  * @author Marek M. Cel
@@ -33,4 +33,4 @@
  *
  ******************************************************************************/
 
-#endif // LIBMCSIM_DOXYGEN_H_
+#endif // MCSIM_DOXYGEN_H_

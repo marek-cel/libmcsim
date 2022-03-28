@@ -19,17 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LIBMCSIM_AERO_STABILIZERVER_H
-#define LIBMCSIM_AERO_STABILIZERVER_H
+#ifndef MCSIM_AERO_STABILIZERVER_H_
+#define MCSIM_AERO_STABILIZERVER_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutil/math/Table.h>
-#include <mcutil/math/Vector3.h>
+#include <mcutils/math/Table.h>
+#include <mcutils/math/Vector3.h>
 
-#include <mcutil/xml/XmlNode.h>
+#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -114,8 +114,8 @@ protected:
     virtual double getCy( double angle ) const;
 };
 
-} // mc
+} // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LIBMCSIM_AERO_STABILIZERVER_H
+#endif // MCSIM_AERO_STABILIZERVER_H_

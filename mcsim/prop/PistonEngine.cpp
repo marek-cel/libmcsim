@@ -22,8 +22,8 @@
 
 #include <mcsim/prop/PistonEngine.h>
 
-#include <mcutil/math/Math.h>
-#include <mcutil/misc/Units.h>
+#include <mcutils/math/Math.h>
+#include <mcutils/misc/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -186,4 +186,4 @@ double PistonEngine::getNetPower( double throttleLever, double mixtureLever, dou
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc

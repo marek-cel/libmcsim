@@ -22,7 +22,7 @@
 
 #include <mcsim/aero/TailOff.h>
 
-#include <mcutil/misc/Units.h>
+#include <mcutils/misc/Units.h>
 
 #include <mcsim/aero/AeroAngles.h>
 
@@ -183,4 +183,4 @@ double TailOff::getCn( double sideslipAngle ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-} // mc
+} // namespace mc
