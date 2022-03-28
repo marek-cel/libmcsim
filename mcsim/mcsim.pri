@@ -12,7 +12,9 @@ HEADERS += \
     $$PWD/aero/Fuselage.h \
     $$PWD/aero/MAC.h \
     $$PWD/aero/MainRotor.h \
+    $$PWD/aero/MainRotorBE.h \
     $$PWD/aero/PrandtlGlauert.h \
+    $$PWD/aero/RotorBlade.h \
     $$PWD/aero/Schrenk.h \
     $$PWD/aero/StabilizerHor.h \
     $$PWD/aero/StabilizerVer.h \
@@ -24,7 +26,9 @@ SOURCES += \
     $$PWD/aero/Fuselage.cpp \
     $$PWD/aero/MAC.cpp \
     $$PWD/aero/MainRotor.cpp \
+    $$PWD/aero/MainRotorBE.cpp \
     $$PWD/aero/PrandtlGlauert.cpp \
+    $$PWD/aero/RotorBlade.cpp \
     $$PWD/aero/Schrenk.cpp \
     $$PWD/aero/StabilizerHor.cpp \
     $$PWD/aero/StabilizerVer.cpp \
