@@ -1,4 +1,4 @@
-set( TARGET_NAME mcSim )
+set( TARGET_NAME mcsim )
 
 ################################################################################
 
@@ -7,7 +7,7 @@ set( HEADERS
 )
 
 set( SOURCES
-    mcSim.cpp
+    mcsim.cpp
 )
 
 ################################################################################
@@ -19,11 +19,14 @@ add_library( ${TARGET_NAME} SHARED ${SOURCES} )
 include( GNUInstallDirs )
 
 set_target_properties( ${TARGET_NAME} PROPERTIES 
+    VERSION ${MCSIM_VERSION_STRING}
+    SOVERSION ${MCSIM_VERSION_MAJOR}
     PUBLIC_HEADER "${HEADERS}"
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcSim
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim
 )
 
 ################################################################################
@@ -37,11 +40,11 @@ add_subdirectory( prop )
 
 ################################################################################
 
-target_link_libraries( ${PROJECT_NAME}
-    aero
-    ctrl
-    envr
-    gear
-    mass
-    prop
+target_link_libraries( ${TARGET_NAME}
+    mcsim_aero
+    mcsim_ctrl
+    mcsim_envr
+    mcsim_gear
+    mcsim_mass
+    mcsim_prop
 )

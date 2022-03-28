@@ -1,4 +1,4 @@
-set( TARGET_NAME envr )
+set( TARGET_NAME mcsim_envr )
 
 ################################################################################
 
@@ -23,6 +23,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcSim/envr
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/envr
 )
 

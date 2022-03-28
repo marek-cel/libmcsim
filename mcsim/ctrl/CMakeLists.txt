@@ -1,4 +1,4 @@
-set( TARGET_NAME ctrl )
+set( TARGET_NAME mcsim_ctrl )
 
 ################################################################################
 
@@ -24,6 +24,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcSim/ctrl
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/ctrl
 )
 

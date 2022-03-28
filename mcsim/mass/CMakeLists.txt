@@ -1,4 +1,4 @@
-set( TARGET_NAME mass )
+set( TARGET_NAME mcsim_mass )
 
 ################################################################################
 
@@ -25,6 +25,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcSim/mass
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/mass
 )
 

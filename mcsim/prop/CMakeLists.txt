@@ -1,4 +1,4 @@
-set( TARGET_NAME prop )
+set( TARGET_NAME mcsim_prop )
 
 ################################################################################
 
@@ -27,6 +27,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcSim/prop
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/prop
 )
 

@@ -1,4 +1,4 @@
-set( TARGET_NAME aero )
+set( TARGET_NAME mcsim_aero )
 
 ################################################################################
 
@@ -42,6 +42,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcSim/aero
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/aero
 )
 
