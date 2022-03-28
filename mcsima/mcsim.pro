@@ -1,25 +1,34 @@
-QT -= gui
-
-TEMPLATE = app
-
-################################################################################
-
-DESTDIR = $$PWD/../bin
-TARGET = libmcsim_tests
+library
+{
+    TEMPLATE = lib
+}
 
 ################################################################################
 
-CONFIG += console c++17 thread
-CONFIG -= app_bundle qt
+DESTDIR = $$PWD/../lib
+TARGET = mcSim
+
+VERSION = 0.1.0
 
 ################################################################################
 
-QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+unix: target.path = /usr/local/lib
+!isEmpty(target.path): INSTALLS += target
+
+################################################################################
+
+CONFIG += c++17
+
+################################################################################
+
+win32: CONFIG(release, debug|release): QMAKE_CXXFLAGS += -O2
+unix:  CONFIG(release, debug|release): QMAKE_CXXFLAGS += -O2
+
+win32: QMAKE_LFLAGS += /INCREMENTAL:NO
 
 ################################################################################
 
 DEFINES += QT_DEPRECATED_WARNINGS
-DEFINES += _GTEST_ _TESTS_
 
 win32: DEFINES += \
     NOMINMAX \
@@ -37,10 +46,10 @@ win32: DEFINES += WIN32
 
 ################################################################################
 
-INCLUDEPATH += ./ ../
+INCLUDEPATH += ../
 
 win32: INCLUDEPATH += \
-    $(OSG_ROOT)/include/libxml2
+    $(LIBXML_DIR)/include
 
 unix: INCLUDEPATH += \
     /usr/include/libxml2
@@ -48,8 +57,9 @@ unix: INCLUDEPATH += \
 ################################################################################
 
 win32: LIBS += \
-    -L$(OSG_ROOT)/lib \
-    -llibxml2
+    -L$(LIBXML_DIR)/lib \
+    -llibxml2 \
+    -lws2_32
 
 unix: LIBS += \
     -L/lib \
@@ -58,21 +68,4 @@ unix: LIBS += \
 
 ################################################################################
 
-LIBS += \
-    -lgcov --coverage \
-    -lgtest \
-    -lgtest_main \
-    -pthread \
-    -lxml2 \
-    -lmcutil_geo \
-    -lmcutil_math \
-    -lmcutil_misc \
-    -lmcutil_net \
-    -lmcutil_signal \
-    -lmcutil_time \
-    -lmcutil_xml
-
-################################################################################
-
-include(tests.pri)
-include(../mcsim/mcsim.pri)
+include($$PWD/mcSim.pri)
