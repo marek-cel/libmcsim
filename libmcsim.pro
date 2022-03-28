@@ -3,14 +3,14 @@ TEMPLATE = subdirs
 ################################################################################
 
 SUBDIRS += \
-    mcsim \
+    mcSim \
     tests
 
 ################################################################################
 
-mcsim.subdir = mcsim
+mcSim.subdir = mcSim
 tests.subdir = tests
 
 ################################################################################
 
-tests.depends = mcsim
+tests.depends = mcSim
