@@ -22,6 +22,7 @@
 
 #include <mcsim/prop/Propeller.h>
 
+#include <algorithm>
 #include <cmath>
 
 #include <mcutils/math/Math.h>
@@ -64,7 +65,7 @@ void Propeller::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-
+        // TODO
     }
 }
 

@@ -35,7 +35,7 @@ void VariableMass::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-
+        // TODO
     }
 }
 

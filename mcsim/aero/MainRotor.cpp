@@ -123,7 +123,7 @@ void MainRotor::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-
+        // TODO
     }
 }
 
@@ -362,7 +362,7 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
 
     if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
-
+        // TODO
     }
 }
 

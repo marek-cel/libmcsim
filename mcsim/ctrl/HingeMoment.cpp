@@ -47,7 +47,7 @@ void HingeMoment::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-
+        // TODO
     }
 }
 

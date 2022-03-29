@@ -50,7 +50,7 @@ void StabilizerVer::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-
+        // TODO
     }
 }
 
@@ -79,7 +79,7 @@ void StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
 
     if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
-
+        // TODO
     }
 }
 

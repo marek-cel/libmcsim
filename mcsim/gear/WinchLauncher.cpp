@@ -22,6 +22,7 @@
 
 #include <mcsim/gear/WinchLauncher.h>
 
+#include <algorithm>
 #include <cmath>
 
 #include <mcutils/misc/String.h>
@@ -62,7 +63,7 @@ void WinchLauncher::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-
+        // TODO
     }
 }
 

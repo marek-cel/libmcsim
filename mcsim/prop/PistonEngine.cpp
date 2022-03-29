@@ -22,6 +22,8 @@
 
 #include <mcsim/prop/PistonEngine.h>
 
+#include <algorithm>
+
 #include <mcutils/math/Math.h>
 #include <mcutils/misc/Units.h>
 
@@ -60,7 +62,7 @@ void PistonEngine::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-
+        // TODO
     }
 }
 

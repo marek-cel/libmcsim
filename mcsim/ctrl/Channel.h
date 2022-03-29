@@ -26,7 +26,6 @@
 
 #include <mcsim/defs.h>
 
-#include <libmcsim/data/sl_DataRef.h>
 #include <mcutils/math/Table.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +36,7 @@ namespace mc
 /** Control channel data. */
 struct Channel
 {
-    DataRef input;      ///< channel input data reference
+    double  input;      ///< channel input data
     Table   table;      ///< channel input vs output data
     double  output;     ///< channel output
 };
