@@ -1,12 +1,9 @@
-library
-{
-    TEMPLATE = lib
-}
+TEMPLATE = lib
 
 ################################################################################
 
 DESTDIR = $$PWD/../lib
-TARGET = mcSim
+TARGET = mcsim
 
 VERSION = 0.1.0
 
