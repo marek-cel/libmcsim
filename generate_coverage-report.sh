@@ -2,23 +2,44 @@
 
 ################################################################################
 
-build_dir="${1%/}"
+BUILD_DIR="${1%/}"
+
+LCOV_TOOL=lcov
+GENHTML_TOOL=genhtml
+GCOV_TOOL=gcov
+
+# LCOV_TOOL=/usr/local/bin/lcov
+# GENHTML_TOOL=/usr/local/bin/genhtml
+# GCOV_TOOL=gcov
+
+# LCOV_TOOL=lcov
+# GENHTML_TOOL=genhtml
+# GCOV_TOOL=llvm-gcov.sh
+
+BASE_DIR=./mcsim
 
 ################################################################################
 
-if [ ! -z "$build_dir" ]
+if [ ! -z "$BUILD_DIR" ]
 then
     rm -f coverage_full.info
     rm -f coverage.info
     rm -r -f coverage-report
-    cd bin; ./libmcutil_tests; cd ..;
-    lcov --capture --base-directory ./mcutil --no-external --directory $build_dir --output-file coverage_full.info
-    lcov --remove coverage_full.info \
-        "$(pwd)/tests/*" \
-        "*math/IIntegrator.h" \
-        "*signal/ISignalElement.h" \
+    cd bin; ./tests; cd ..;
+    mapfile -t exclude < lcov_exclude.txt
+    $LCOV_TOOL --capture \
+        --gcov-tool $GCOV_TOOL \
+        --base-directory $BASE_DIR \
+        --no-external \
+        --directory $BUILD_DIR \
+        --output-file coverage_full.info
+    $LCOV_TOOL --remove coverage_full.info \
+        ${exclude[@]} \
         -o coverage.info
-    genhtml coverage.info --output-directory coverage-report
+    $GENHTML_TOOL coverage.info \
+        --legend \
+        --function-coverage \
+        --output-directory coverage-report
 else
     echo
     echo Error! Build directory path not specified.
