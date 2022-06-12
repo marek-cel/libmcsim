@@ -32,7 +32,7 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Wheel::Wheel( bool staticFriction )
+SimpleSupport::SimpleSupport( bool staticFriction )
     : _k ( 0.0 )
     , _c ( 0.0 )
 
@@ -63,16 +63,16 @@ Wheel::Wheel( bool staticFriction )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Wheel::~Wheel() {}
+SimpleSupport::~SimpleSupport() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wheel::computeForceAndMoment( const Vector3 &vel_bas,
-                                   const Vector3 &omg_bas,
-                                   const Vector3 &r_c_bas,
-                                   const Vector3 &n_c_bas,
-                                   bool steering, bool antiskid,
-                                   double surf_coef )
+void SimpleSupport::computeForceAndMoment( const Vector3 &vel_bas,
+                                           const Vector3 &omg_bas,
+                                           const Vector3 &r_c_bas,
+                                           const Vector3 &n_c_bas,
+                                           bool steering, bool antiskid,
+                                           double surf_coef )
 {
     _for_bas.zeroize();
     _mom_bas.zeroize();
@@ -190,12 +190,12 @@ void Wheel::computeForceAndMoment( const Vector3 &vel_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wheel::integrate( double timeStep,
-                       const Vector3 &vel_bas,
-                       const Vector3 &omg_bas,
-                       const Vector3 &r_c_bas,
-                       const Vector3 &n_c_bas,
-                       bool steering )
+void SimpleSupport::integrate( double timeStep,
+                               const Vector3 &vel_bas,
+                               const Vector3 &omg_bas,
+                               const Vector3 &r_c_bas,
+                               const Vector3 &n_c_bas,
+                               bool steering )
 {
     if ( _staticFriction )
     {
@@ -234,7 +234,7 @@ void Wheel::integrate( double timeStep,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wheel::update( double position, double delta, double brake )
+void SimpleSupport::update( double position, double delta, double brake )
 {
     _position = position;
     _delta = delta;
@@ -243,18 +243,18 @@ void Wheel::update( double position, double delta, double brake )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wheel::calculateVariables( const Vector3 &vel_bas,
-                                const Vector3 &omg_bas,
-                                const Vector3 &r_c_bas,
-                                const Vector3 &n_c_bas,
-                                bool steering,
-                                Vector3 *dir_lon_bas,
-                                Vector3 *dir_lat_bas,
-                                double *cosDelta,
-                                double *sinDelta,
-                                double *v_norm,
-                                double *v_roll,
-                                double *v_slip )
+void SimpleSupport::calculateVariables( const Vector3 &vel_bas,
+                                        const Vector3 &omg_bas,
+                                        const Vector3 &r_c_bas,
+                                        const Vector3 &n_c_bas,
+                                        bool steering,
+                                        Vector3 *dir_lon_bas,
+                                        Vector3 *dir_lat_bas,
+                                        double *cosDelta,
+                                        double *sinDelta,
+                                        double *v_norm,
+                                        double *v_roll,
+                                        double *v_slip )
 {
     // contact point velocities components
     Vector3 v_c_bas = vel_bas + ( omg_bas % r_c_bas );

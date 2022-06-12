@@ -34,7 +34,7 @@ namespace mc
 {
 
 /**
- * @brief Landing gear wheel model class.
+ * @brief Landing gear simple support (wheel) model class.
  *
  * <h3>Refernces:</h3>
  * <ul>
@@ -44,7 +44,7 @@ namespace mc
  *   <li>van Geffen V. A study of friction models and friction compensation, 2009</li>
  * </ul>
  */
-class MCSIMAPI Wheel
+class MCSIMAPI SimpleSupport
 {
 public:
 
@@ -61,10 +61,10 @@ public:
      * @brief Constructor.
      * @param staticFriction specifies if static friction model is enabled
      */
-    Wheel( bool staticFriction = true );
+    SimpleSupport( bool staticFriction = true );
 
     /** @brief Destructor. */
-    virtual ~Wheel();
+    virtual ~SimpleSupport();
 
     /**
      * @brief Computes force and moment.

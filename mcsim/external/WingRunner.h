@@ -34,7 +34,7 @@ namespace mc
 {
 
 /**
- * @brief Wing runner model class.
+ * @brief Sailplane wing runner model class.
  */
 class MCSIMAPI WingRunner
 {

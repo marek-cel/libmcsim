@@ -60,6 +60,16 @@ SOURCES += \
 ################################################################################
 
 HEADERS += \
+    $$PWD/rotor/MainRotor.h \
+    $$PWD/rotor/TailRotor.h
+
+SOURCES += \
+    $$PWD/rotor/MainRotor.cpp \
+    $$PWD/rotor/TailRotor.cpp
+
+################################################################################
+
+HEADERS += \
     $$PWD/utils/AeroAngles.h \
     $$PWD/utils/HingeMoment.h \
     $$PWD/utils/InertiaMatrix.h \

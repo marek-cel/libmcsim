@@ -20,9 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/aero/TailRotor.h>
+#include <mcsim/rotor/TailRotor.h>
 
-#include <mcsim/aero/AeroAngles.h>
+#include <mcsim/utils/AeroAngles.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
