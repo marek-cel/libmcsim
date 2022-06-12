@@ -20,11 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/aero/StabilizerVer.h>
-
-#include <mcutils/misc/Units.h>
-
-#include <mcsim/utils/AeroAngles.h>
+#include <mcsim/utils/HingeMoment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,58 +29,31 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::StabilizerVer()
-    : _area ( 0.0 )
-{
-    _cx = Table::oneRecordTable( 0.0 );
-    _cy = Table::oneRecordTable( 0.0 );
-}
+HingeMoment::HingeMoment()
+    : _area  ( 0.0 )
+    , _chord ( 0.0 )
+    , _dch_dalpha   ( 0.0 )
+    , _dch_ddelta   ( 0.0 )
+    , _dch_ddelta_t ( 0.0 )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::~StabilizerVer() {}
+HingeMoment::~HingeMoment() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                           const Vector3 &omg_air_bas,
-                                           double airDensity )
+double HingeMoment::getHingeMoment( double dynamicPress,
+                                    double alpha,
+                                    double delta,
+                                    double delta_t ) const
 {
-    // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
+    // control surface hinge moment coefficient
+    double ch = _dch_dalpha   * alpha
+              + _dch_ddelta   * delta
+              + _dch_ddelta_t * delta_t;
 
-    // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = getAngleOfAttack( vel_stab_bas );
-    double sideslipAngle = getSideslipAngle( vel_stab_bas );
-
-    // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
-
-    Vector3 for_aero( dynPress * getCx( sideslipAngle ) * _area,
-                      dynPress * getCy( sideslipAngle ) * _area,
-                      0.0 );
-
-    _for_bas = getAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
-    _mom_bas = _r_ac_bas % _for_bas;
-
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
-    {
-        // TODO
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double StabilizerVer::getCx( double angle ) const
-{
-    return _cx.getValue( angle );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double StabilizerVer::getCy( double angle ) const
-{
-    return _cy.getValue( angle );
+    return dynamicPress * _area * _chord * ch;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

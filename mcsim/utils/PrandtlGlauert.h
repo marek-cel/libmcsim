@@ -19,29 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_DEFS_H_
-#define MCSIM_DEFS_H_
+#ifndef MCSIM_UTILS_PRANDTLGLAUERT_H_
+#define MCSIM_UTILS_PRANDTLGLAUERT_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
-#   if defined(MCSIM_DLL_EXPORTS)
-#       define MCSIM_DLL_SPEC __declspec(dllexport)
-#   else
-#       define MCSIM_DLL_SPEC __declspec(dllimport)
-#   endif
-#else
-#   define MCSIM_DLL_SPEC
-#endif
-
-#if defined(__cplusplus)
-#   define MCSIMAPI MCSIM_DLL_SPEC
-#endif
-
-#if !defined(MCSIMAPI)
-#   define MCSIMAPI
-#endif
+#include <mcsim/defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_DEFS_H_
+namespace mc
+{
+
+/**
+ * @brief Returns Prandtl-Glauert coefficient.
+ *
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li><a href="https://en.wikipedia.org/wiki/Prandtl%E2%80%93Glauert_singularity">Prandtl–Glauert singularity - Wikipedia</a></li>
+ * </ul>
+ *
+ * @param machNumber Mach number
+ * @param max maximum value
+ * @return Prandtl-Glauert coefficient
+ */
+double MCSIMAPI getPrandtlGlauertCoef( double machNumber, double max = 5.0 );
+
+} // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // MCSIM_UTILS_PRANDTLGLAUERT_H_

@@ -19,29 +19,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_DEFS_H_
-#define MCSIM_DEFS_H_
+
+#include <mcsim/utils/InertiaMatrix.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
-#   if defined(MCSIM_DLL_EXPORTS)
-#       define MCSIM_DLL_SPEC __declspec(dllexport)
-#   else
-#       define MCSIM_DLL_SPEC __declspec(dllimport)
-#   endif
-#else
-#   define MCSIM_DLL_SPEC
-#endif
-
-#if defined(__cplusplus)
-#   define MCSIMAPI MCSIM_DLL_SPEC
-#endif
-
-#if !defined(MCSIMAPI)
-#   define MCSIMAPI
-#endif
+namespace mc
+{
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_DEFS_H_
+Matrix6x6 getInertiaMatrix( double mass, Vector3 s_bas, Matrix3x3 i_bas )
+{
+    Matrix6x6 mi_bas;
+
+    mi_bas(0,0) =  mass;
+    mi_bas(0,1) =  0.0;
+    mi_bas(0,2) =  0.0;
+    mi_bas(0,3) =  0.0;
+    mi_bas(0,4) =  s_bas.z();
+    mi_bas(0,5) = -s_bas.y();
+
+    mi_bas(1,0) =  0.0;
+    mi_bas(1,1) =  mass;
+    mi_bas(1,2) =  0.0;
+    mi_bas(1,3) = -s_bas.z();
+    mi_bas(1,4) =  0.0;
+    mi_bas(1,5) =  s_bas.x();
+
+    mi_bas(2,0) =  0.0;
+    mi_bas(2,1) =  0.0;
+    mi_bas(2,2) =  mass;
+    mi_bas(2,3) =  s_bas.y();
+    mi_bas(2,4) = -s_bas.x();
+    mi_bas(2,5) =  0.0;
+
+    mi_bas(3,0) =  0.0;
+    mi_bas(3,1) = -s_bas.z();
+    mi_bas(3,2) =  s_bas.y();
+    mi_bas(3,3) =  i_bas.xx();
+    mi_bas(3,4) =  i_bas.xy();
+    mi_bas(3,5) =  i_bas.xz();
+
+    mi_bas(4,0) =  s_bas.z();
+    mi_bas(4,1) =  0.0;
+    mi_bas(4,2) = -s_bas.x();
+    mi_bas(4,3) =  i_bas.yx();
+    mi_bas(4,4) =  i_bas.yy();
+    mi_bas(4,5) =  i_bas.yz();
+
+    mi_bas(5,0) = -s_bas.y();
+    mi_bas(5,1) =  s_bas.x();
+    mi_bas(5,2) =  0.0;
+    mi_bas(5,3) =  i_bas.zx();
+    mi_bas(5,4) =  i_bas.zy();
+    mi_bas(5,5) =  i_bas.zz();
+
+    return mi_bas;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+} // namespace mc

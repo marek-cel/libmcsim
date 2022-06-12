@@ -19,29 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_DEFS_H_
-#define MCSIM_DEFS_H_
+#ifndef MCSIM_UTILS_INERTIAMATRIX_H_
+#define MCSIM_UTILS_INERTIAMATRIX_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
-#   if defined(MCSIM_DLL_EXPORTS)
-#       define MCSIM_DLL_SPEC __declspec(dllexport)
-#   else
-#       define MCSIM_DLL_SPEC __declspec(dllimport)
-#   endif
-#else
-#   define MCSIM_DLL_SPEC
-#endif
+#include <mcsim/defs.h>
 
-#if defined(__cplusplus)
-#   define MCSIMAPI MCSIM_DLL_SPEC
-#endif
-
-#if !defined(MCSIMAPI)
-#   define MCSIMAPI
-#endif
+#include <mcutils/math/Matrix3x3.h>
+#include <mcutils/math/Matrix6x6.h>
+#include <mcutils/math/Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_DEFS_H_
+namespace mc
+{
+
+/**
+ * @brief Returns inertia matrix.
+ * @param mass [kg] mass
+ * @param s_bas [kg*m] first mass moment vector expressed in BAS
+ * @param i_bas kg*m^2] inertia tensor expressed in BAS
+ * @return inertia tensor
+ */
+Matrix6x6 getInertiaMatrix( double mass, Vector3 s_bas, Matrix3x3 i_bas );
+
+} // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // MCSIM_UTILS_INERTIAMATRIX_H_

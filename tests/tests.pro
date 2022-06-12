@@ -14,56 +14,51 @@ CONFIG -= app_bundle qt
 
 ################################################################################
 
-QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+unix: QMAKE_CXXFLAGS += -O0 \
+    --coverage \
+    -fno-default-inline \
+    -fno-inline \
+    -fno-inline-small-functions \
+    -fprofile-arcs \
+    -ftest-coverage \
+    -pedantic
 
 ################################################################################
 
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += _GTEST_ _TESTS_
 
-win32: DEFINES += \
+win32-msvc*: DEFINES += \
     NOMINMAX \
-    WIN32 \
-    _WINDOWS \
     _CRT_SECURE_NO_DEPRECATE \
     _SCL_SECURE_NO_WARNINGS \
     _USE_MATH_DEFINES
 
-win32: CONFIG(release, debug|release): DEFINES += NDEBUG
-win32: CONFIG(debug, debug|release):   DEFINES += _DEBUG
+win32-msvc*: CONFIG(release, debug|release): DEFINES += NDEBUG
+win32-msvc*: CONFIG(debug, debug|release):   DEFINES += _DEBUG
 
 unix:  DEFINES += _LINUX_
-win32: DEFINES += WIN32
+win32: DEFINES += WIN32 _WINDOWS
 
 ################################################################################
 
-INCLUDEPATH += ./ ../
-
-win32: INCLUDEPATH += \
-    $(OSG_ROOT)/include/libxml2
+INCLUDEPATH += ./ $$PWD/../
 
 unix: INCLUDEPATH += \
     /usr/include/libxml2
 
-################################################################################
-
-win32: LIBS += \
-    -L$(OSG_ROOT)/lib \
-    -llibxml2
-
-unix: LIBS += \
-    -L/lib \
-    -L/usr/lib \
-    -lxml2
+win32: INCLUDEPATH += \
+    $(GTEST_DIR)/include \
+    $(LIBXML_DIR)/include
 
 ################################################################################
+
+LIBS += -L$$PWD/../lib -lmcsim
 
 LIBS += \
-    -lgcov --coverage \
+    -L$$PWD/../lib \
     -lgtest \
     -lgtest_main \
-    -pthread \
-    -lxml2 \
     -lmcutils_geo \
     -lmcutils_math \
     -lmcutils_misc \
@@ -72,7 +67,19 @@ LIBS += \
     -lmcutils_time \
     -lmcutils_xml
 
+unix: LIBS += \
+    -L/lib \
+    -L/usr/lib \
+    -lgcov --coverage \
+    -lxml2 \
+    -pthread
+
+win32: LIBS += \
+    -L$(GTEST_DIR)/lib \
+    -L$(LIBXML_DIR)/lib \
+    -lws2_32  \
+    -llibxml2
+
 ################################################################################
 
 include(tests.pri)
-include(../mcsim/mcsim.pri)

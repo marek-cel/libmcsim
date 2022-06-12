@@ -19,29 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_DEFS_H_
-#define MCSIM_DEFS_H_
+#ifndef MCSIM_UTILS_MEANAEROCHORD_H_
+#define MCSIM_UTILS_MEANAEROCHORD_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
-#   if defined(MCSIM_DLL_EXPORTS)
-#       define MCSIM_DLL_SPEC __declspec(dllexport)
-#   else
-#       define MCSIM_DLL_SPEC __declspec(dllimport)
-#   endif
-#else
-#   define MCSIM_DLL_SPEC
-#endif
+#include <mcsim/defs.h>
 
-#if defined(__cplusplus)
-#   define MCSIMAPI MCSIM_DLL_SPEC
-#endif
-
-#if !defined(MCSIMAPI)
-#   define MCSIMAPI
-#endif
+#include <mcutils/math/Table.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_DEFS_H_
+namespace mc
+{
+
+/**
+ * @brief Returns mean aerodynamic chord.
+ * @see Raymer D.: Aircraft Design: A Conceptual Approach, 1992, p.49
+ * @param cr [m] chord at wing root
+ * @param ct [m] chord at wing tip
+ * @return [m] mean aerodynamic chord
+ */
+double getMeanAerodynamicChord( double cr, double ct );
+
+/**
+ * @brief Returns mean aerodynamic chord.
+ * @param chord [m] wing chord vs [m] spanwise coordinate
+ * @return [m] mean aerodynamic chord
+ */
+double getMeanAerodynamicChord( const Table &chord );
+
+} // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // MCSIM_UTILS_MEANAEROCHORD_H_

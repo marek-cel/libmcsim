@@ -8,14 +8,6 @@ LCOV_TOOL=lcov
 GENHTML_TOOL=genhtml
 GCOV_TOOL=gcov
 
-# LCOV_TOOL=/usr/local/bin/lcov
-# GENHTML_TOOL=/usr/local/bin/genhtml
-# GCOV_TOOL=gcov
-
-# LCOV_TOOL=lcov
-# GENHTML_TOOL=genhtml
-# GCOV_TOOL=llvm-gcov.sh
-
 BASE_DIR=./mcsim
 
 ################################################################################

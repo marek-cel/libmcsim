@@ -19,14 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_AERO_STABILIZERVER_H_
-#define MCSIM_AERO_STABILIZERVER_H_
+#ifndef MCSIM_EXTERNAL_WINGRUNNER_H_
+#define MCSIM_EXTERNAL_WINGRUNNER_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutils/math/Table.h>
 #include <mcutils/math/Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,63 +34,58 @@ namespace mc
 {
 
 /**
- * @brief Vertical stabilizer aerodynamics model class.
+ * @brief Wing runner model class.
  */
-class MCSIMAPI StabilizerVer
+class MCSIMAPI WingRunner
 {
 public:
 
-    /**
-     * @brief Constructor.
-     * @param type stabilizer type
-     */
-    StabilizerVer();
+    /** @brief Constructor. */
+    WingRunner();
 
     /** @brief Destructor. */
-    virtual ~StabilizerVer();
+    virtual ~WingRunner();
 
     /**
      * @brief Computes force and moment.
-     * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
-     * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
-     * @param airDensity [kg/m^3] air density
+     * @param vel_bas [m/s] aircraft linear velocity expressed in BAS
+     * @param omg_bas [rad/s] aircraft angular velocity expressed in BAS
+     * @param r_c_bas [m] contact point coordinates expressed in BAS
+     * @param n_c_bas [-] contact point normal vector expressed in BAS
      */
-    virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
-                                        const Vector3 &omg_air_bas,
-                                        double airDensity );
+    virtual void computeForceAndMoment( const Vector3 &vel_bas,
+                                        const Vector3 &omg_bas,
+                                        const Vector3 &r_c_bas,
+                                        const Vector3 &n_c_bas );
+
+    /**
+     * @brief Update wing runner model.
+     * @param timeStep [s] time step
+     */
+    virtual void update( double timeStep, const Vector3 &vel_bas, bool onGround );
 
     inline const Vector3& getForce_BAS  () const { return _for_bas; }
     inline const Vector3& getMoment_BAS () const { return _mom_bas; }
 
+    inline Vector3 getRw_BAS() const { return _r_w_bas; }
+    inline Vector3 getRf_BAS() const { return _r_f_bas; }
+
 protected:
 
-    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
-    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
+    Vector3 _for_bas;       ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;       ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 _r_ac_bas;          ///< [m] stabilizer aerodynamic center expressed in BAS
+    Vector3 _r_w_bas;       ///< [m] wing coordinates expressed in BAS
+    Vector3 _r_f_bas;       ///< [m] feet coordinates expressed in BAS
 
-    Table _cx;                  ///< [-] drag coefficient vs sideslip angle
-    Table _cy;                  ///< [-] sideforce coefficient vs sideslip angle
+    double _k;              ///< [N/m] stiffness (linear spring) coefficient
+    double _c;              ///< [N/(m/s)] damping coefficient
 
-    double _area;               ///< [m^2] stabilizer reference area
-
-    /**
-     * @brief Computes drag coefficient.
-     * @param angle [rad] "angle of attack"
-     * @return [-] drag coefficient
-     */
-    virtual double getCx( double angle ) const;
-
-    /**
-     * @brief Computes sideforce coefficient.
-     * @param angle [rad] "angle of attack"
-     * @return [-] sideforce coefficient
-     */
-    virtual double getCy( double angle ) const;
+    bool _active;           ///< specify if wing runner is active
 };
 
 } // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_AERO_STABILIZERVER_H_
+#endif // MCSIM_EXTERNAL_WINGRUNNER_H_

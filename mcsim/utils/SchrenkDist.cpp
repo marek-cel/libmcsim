@@ -20,11 +20,11 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/aero/StabilizerHor.h>
+#include <mcsim/utils/SchrenkDist.h>
 
-#include <mcutils/misc/Units.h>
+#include <cmath>
 
-#include <mcsim/utils/AeroAngles.h>
+#include <mcutils/math/Math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,71 +33,62 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerHor::StabilizerHor()
+SchrenkDist::SchrenkDist()
     : _area ( 0.0 )
-    , _incidence ( 0.0 )
-{
-    _cx = Table::oneRecordTable( 0.0 );
-    _cz = Table::oneRecordTable( 0.0 );
+    , _span ( 0.0 )
+    , _4S_bpi ( 0.0 )
+    , _2_b ( 0.0 )
+{}
 
-    _downwash = Table::oneRecordTable( 0.0 );
+////////////////////////////////////////////////////////////////////////////////
+
+SchrenkDist::~SchrenkDist() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double SchrenkDist::getDragCoefDist( double y ) const
+{
+    return ( y < 0.4 * _span ) ? 0.95 : 1.2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerHor::~StabilizerHor() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                           const Vector3 &omg_air_bas,
-                                           double airDensity,
-                                           double wingAngleOfAttack )
+double SchrenkDist::getLiftCoefDist( double y ) const
 {
-    // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
-
-    // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = getAngleOfAttack( vel_stab_bas, wingAngleOfAttack );
-    double sideslipAngle = getSideslipAngle( vel_stab_bas );
-
-    // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
-
-    Vector3 for_aero( dynPress * getCx( angleOfAttack ) * _area,
-                      0.0,
-                      dynPress * getCz( angleOfAttack ) * _area );
-
-    _for_bas = getAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
-    _mom_bas = _r_ac_bas % _for_bas;
-
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
-    {
-        // TODO
-    }
+    // equivalent elliptical wing chord
+    double chord_e = _4S_bpi * sqrt( 1.0 - Math::pow2( y * _2_b ) );
+    return 0.5 * ( 1.0 + chord_e / _chord.getValue( y ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double StabilizerHor::getAngleOfAttack( const Vector3 &vel_air_bas,
-                                        double wingAngleOfAttack )
+void SchrenkDist::setArea( double area )
 {
-    return mc::getAngleOfAttack( vel_air_bas )
-         + _incidence - _downwash.getValue( wingAngleOfAttack );
+    _area = area;
+    updateAxiliaryParameters();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double StabilizerHor::getCx( double angle ) const
+void SchrenkDist::setSpan( double span )
 {
-    return _cx.getValue( angle );
+    _span = span;
+    updateAxiliaryParameters();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double StabilizerHor::getCz( double angle ) const
+void SchrenkDist::setChord( const Table &chord )
 {
-    return _cz.getValue( angle );
+    _chord = chord;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SchrenkDist::updateAxiliaryParameters()
+{
+    _4S_bpi = ( 4.0 * _area ) / ( _span * M_PI );
+    _2_b = 2.0 / _span;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

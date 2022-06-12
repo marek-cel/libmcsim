@@ -19,29 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_DEFS_H_
-#define MCSIM_DEFS_H_
+
+#include <mcsim/utils/PrandtlGlauert.h>
+
+#include <mcutils/math/Math.h>
+#include <mcutils/misc/Check.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
-#   if defined(MCSIM_DLL_EXPORTS)
-#       define MCSIM_DLL_SPEC __declspec(dllexport)
-#   else
-#       define MCSIM_DLL_SPEC __declspec(dllimport)
-#   endif
-#else
-#   define MCSIM_DLL_SPEC
-#endif
-
-#if defined(__cplusplus)
-#   define MCSIMAPI MCSIM_DLL_SPEC
-#endif
-
-#if !defined(MCSIMAPI)
-#   define MCSIMAPI
-#endif
+namespace mc
+{
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_DEFS_H_
+double getPrandtlGlauertCoef( double machNumber, double max )
+{
+    double prandtlGlauertCoef  = 1.0;
+
+    if ( machNumber < 1.0 )
+    {
+        prandtlGlauertCoef = 1.0 / sqrt( fabs( 1.0 - Math::pow2( machNumber ) ) );
+    }
+    else
+    {
+        prandtlGlauertCoef = 1.0 / sqrt( fabs( Math::pow2( machNumber ) - 1.0 ) );
+    }
+
+    if ( prandtlGlauertCoef > max || !isValid( prandtlGlauertCoef ) )
+    {
+        prandtlGlauertCoef = max;
+    }
+
+    return prandtlGlauertCoef;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+} // namespace mc

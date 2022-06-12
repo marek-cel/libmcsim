@@ -29,40 +29,15 @@
 #include <mcutils/math/Table.h>
 #include <mcutils/math/Vector3.h>
 
-#include <mcutils/xml/XmlNode.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
 /**
- * @brief Horizontal stabilizer base class.
- *
- * XML configuration file format:
- * @code
- * <stab_hor>
- *   <aerodynamic_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center>
- *   <area> { [m^2] area } </area>
- *   [<incidence> { [rad] incidence } </incidence>]
- *   [<downwash>
- *     { [deg] wing angle of attack } { [deg] downwash angle }
- *     ... { more entries }
- *   </downwash>]
- *   <cx>
- *     { [deg] angle } { [-] drag coefficient }
- *     ... { more entries }
- *   </cx>
- *   <cz>
- *     { [deg] angle } { [-] lift coefficient }
- *     ... { more entries }
- *   </cz>
- * </stab_hor>
- * @endcode
- *
- * Optional elements: "incidence", "downwash"
+ * @brief Horizontal stabilizer aerodynamics model class.
  */
-class MCSIMEXPORT StabilizerHor
+class MCSIMAPI StabilizerHor
 {
 public:
 
@@ -74,12 +49,6 @@ public:
 
     /** @brief Destructor. */
     virtual ~StabilizerHor();
-
-    /**
-     * @brief Reads data.
-     * @param dataNode XML node
-     */
-    virtual void readData( XmlNode &dataNode );
 
     /**
      * @brief Computes force and moment.

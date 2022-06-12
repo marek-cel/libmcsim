@@ -20,11 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/aero/StabilizerVer.h>
+#include <mcsim/external/WingRunner.h>
 
-#include <mcutils/misc/Units.h>
-
-#include <mcsim/utils/AeroAngles.h>
+#include <mcutils/misc/String.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,58 +31,61 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::StabilizerVer()
-    : _area ( 0.0 )
-{
-    _cx = Table::oneRecordTable( 0.0 );
-    _cy = Table::oneRecordTable( 0.0 );
-}
+WingRunner::WingRunner()
+    : _k ( 0.0 )
+    , _c ( 0.0 )
+
+    , _active ( true )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::~StabilizerVer() {}
+WingRunner::~WingRunner() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                           const Vector3 &omg_air_bas,
-                                           double airDensity )
+void WingRunner::computeForceAndMoment( const Vector3 &vel_bas,
+                                        const Vector3 &omg_bas,
+                                        const Vector3 &r_c_bas,
+                                        const Vector3 &n_c_bas )
 {
-    // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
+    _for_bas.zeroize();
+    _mom_bas.zeroize();
 
-    // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = getAngleOfAttack( vel_stab_bas );
-    double sideslipAngle = getSideslipAngle( vel_stab_bas );
-
-    // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
-
-    Vector3 for_aero( dynPress * getCx( sideslipAngle ) * _area,
-                      dynPress * getCy( sideslipAngle ) * _area,
-                      0.0 );
-
-    _for_bas = getAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
-    _mom_bas = _r_ac_bas % _for_bas;
-
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
+    if ( _active )
     {
-        // TODO
+        double deflection_norm = n_c_bas * ( r_c_bas - _r_f_bas );
+
+        if ( deflection_norm > 1.0e-6 )
+        {
+            // contact point velocities components
+            Vector3 v_c_bas = vel_bas + ( omg_bas % r_c_bas );
+            double v_norm = n_c_bas * v_c_bas;
+
+            // normal force
+            double for_norm = _k * deflection_norm - _c * v_norm;
+
+            // resulting forces
+            _for_bas = for_norm * n_c_bas;
+            _mom_bas = r_c_bas % _for_bas;
+        }
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double StabilizerVer::getCx( double angle ) const
+void WingRunner::update( double timeStep, const Vector3 &vel_bas, bool onGround )
 {
-    return _cx.getValue( angle );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double StabilizerVer::getCy( double angle ) const
-{
-    return _cy.getValue( angle );
+    if ( _active )
+    {
+        if ( timeStep > 0.0 )
+        {
+            if ( vel_bas.getLength() > 1.0 || ( !onGround ) )
+            {
+                _active = false;
+            }
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

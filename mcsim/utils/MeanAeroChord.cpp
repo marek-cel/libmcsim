@@ -20,11 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/aero/StabilizerVer.h>
-
-#include <mcutils/misc/Units.h>
-
-#include <mcsim/utils/AeroAngles.h>
+#include <mcsim/utils/MeanAeroChord.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,58 +29,32 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::StabilizerVer()
-    : _area ( 0.0 )
+double getMeanAerodynamicChord( double cr, double ct )
 {
-    _cx = Table::oneRecordTable( 0.0 );
-    _cy = Table::oneRecordTable( 0.0 );
+    double tr = ct / cr; // taper ratio
+    return ( 2.0 / 3.0 ) * cr * ( 1.0 + tr + tr*tr ) / ( 1.0 + tr );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::~StabilizerVer() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                           const Vector3 &omg_air_bas,
-                                           double airDensity )
+double getMeanAerodynamicChord( const Table &chord )
 {
-    // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
+    double sum_mac = 0.0;
+    double sum_area = 0.0;
 
-    // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = getAngleOfAttack( vel_stab_bas );
-    double sideslipAngle = getSideslipAngle( vel_stab_bas );
-
-    // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
-
-    Vector3 for_aero( dynPress * getCx( sideslipAngle ) * _area,
-                      dynPress * getCy( sideslipAngle ) * _area,
-                      0.0 );
-
-    _for_bas = getAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
-    _mom_bas = _r_ac_bas % _for_bas;
-
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
+    for ( unsigned int i = 1; i < chord.getSize(); ++i )
     {
-        // TODO
+        double cr = chord.getValueByIndex( i - 1 );
+        double ct = chord.getValueByIndex( i );
+        double dy = chord.getKeyByIndex( i ) - chord.getKeyByIndex( i -1 );
+
+        double area = 0.5 * dy * ( cr + ct );
+
+        sum_area += area;
+        sum_mac += area * getMeanAerodynamicChord( cr, ct );
     }
-}
 
-////////////////////////////////////////////////////////////////////////////////
-
-double StabilizerVer::getCx( double angle ) const
-{
-    return _cx.getValue( angle );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double StabilizerVer::getCy( double angle ) const
-{
-    return _cy.getValue( angle );
+    return sum_mac / sum_area;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

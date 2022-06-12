@@ -19,29 +19,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_DEFS_H_
-#define MCSIM_DEFS_H_
+#ifndef MCSIM_PROPULSION_PROPELLERGOVERNOR_H_
+#define MCSIM_PROPULSION_PROPELLERGOVERNOR_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
-#   if defined(MCSIM_DLL_EXPORTS)
-#       define MCSIM_DLL_SPEC __declspec(dllexport)
-#   else
-#       define MCSIM_DLL_SPEC __declspec(dllimport)
-#   endif
-#else
-#   define MCSIM_DLL_SPEC
-#endif
+#include <mcsim/defs.h>
 
-#if defined(__cplusplus)
-#   define MCSIMAPI MCSIM_DLL_SPEC
-#endif
-
-#if !defined(MCSIMAPI)
-#   define MCSIMAPI
-#endif
+#include <mcutils/math/Table.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_DEFS_H_
+namespace mc
+{
+
+/**
+ * @brief Propeller governor model class.
+ */
+class MCSIMAPI Governor
+{
+public:
+
+    /** @brief Constructor. */
+    Governor();
+
+    /** @brief Destructor. */
+    virtual ~Governor();
+
+    virtual void update( double propellerLever, double rpm );
+
+    inline double getPitch() const { return _pitch; }
+
+protected:
+
+    Table _prop_rpm;        ///< [rpm] propeller setpoint RPM vs [-] propeller RPM lever position
+
+    double _gain_1;         ///< first order gain
+    double _gain_2;         ///< second order gain
+
+    double _pitch;          ///< <0.0;1.0> normalized propeller pitch
+};
+
+} // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // MCSIM_PROPULSION_PROPELLERGOVERNOR_H_

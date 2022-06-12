@@ -20,11 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/aero/StabilizerVer.h>
+#include <mcsim/propulsion/PropellerGovernor.h>
 
-#include <mcutils/misc/Units.h>
-
-#include <mcsim/utils/AeroAngles.h>
+#include <cmath>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,58 +31,23 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::StabilizerVer()
-    : _area ( 0.0 )
-{
-    _cx = Table::oneRecordTable( 0.0 );
-    _cy = Table::oneRecordTable( 0.0 );
-}
+Governor::Governor()
+    : _gain_1  ( 0.0 )
+    , _gain_2  ( 0.0 )
+
+    , _pitch ( 0.0 )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::~StabilizerVer() {}
+Governor::~Governor() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                           const Vector3 &omg_air_bas,
-                                           double airDensity )
+void Governor::update( double propellerLever, double rpm )
 {
-    // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
-
-    // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = getAngleOfAttack( vel_stab_bas );
-    double sideslipAngle = getSideslipAngle( vel_stab_bas );
-
-    // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
-
-    Vector3 for_aero( dynPress * getCx( sideslipAngle ) * _area,
-                      dynPress * getCy( sideslipAngle ) * _area,
-                      0.0 );
-
-    _for_bas = getAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
-    _mom_bas = _r_ac_bas % _for_bas;
-
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
-    {
-        // TODO
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double StabilizerVer::getCx( double angle ) const
-{
-    return _cx.getValue( angle );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double StabilizerVer::getCy( double angle ) const
-{
-    return _cy.getValue( angle );
+    double error = _prop_rpm.getValue( propellerLever ) - rpm;
+    _pitch = propellerLever + _gain_1 * error + _gain_2 * error * fabs( error );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -28,7 +28,6 @@
 
 #include <mcutils/math/Table.h>
 #include <mcutils/math/Vector3.h>
-#include <mcutils/xml/XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -36,47 +35,14 @@ namespace mc
 {
 
 /**
- * @brief Fuselage class.
+ * @brief Fuselage aerodynamics model class.
  *
- * XML configuration file format:
- * @code
- * <fuselage>
- *   <aero_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aero_center>
- *   <length> { [m] fuselage reference length } </length>
- *   <width> { [m] fuselage reference width } </width>
- *   <area> { [m^2] fuselage reference area } </area>
- *   <cx>
- *     { [deg] angle of attack } { [-] drag coefficient }
- *     ... { more entries }
- *   </cx>
- *   [<cy>
- *     { [deg] angle of sideslip } { [-] sideforce coefficient }
- *     ... { more entries }
- *   </cy>]
- *   [<cz>
- *     { [deg] angle of attack } { [-] lift coefficient }
- *     ... { more entries }
- *   </cz>]
- *   [<cl>
- *     { [deg] angle of sideslip } { [-] rolling moment coefficient }
- *     ... { more entries }
- *   </cl>]
- *   [<cm>
- *     { [deg] angle of attack } { [-] pitching moment coefficient }
- *     ... { more entries }
- *   </cm>]
- *   [<cn>
- *     { [deg] angle of sideslip } { [-] yawing moment coefficient }
- *     ... { more entries }
- *   </cn>]
- * </fuselage>
- * @endcode
- *
- * Optional elements: "cy", "cz", "cl", "cm", "cn"
- *
- * @see Talbot P., et al.: A Mathematical Model of a Single Main Rototr Helicopter for Piloted Simulation. NASA, TM-84281, 1982
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li><a href="https://ntrs.nasa.gov/citations/19830001781">A Mathematical Model of a Single Main Rototr Helicopter for Piloted Simulation. NASA-TM-84281</a></li>
+ * </ul>
  */
-class MCSIMEXPORT Fuselage
+class MCSIMAPI Fuselage
 {
 public:
 
@@ -85,12 +51,6 @@ public:
 
     /** @brief Destructor. */
     virtual ~Fuselage();
-
-    /**
-     * @brief Reads data.
-     * @param dataNode XML node
-     */
-    virtual void readData( XmlNode &dataNode );
 
     /**
      * @brief Computes force and moment.

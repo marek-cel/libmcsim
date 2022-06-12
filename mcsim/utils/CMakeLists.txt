@@ -1,19 +1,25 @@
-set( TARGET_NAME mcsim_aero )
+set( TARGET_NAME mcsim_utils )
 
 ################################################################################
 
 set( HEADERS
-    Fuselage.h
-    StabilizerHor.h
-    StabilizerVer.h
-    TailOff.h
+    AeroAngles.h
+    HingeMoment.h
+    InertiaMatrix.h
+    MeanAeroChord.h
+    PointMass.h
+    PrandtlGlauert.h
+    SchrenkDist.h
 )
 
 set( SOURCES
-    Fuselage.cpp
-    StabilizerHor.cpp
-    StabilizerVer.cpp
-    TailOff.cpp
+    AeroAngles.cpp
+    HingeMoment.cpp
+    InertiaMatrix.cpp
+    MeanAeroChord.cpp
+    PointMass.cpp
+    PrandtlGlauert.cpp
+    SchrenkDist.cpp
 )
 
 ################################################################################
@@ -29,6 +35,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/aero
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/utils
 )
 

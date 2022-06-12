@@ -29,58 +29,20 @@
 #include <mcutils/math/Table.h>
 #include <mcutils/math/Vector3.h>
 
-#include <mcutils/xml/XmlNode.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
 /**
- * @brief Tail-off aircraft aerodynamics class.
+ * @brief Tail-off aircraft aerodynamics model class.
  *
  * Forces and moments are calculated, considering different airflow
  * conditions, separately for left and right half wings. Half wing aerodynamic
  * center is considered datum point for computing airflow conditions (airspeed,
  * angle of attack, etc.).
- *
- * XML configuration file format:
- * @code
- * <tail_off>
- *   <aero_center_l> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aero_center_l>
- *   <aero_center_r> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aero_center_r>
- *   <mac> { [m] wing mean aerodynamic chord } </mac>
- *   <area> { [m^2] wing area } </area>
- *   <cx>
- *     { [deg] angle of attack } { [-] drag coefficient }
- *     ... { more entries }
- *   </cx>
- *   [<cy>
- *     { [deg] angle of sideslip } { [-] sideforce coefficient }
- *     ... { more entries }
- *   </cy>]
- *   <cz>
- *     { [deg] angle of attack } { [-] lift coefficient }
- *     ... { more entries }
- *   </cz>
- *   [<cl>
- *     { [deg] angle of sideslip } { [-] rolling moment coefficient }
- *     ... { more entries }
- *   </cl>]
- *   <cm>
- *     { [deg] angle of attack } { [-] pitching moment coefficient }
- *     ... { more entries }
- *   </cm>
- *   [<cn>
- *     { [deg] angle of sideslip } { [-] yawing moment coefficient }
- *     ... { more entries }
- *   </cn>]
- * </tail_off>
- * @endcode
- *
- * Optional elements: "cy", "cl", "cn"
  */
-class MCSIMEXPORT TailOff
+class MCSIMAPI TailOff
 {
 public:
 
@@ -89,12 +51,6 @@ public:
 
     /** @brief Destructor. */
     virtual ~TailOff();
-
-    /**
-     * @brief Reads data.
-     * @param dataNode XML node
-     */
-    virtual void readData( XmlNode &dataNode );
 
     /**
      * @brief Computes force and moment.

@@ -20,11 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/aero/StabilizerVer.h>
+#include <mcsim/utils/PointMass.h>
 
-#include <mcutils/misc/Units.h>
-
-#include <mcsim/utils/AeroAngles.h>
+#include <mcutils/math/Math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,58 +31,41 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::StabilizerVer()
-    : _area ( 0.0 )
+void VariableMass::update( double mass )
 {
-    _cx = Table::oneRecordTable( 0.0 );
-    _cy = Table::oneRecordTable( 0.0 );
+    _mass = Math::satur( 0.0, _mass_max, mass );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StabilizerVer::~StabilizerVer() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                           const Vector3 &omg_air_bas,
-                                           double airDensity )
+void VariableMass::addToInertiaTensor( Matrix3x3 *i_bas )
 {
-    // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
+    double r_x2 = _pos_bas.x() * _pos_bas.x();
+    double r_y2 = _pos_bas.y() * _pos_bas.y();
+    double r_z2 = _pos_bas.z() * _pos_bas.z();
 
-    // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = getAngleOfAttack( vel_stab_bas );
-    double sideslipAngle = getSideslipAngle( vel_stab_bas );
+    double d_it_xy = _mass * _pos_bas.x() * _pos_bas.y();
+    double d_it_xz = _mass * _pos_bas.x() * _pos_bas.z();
+    double d_it_yz = _mass * _pos_bas.y() * _pos_bas.z();
 
-    // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
+    (*i_bas).xx() += _mass * ( r_y2 + r_z2 );
+    (*i_bas).xy() -= d_it_xy;
+    (*i_bas).xz() -= d_it_xz;
 
-    Vector3 for_aero( dynPress * getCx( sideslipAngle ) * _area,
-                      dynPress * getCy( sideslipAngle ) * _area,
-                      0.0 );
+    (*i_bas).yx() -= d_it_xy;
+    (*i_bas).yy() += _mass * ( r_x2 + r_z2 );
+    (*i_bas).yz() -= d_it_yz;
 
-    _for_bas = getAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
-    _mom_bas = _r_ac_bas % _for_bas;
-
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
-    {
-        // TODO
-    }
+    (*i_bas).zx() -= d_it_xz;
+    (*i_bas).zy() -= d_it_yz;
+    (*i_bas).zz() += _mass * ( r_x2 + r_y2 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double StabilizerVer::getCx( double angle ) const
+void VariableMass::addToFirstMomentOfMass( Vector3 *s_bas )
 {
-    return _cx.getValue( angle );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double StabilizerVer::getCy( double angle ) const
-{
-    return _cy.getValue( angle );
+    (*s_bas) += _mass * _pos_bas;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

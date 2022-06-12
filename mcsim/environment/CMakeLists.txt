@@ -1,19 +1,13 @@
-set( TARGET_NAME mcsim_aero )
+set( TARGET_NAME mcsim_environment )
 
 ################################################################################
 
 set( HEADERS
-    Fuselage.h
-    StabilizerHor.h
-    StabilizerVer.h
-    TailOff.h
+    AtmosphereUS76.h
 )
 
 set( SOURCES
-    Fuselage.cpp
-    StabilizerHor.cpp
-    StabilizerVer.cpp
-    TailOff.cpp
+    AtmosphereUS76.cpp
 )
 
 ################################################################################
@@ -29,6 +23,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/aero
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/environment
 )
 
