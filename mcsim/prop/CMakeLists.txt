@@ -1,4 +1,4 @@
-set( TARGET_NAME mcsim_propulsion )
+set( TARGET_NAME mcsim-prop )
 
 ################################################################################
 
@@ -27,6 +27,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/propulsion
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/prop
 )
 

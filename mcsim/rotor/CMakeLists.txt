@@ -1,4 +1,4 @@
-set( TARGET_NAME mcsim_rotor )
+set( TARGET_NAME mcsim-rotor )
 
 ################################################################################
 

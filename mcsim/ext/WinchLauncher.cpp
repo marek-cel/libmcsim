@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/external/WinchLauncher.h>
+#include <mcsim/ext/WinchLauncher.h>
 
 #include <algorithm>
 #include <cmath>

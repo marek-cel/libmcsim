@@ -1,4 +1,4 @@
-set( TARGET_NAME mcsim_utils )
+set( TARGET_NAME mcsim-utils )
 
 ################################################################################
 

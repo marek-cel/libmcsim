@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/external/WingRunner.h>
+#include <mcsim/ext/WingRunner.h>
 
 #include <mcutils/misc/String.h>
 

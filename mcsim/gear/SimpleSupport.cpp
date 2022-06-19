@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/landing_gear/SimpleSupport.h>
+#include <mcsim/gear/SimpleSupport.h>
 
 #include <mcutils/math/Math.h>
 #include <mcutils/misc/String.h>

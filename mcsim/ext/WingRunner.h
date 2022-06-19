@@ -19,14 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_GEAR_WINCHLAUNCHER_H_
-#define MCSIM_GEAR_WINCHLAUNCHER_H_
+#ifndef MCSIM_EXT_WINGRUNNER_H_
+#define MCSIM_EXT_WINGRUNNER_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <mcsim/defs.h>
 
-#include <mcutils/math/Matrix3x3.h>
+#include <mcutils/math/Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,71 +34,58 @@ namespace mc
 {
 
 /**
- * @brief Sailplane winch launcher model class.
+ * @brief Sailplane wing runner model class.
  */
-class MCSIMAPI WinchLauncher
+class MCSIMAPI WingRunner
 {
 public:
 
     /** @brief Constructor. */
-    WinchLauncher();
+    WingRunner();
 
     /** @brief Destructor. */
-    virtual ~WinchLauncher();
+    virtual ~WingRunner();
 
     /**
      * @brief Computes force and moment.
-     * @param wgs2bas matrix of rotation from WGS to BAS
-     * @param pos_wgs [m] aircraft position expressed in WGS
+     * @param vel_bas [m/s] aircraft linear velocity expressed in BAS
+     * @param omg_bas [rad/s] aircraft angular velocity expressed in BAS
+     * @param r_c_bas [m] contact point coordinates expressed in BAS
+     * @param n_c_bas [-] contact point normal vector expressed in BAS
      */
-    virtual void computeForceAndMoment( const Matrix3x3 &wgs2bas,
-                                        const Vector3 &pos_wgs );
+    virtual void computeForceAndMoment( const Vector3 &vel_bas,
+                                        const Vector3 &omg_bas,
+                                        const Vector3 &r_c_bas,
+                                        const Vector3 &n_c_bas );
 
     /**
-     * @brief Update winch model.
+     * @brief Update wing runner model.
      * @param timeStep [s] time step
-     * @param bas2wgs matrix of rotation from BAS to WGS
-     * @param wgs2ned matrix of rotation from WGS to NED
-     * @param pos_wgs [m] aircraft position expressed in WGS
-     * @param altitude_agl [m] altitude above ground level
      */
-    virtual void update( double timeStep,
-                         const Matrix3x3 &bas2wgs,
-                         const Matrix3x3 &wgs2ned,
-                         const Vector3 &pos_wgs,
-                         double altitude_agl );
+    virtual void update( double timeStep, const Vector3 &vel_bas, bool onGround );
 
     inline const Vector3& getForce_BAS  () const { return _for_bas; }
     inline const Vector3& getMoment_BAS () const { return _mom_bas; }
+
+    inline Vector3 getRw_BAS() const { return _r_w_bas; }
+    inline Vector3 getRf_BAS() const { return _r_f_bas; }
 
 protected:
 
     Vector3 _for_bas;       ///< [N] total force vector expressed in BAS
     Vector3 _mom_bas;       ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 _r_a_bas;       ///< [m] winch cable attachment point expressed in BAS
+    Vector3 _r_w_bas;       ///< [m] wing coordinates expressed in BAS
+    Vector3 _r_f_bas;       ///< [m] feet coordinates expressed in BAS
 
-    Vector3 _pos_wgs;       ///< [m] winch position expressed in WGS
+    double _k;              ///< [N/m] stiffness (linear spring) coefficient
+    double _c;              ///< [N/(m/s)] damping coefficient
 
-    double _for_max;        ///< [N]   maximum cable force
-    double _len_max;        ///< [m]   maximum cable length
-    double _ang_max;        ///< [rad] maximum elevation
-    double _vel_max;        ///< [m/s] maximum cable velocity
-
-    double _tc_for;         ///< [s] force time constant
-    double _tc_vel;         ///< [s] velocity time constant
-
-    double _stiffness;      ///< [N/m^2] cable stiffness
-
-    double _for;            ///< [N]   current cable force
-    double _vel;            ///< [m/s] current cable velocity
-    double _len;            ///< [m]   current cable length
-
-    bool _active;           ///< specify if winch is active
+    bool _active;           ///< specify if wing runner is active
 };
 
 } // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_GEAR_WINCHLAUNCHER_H_
+#endif // MCSIM_EXT_WINGRUNNER_H_

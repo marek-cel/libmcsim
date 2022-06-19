@@ -1,13 +1,13 @@
-set( TARGET_NAME mcsim_environment )
+set( TARGET_NAME mcsim-gear )
 
 ################################################################################
 
 set( HEADERS
-    AtmosphereUS76.h
+    SimpleSupport.h
 )
 
 set( SOURCES
-    AtmosphereUS76.cpp
+    SimpleSupport.cpp
 )
 
 ################################################################################
@@ -23,6 +23,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/environment
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/gear
 )
 

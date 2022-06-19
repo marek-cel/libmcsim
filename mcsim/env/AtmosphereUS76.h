@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_ENVIRONMENT_ATMOSPHEREUS76_H_
-#define MCSIM_ENVIRONMENT_ATMOSPHEREUS76_H_
+#ifndef MCSIM_ENV_ATMOSPHEREUS76_H_
+#define MCSIM_ENV_ATMOSPHEREUS76_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -148,4 +148,4 @@ using AtmosphereUS76PtrW = std::weak_ptr   < AtmosphereUS76 >;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_ENVIRONMENT_ATMOSPHEREUS76_H_
+#endif // MCSIM_ENV_ATMOSPHEREUS76_H_

@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_PROPULSION_PROPELLER_H_
-#define MCSIM_PROPULSION_PROPELLER_H_
+#ifndef MCSIM_PROP_PROPELLER_H_
+#define MCSIM_PROP_PROPELLER_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -218,4 +218,4 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_PROPULSION_PROPELLER_H_
+#endif // MCSIM_PROP_PROPELLER_H_

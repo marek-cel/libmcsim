@@ -22,40 +22,40 @@ SOURCES += \
 ################################################################################
 
 HEADERS += \
-    $$PWD/environment/AtmosphereUS76.h
+    $$PWD/env/AtmosphereUS76.h
 
 SOURCES += \
-    $$PWD/environment/AtmosphereUS76.cpp
+    $$PWD/env/AtmosphereUS76.cpp
 
 ################################################################################
 
 HEADERS += \
-    $$PWD/external/WinchLauncher.h \
-    $$PWD/external/WingRunner.h
+    $$PWD/ext/WinchLauncher.h \
+    $$PWD/ext/WingRunner.h
 
 SOURCES += \
-    $$PWD/external/WinchLauncher.cpp \
-    $$PWD/external/WingRunner.cpp
+    $$PWD/ext/WinchLauncher.cpp \
+    $$PWD/ext/WingRunner.cpp
 
 ################################################################################
 
 HEADERS += \
-    $$PWD/landing_gear/SimpleSupport.h
+    $$PWD/gear/SimpleSupport.h
 
 SOURCES += \
-    $$PWD/landing_gear/SimpleSupport.cpp
+    $$PWD/gear/SimpleSupport.cpp
 
 ################################################################################
 
 HEADERS += \
-    $$PWD/propulsion/PistonEngine.h \
-    $$PWD/propulsion/Propeller.h \
-    $$PWD/propulsion/PropellerGovernor.h
+    $$PWD/prop/PistonEngine.h \
+    $$PWD/prop/Propeller.h \
+    $$PWD/prop/PropellerGovernor.h
 
 SOURCES += \
-    $$PWD/propulsion/PistonEngine.cpp \
-    $$PWD/propulsion/Propeller.cpp \
-    $$PWD/propulsion/PropellerGovernor.cpp
+    $$PWD/prop/PistonEngine.cpp \
+    $$PWD/prop/Propeller.cpp \
+    $$PWD/prop/PropellerGovernor.cpp
 
 ################################################################################
 

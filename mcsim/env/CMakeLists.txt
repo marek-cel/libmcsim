@@ -1,13 +1,13 @@
-set( TARGET_NAME mcsim_landing_gear )
+set( TARGET_NAME mcsim-env )
 
 ################################################################################
 
 set( HEADERS
-    SimpleSupport.h
+    AtmosphereUS76.h
 )
 
 set( SOURCES
-    SimpleSupport.cpp
+    AtmosphereUS76.cpp
 )
 
 ################################################################################
@@ -23,6 +23,6 @@ set_target_properties( ${TARGET_NAME} PROPERTIES
 )
 
 install( TARGETS ${TARGET_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/landing_gear
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/env
 )
 

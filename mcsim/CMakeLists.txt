@@ -32,19 +32,21 @@ install( TARGETS ${TARGET_NAME}
 ################################################################################
 
 add_subdirectory( aero )
-add_subdirectory( ctrl )
-add_subdirectory( envr )
+add_subdirectory( env )
+add_subdirectory( ext )
 add_subdirectory( gear )
-add_subdirectory( mass )
 add_subdirectory( prop )
+add_subdirectory( rotor )
+add_subdirectory( utils )
 
 ################################################################################
 
 target_link_libraries( ${TARGET_NAME}
-    mcsim_aero
-    mcsim_ctrl
-    mcsim_envr
-    mcsim_gear
-    mcsim_mass
-    mcsim_prop
+    mcsim-aero
+    mcsim-env
+    mcsim-ext
+    mcsim-gear
+    mcsim-prop
+    mcsim-rotor
+    mcsim-utils
 )

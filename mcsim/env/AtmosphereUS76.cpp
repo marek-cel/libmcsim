@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/environment/AtmosphereUS76.h>
+#include <mcsim/env/AtmosphereUS76.h>
 
 #include <cmath>
 

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/propulsion/PropellerGovernor.h>
+#include <mcsim/prop/PropellerGovernor.h>
 
 #include <cmath>
 

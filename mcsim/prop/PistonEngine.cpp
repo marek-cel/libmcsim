@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/propulsion/PistonEngine.h>
+#include <mcsim/prop/PistonEngine.h>
 
 #include <algorithm>
 
