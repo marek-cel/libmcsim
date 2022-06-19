@@ -59,11 +59,11 @@ LIBS += \
     -L$$PWD/../lib \
     -lgtest \
     -lgtest_main \
+    -lmcutils_ctrl \
     -lmcutils_geo \
     -lmcutils_math \
     -lmcutils_misc \
     -lmcutils_net \
-    -lmcutils_signal \
     -lmcutils_time \
     -lmcutils_xml
 
