@@ -29,22 +29,13 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getAngleOfAttack( const Vector3 &vel_bas, double vel_min )
-{
-    double uv = vel_bas.getLengthXY();
-
-    return getAngleOfAttack( uv, vel_bas.w(), vel_min );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double getAngleOfAttack( double uv, double w, double vel_min )
+double getAngleOfAttack( double u, double w, double vel_min )
 {
     double angleOfAttack = 0.0;
 
-    if ( fabs( uv ) > vel_min || fabs( w ) > vel_min )
+    if ( fabs( u ) > vel_min || fabs( w ) > vel_min )
     {
-        angleOfAttack = atan2( w, uv );
+        angleOfAttack = atan2( w, u );
     }
 
     return angleOfAttack;
@@ -52,20 +43,13 @@ double getAngleOfAttack( double uv, double w, double vel_min )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getSideslipAngle( const Vector3 &vel_bas, double vel_min )
+double getSideslipAngle( double u, double v, double vel_min )
 {
     double sideslipAngle = 0.0;
 
-    if ( fabs( vel_bas.u() ) > vel_min || fabs( vel_bas.v() ) > vel_min )
+    if ( fabs( u ) > vel_min || fabs( v ) > vel_min )
     {
-        //double vw = vel_bas.getLengthYZ();
-        double vw = vel_bas.getLength();
-        double v_vw = ( vw > vel_min ) ? ( vel_bas.v() / vw ) : 0.0;
-
-        if ( v_vw >  1.0 ) v_vw =  1.0;
-        if ( v_vw < -1.0 ) v_vw = -1.0;
-
-        sideslipAngle = asin( v_vw );
+        sideslipAngle = atan2( v, u );
     }
 
     return sideslipAngle;
@@ -82,7 +66,7 @@ Matrix3x3 getAero2BAS( double alpha, double beta )
 ////////////////////////////////////////////////////////////////////////////////
 
 Matrix3x3 getAero2BAS( double sinAlpha , double cosAlpha,
-                                double sinBeta  , double cosBeta )
+                       double sinBeta  , double cosBeta )
 {
     Matrix3x3 aero2bas;
 

@@ -35,34 +35,59 @@ namespace mc
 
 /**
  * @brief Returns angle of attack.
+ * @param u [m/s] airspeed along aircraft x-axis
+ * @param w [m/s] airspeed along aircraft z-axis
+ * @param vel_min [m/s] minimum airspeed of calculations
+ * @return [rad] angle of attack
+ */
+MCSIMAPI double getAngleOfAttack( double u, double w,
+                                  double vel_min = 1.0e-6 );
+
+/**
+ * @brief Returns angle of attack.
  * @param vel_bas [m/s] airspeed vector
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] angle of attack
  */
-MCSIMAPI double getAngleOfAttack( const Vector3 &vel_bas,
-                                  double vel_min = 1.0e-2 );
-
-/**
- * @brief Returns angle of attack.
- * @param uv [m/s] airspeed on aircraft xy-plane
- * @param w  [m/s] airspeed along aircraft z-axis
- * @param vel_min [m/s] minimum airspeed of calculations
- * @return [rad] angle of attack
- */
-MCSIMAPI double getAngleOfAttack( double uv, double w,
-                                  double vel_min = 1.0e-2 );
+MCSIMAPI inline double getAngleOfAttack( const Vector3 &vel_bas,
+                                         double vel_min = 1.0e-6 )
+{
+    return getAngleOfAttack( vel_bas.u(), vel_bas.w(), vel_min );
+}
 
 /**
  * @brief Returns sideslip angle.
  * It is positive when the aircraft velocity component along the transverse
  * axis is positive.
- * @see ISO 1151-1:1988
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988</li>
+ * </ul>
+ * @param u [m/s] airspeed along aircraft x-axis
+ * @param v [m/s] airspeed along aircraft y-axis
+ * @param vel_min [m/s] minimum airspeed of calculations
+ * @return [rad] sideslip angle
+ */
+MCSIMAPI double getSideslipAngle( double u, double v,
+                                  double vel_min = 1.0e-6 );
+
+/**
+ * @brief Returns sideslip angle.
+ * It is positive when the aircraft velocity component along the transverse
+ * axis is positive.
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988</li>
+ * </ul>
  * @param vel_bas [m/s] airspeed vector
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] sideslip angle
  */
-MCSIMAPI double getSideslipAngle( const Vector3 &vel_bas,
-                                  double vel_min = 1.0e-2 );
+MCSIMAPI inline double getSideslipAngle( const Vector3 &vel_bas,
+                                         double vel_min = 1.0e-6 )
+{
+    return getSideslipAngle( vel_bas.u(), vel_bas.v(), vel_min );
+}
 
 /**
  * @brief Returns rotation matrix from aerodynamic axes system to BAS.
