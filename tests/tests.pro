@@ -53,30 +53,35 @@ win32: INCLUDEPATH += \
 
 ################################################################################
 
-LIBS += -L$$PWD/../lib -lmcsim
-
-LIBS += \
-    -L$$PWD/../lib \
-    -lgtest \
-    -lgtest_main \
-    -lmcutils_ctrl \
-    -lmcutils_geo \
-    -lmcutils_math \
-    -lmcutils_misc \
-    -lmcutils_net \
-    -lmcutils_time \
-    -lmcutils_xml
+LIBS += -L$$PWD/../lib
 
 unix: LIBS += \
     -L/lib \
     -L/usr/lib \
+    -L/usr/local/lib
+
+win32: LIBS += \
+    -L$(GTEST_DIR)/lib \
+    -L$(LIBXML_DIR)/lib
+
+LIBS += \
+    -lgtest \
+    -lgtest_main \
+    -lmcsim \
+    -lmcutils-ctrl \
+    -lmcutils-geo \
+    -lmcutils-math \
+    -lmcutils-misc \
+    -lmcutils-net \
+    -lmcutils-time \
+    -lmcutils-xml
+
+unix: LIBS += \
     -lgcov --coverage \
     -lxml2 \
     -pthread
 
 win32: LIBS += \
-    -L$(GTEST_DIR)/lib \
-    -L$(LIBXML_DIR)/lib \
     -lws2_32  \
     -llibxml2
 
