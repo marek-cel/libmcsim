@@ -35,6 +35,7 @@ double getAngleOfAttack( double u, double w, double vel_min )
 
     if ( fabs( u ) > vel_min || fabs( w ) > vel_min )
     {
+        // Drela M.: Flight Vehicle Aerodynamics. p.203
         angleOfAttack = atan2( w, u );
     }
 
@@ -43,13 +44,16 @@ double getAngleOfAttack( double u, double w, double vel_min )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getSideslipAngle( double u, double v, double vel_min )
+double getSideslipAngle( double v, double uw, double vel_min )
 {
     double sideslipAngle = 0.0;
 
-    if ( fabs( u ) > vel_min || fabs( v ) > vel_min )
+    double uw_abs = fabs( uw );
+
+    if ( uw_abs > vel_min || fabs( v ) > vel_min )
     {
-        sideslipAngle = atan2( v, u );
+        // Drela M.: Flight Vehicle Aerodynamics. p.203
+        sideslipAngle = atan2( v, uw_abs );
     }
 
     return sideslipAngle;

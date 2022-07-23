@@ -35,6 +35,11 @@ namespace mc
 
 /**
  * @brief Returns angle of attack.
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988</li>
+ *   <li>Drela M.: Flight Vehicle Aerodynamics. 2014. p.203</li>
+ * </ul>
  * @param u [m/s] airspeed along aircraft x-axis
  * @param w [m/s] airspeed along aircraft z-axis
  * @param vel_min [m/s] minimum airspeed of calculations
@@ -45,6 +50,11 @@ MCSIMAPI double getAngleOfAttack( double u, double w,
 
 /**
  * @brief Returns angle of attack.
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988</li>
+ *   <li>Drela M.: Flight Vehicle Aerodynamics. 2014. p.203</li>
+ * </ul>
  * @param vel_bas [m/s] airspeed vector
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] angle of attack
@@ -62,13 +72,14 @@ MCSIMAPI inline double getAngleOfAttack( const Vector3 &vel_bas,
  * <h3>Refernces:</h3>
  * <ul>
  *   <li>International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988</li>
+ *   <li>Drela M.: Flight Vehicle Aerodynamics. 2014. p.203</li>
  * </ul>
- * @param u [m/s] airspeed along aircraft x-axis
  * @param v [m/s] airspeed along aircraft y-axis
+ * @param uw [m/s] airspeed projected on the x-z plane
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] sideslip angle
  */
-MCSIMAPI double getSideslipAngle( double u, double v,
+MCSIMAPI double getSideslipAngle( double v, double uw,
                                   double vel_min = 1.0e-6 );
 
 /**
@@ -78,6 +89,7 @@ MCSIMAPI double getSideslipAngle( double u, double v,
  * <h3>Refernces:</h3>
  * <ul>
  *   <li>International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988</li>
+ *   <li>Drela M.: Flight Vehicle Aerodynamics. 2014. p.203</li>
  * </ul>
  * @param vel_bas [m/s] airspeed vector
  * @param vel_min [m/s] minimum airspeed of calculations
@@ -86,7 +98,7 @@ MCSIMAPI double getSideslipAngle( double u, double v,
 MCSIMAPI inline double getSideslipAngle( const Vector3 &vel_bas,
                                          double vel_min = 1.0e-6 )
 {
-    return getSideslipAngle( vel_bas.u(), vel_bas.v(), vel_min );
+    return getSideslipAngle( vel_bas.v(), vel_bas.getLengthXZ(), vel_min );
 }
 
 /**
