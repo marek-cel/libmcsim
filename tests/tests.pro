@@ -9,7 +9,7 @@ TARGET = tests
 
 ################################################################################
 
-CONFIG += console c++17 thread
+CONFIG += console c++17
 CONFIG -= app_bundle qt
 
 ################################################################################
@@ -53,8 +53,6 @@ win32: INCLUDEPATH += \
 
 ################################################################################
 
-LIBS += -L$$PWD/../lib
-
 unix: LIBS += \
     -L/lib \
     -L/usr/lib \
@@ -67,7 +65,6 @@ win32: LIBS += \
 LIBS += \
     -lgtest \
     -lgtest_main \
-    -lmcsim \
     -lmcutils-ctrl \
     -lmcutils-geo \
     -lmcutils-math \
@@ -87,4 +84,5 @@ win32: LIBS += \
 
 ################################################################################
 
+include(../mcsim/mcsim.pri)
 include(tests.pri)
