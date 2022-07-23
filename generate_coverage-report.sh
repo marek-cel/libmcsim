@@ -10,8 +10,6 @@ GCOV_TOOL=gcov
 
 BASE_DIR=./mcsim
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/lib
-
 ################################################################################
 
 if [ ! -z "$BUILD_DIR" ]
