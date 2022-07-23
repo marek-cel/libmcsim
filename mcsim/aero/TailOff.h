@@ -41,6 +41,11 @@ namespace mc
  * conditions, separately for left and right half wings. Half wing aerodynamic
  * center is considered datum point for computing airflow conditions (airspeed,
  * angle of attack, etc.).
+ *
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>Drela M.: Flight Vehicle Aerodynamics. 2014. p.203</li>
+ * </ul>
  */
 class MCSIMAPI TailOff
 {
@@ -93,11 +98,13 @@ protected:
     Table _cm;                  ///< [-] pitching moment coefficient vs [rad] angle of attack
     Table _cn;                  ///< [-] yawing moment coefficient vs [rad] angle of sideslip
 
-    double _mac;                ///< [m] wing mean aerodynamic chord
     double _area;               ///< [m^2] wing reference area
+    double _mac;                ///< [m] wing mean aerodynamic chord
+    double _span;               ///< [m] wing span
 
     double _area_2;             ///< [m^2] half wing reference area
     double _mac_s_2;            ///< [m^3] MAC*S/2 where MAC is mean aerodynamic chord and S is reference area
+    double _span_s_2;           ///< [m^3] b*S/2 where b is wing span and S is reference area
 
     double _aoa_critical_neg;   ///< [rad] critical angle of attack (negative)
     double _aoa_critical_pos;   ///< [rad] critical angle of attack (positive)

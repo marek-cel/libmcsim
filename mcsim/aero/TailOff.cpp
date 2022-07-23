@@ -34,10 +34,12 @@ namespace mc
 ////////////////////////////////////////////////////////////////////////////////
 
 TailOff::TailOff()
-    : _mac ( 0.0 )
-    , _area ( 0.0 )
+    : _area ( 0.0 )
+    , _mac ( 0.0 )
+    , _span ( 0.0 )
     , _area_2 ( 0.0 )
     , _mac_s_2 ( 0.0 )
+    , _span_s_2 ( 0.0 )
     , _aoa_critical_neg ( 0.0 )
     , _aoa_critical_pos ( 0.0 )
     , _aoa_l ( 0.0 )
@@ -111,9 +113,9 @@ void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
                       dynPress * getCy( sideslipAngle ) * _area_2,
                       dynPress * getCz( angleOfAttack ) * _area_2 );
 
-    Vector3 mom_stab( dynPress * getCl( sideslipAngle ) * _mac_s_2,
+    Vector3 mom_stab( dynPress * getCl( sideslipAngle ) * _span_s_2,
                       dynPress * getCm( angleOfAttack ) * _mac_s_2,
-                      dynPress * getCn( sideslipAngle ) * _mac_s_2 );
+                      dynPress * getCn( sideslipAngle ) * _span_s_2 );
 
 
     double sinAlpha = sin( angleOfAttack );
