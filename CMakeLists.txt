@@ -54,19 +54,11 @@ endif()
 
 ################################################################################
 
-include_directories(
-    ./
-)
-
-if( UNIX )
-    include_directories( /usr/include/libxml2 )
-elseif( WIN32 )
-    include_directories( ${LIBXML_DIR}/include/ )
-endif()
+find_package( LibXml2 REQUIRED )
 
 ################################################################################
 
-find_package( LibXml2 REQUIRED )
+include_directories( . ${LIBXML2_INCLUDE_DIR} )
 
 ################################################################################
 
