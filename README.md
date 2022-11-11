@@ -1,2 +1,2 @@
 # libmcsim
-Vehicle simulation library
+Vehicle simulation library.

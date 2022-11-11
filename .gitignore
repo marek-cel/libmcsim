@@ -1,3 +1,20 @@
+bin
+build
+docs
+lib
+
+out_cloc.txt
+out_cppcheck.txt
+out_cpplint.txt
+
+coverage.info
+coverage_full.info
+coverage-report
+
+*.csv
+
+################################################################################
+
 # Prerequisites
 *.d
 
@@ -30,3 +47,36 @@
 *.exe
 *.out
 *.app
+
+# Qt-es
+object_script.*.Release
+object_script.*.Debug
+*_plugin_import.cpp
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qmlc
+*.jsc
+Makefile*
+*build-*
+
+# Qt unit tests
+target_wrapper.*
+
+# QtCreator
+*.autosave
+
+# QtCreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+# QtCreator CMake
+CMakeLists.txt.user*
