@@ -45,23 +45,9 @@ namespace mc
  */
 double MCSIMAPI getPrandtlGlauertFactor( double machNumber, double max = 5.0 );
 
-/**
- * @brief Returns pressure coefficient factor based on Karman-Tsien rule.
- *
- * @param machNumber Mach number
- * @param max maximum value
- * @return pressure coefficient factor
- */
-double MCSIMAPI getKarmanTsienFactor( double machNumber, double max = 5.0 );
-
-/**
- * @brief Returns pressure coefficient factor based on Laitone’s rule.
- *
- * @param machNumber Mach number
- * @param max maximum value
- * @return pressure coefficient factor
- */
-double MCSIMAPI getLaitoneFactor( double machNumber, double max = 5.0 );
+// TODO:
+//double MCSIMAPI getKarmanTsienFactor( double machNumber, double max = 5.0 );
+//double MCSIMAPI getLaitoneFactor( double machNumber, double max = 5.0 );
 
 } // namespace mc
 

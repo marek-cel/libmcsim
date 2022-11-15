@@ -55,26 +55,4 @@ double getPrandtlGlauertFactor( double machNumber, double max )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getKarmanTsienFactor( double machNumber, double max )
-{
-    double factor  = 1.0;
-
-    // TODO!
-
-    return factor;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double getLaitoneFactor( double machNumber, double max )
-{
-    double factor  = 1.0;
-
-    // TODO!
-
-    return factor;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 } // namespace mc
