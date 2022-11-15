@@ -65,7 +65,6 @@ target_link_libraries( ${TARGET_NAME}
     mcsim-rotor
 
     mcutils-ctrl
-    mcutils-datatree
     mcutils-geo
     mcutils-math
     mcutils-misc
