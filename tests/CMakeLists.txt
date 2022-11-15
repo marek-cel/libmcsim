@@ -64,13 +64,8 @@ target_link_libraries( ${TARGET_NAME}
     mcsim-prop
     mcsim-rotor
 
-    mcutils-ctrl
-    mcutils-geo
     mcutils-math
     mcutils-misc
-    mcutils-net
-    mcutils-time
-    mcutils-xml
 
     ${LIBXML2_LIBRARIES}
     GTest::gtest

@@ -65,13 +65,8 @@ win32: LIBS += \
 LIBS += \
     -lgtest \
     -lgtest_main \
-    -lmcutils-ctrl \
-    -lmcutils-geo \
     -lmcutils-math \
-    -lmcutils-misc \
-    -lmcutils-net \
-    -lmcutils-time \
-    -lmcutils-xml
+    -lmcutils-misc
 
 unix: LIBS += \
     -lgcov --coverage \
