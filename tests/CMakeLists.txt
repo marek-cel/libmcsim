@@ -55,14 +55,14 @@ target_link_libraries( ${TARGET_NAME}
 
     gcov
 
-    mcsim-aero
-    mcsim-ctrl
-    mcsim-env
-    mcsim-extra
-    mcsim-gear
-    mcsim-mass
-    mcsim-prop
-    mcsim-rotor
+    aero
+    ctrl
+    env
+    extra
+    gear
+    mass
+    prop
+    rotor
 
     mcutils-math
     mcutils-misc
