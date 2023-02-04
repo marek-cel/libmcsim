@@ -44,12 +44,8 @@ win32: DEFINES += WIN32 _WINDOWS
 
 INCLUDEPATH += ./ $$PWD/../
 
-unix: INCLUDEPATH += \
-    /usr/include/libxml2
-
 win32: INCLUDEPATH += \
-    $(GTEST_DIR)/include \
-    $(LIBXML_DIR)/include
+    $(GTEST_DIR)/include
 
 ################################################################################
 
@@ -59,8 +55,7 @@ unix: LIBS += \
     -L/usr/local/lib
 
 win32: LIBS += \
-    -L$(GTEST_DIR)/lib \
-    -L$(LIBXML_DIR)/lib
+    -L$(GTEST_DIR)/lib
 
 LIBS += \
     -lgtest \
@@ -70,12 +65,10 @@ LIBS += \
 
 unix: LIBS += \
     -lgcov --coverage \
-    -lxml2 \
     -pthread
 
 win32: LIBS += \
-    -lws2_32  \
-    -llibxml2
+    -lws2_32
 
 ################################################################################
 

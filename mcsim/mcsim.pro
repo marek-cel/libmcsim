@@ -47,12 +47,8 @@ win32: DEFINES += WIN32
 
 INCLUDEPATH += ../
 
-win32: INCLUDEPATH += \
-    $(LIBXML_DIR)/include
-
 unix: INCLUDEPATH += \
-    /usr/local/include \
-    /usr/include/libxml2
+    /usr/local/include
 
 ################################################################################
 
