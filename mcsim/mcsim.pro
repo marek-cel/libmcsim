@@ -43,12 +43,23 @@ win32: CONFIG(debug, debug|release):   DEFINES += _DEBUG
 unix:  DEFINES += _LINUX_
 win32: DEFINES += WIN32
 
+win32-msvc*: DEFINES += MCSIM_DLL_EXPORTS
+
 ################################################################################
 
 INCLUDEPATH += ../
 
+win32: INCLUDEPATH += \
+    $(LIMBCUTILS_DIR)/include
+
 unix: INCLUDEPATH += \
     /usr/local/include
+
+################################################################################
+
+win32: LIBS += \
+    -L$(LIMBCUTILS_DIR)/lib \
+    -lmcutils
 
 ################################################################################
 

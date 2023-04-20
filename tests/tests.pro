@@ -40,11 +40,14 @@ win32-msvc*: CONFIG(debug, debug|release):   DEFINES += _DEBUG
 unix:  DEFINES += _LINUX_
 win32: DEFINES += WIN32 _WINDOWS
 
+win32-msvc*: DEFINES += MCSIM_STATIC_LIB
+
 ################################################################################
 
 INCLUDEPATH += ./ $$PWD/../
 
 win32: INCLUDEPATH += \
+    $(LIMBCUTILS_DIR)/include \
     $(GTEST_DIR)/include
 
 ################################################################################
@@ -55,13 +58,13 @@ unix: LIBS += \
     -L/usr/local/lib
 
 win32: LIBS += \
+    -L$(LIMBCUTILS_DIR)/lib \
     -L$(GTEST_DIR)/lib
 
 LIBS += \
     -lgtest \
     -lgtest_main \
-    -lmcutils-math \
-    -lmcutils-misc
+    -lmcutils
 
 unix: LIBS += \
     -lgcov --coverage \

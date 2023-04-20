@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) && !defined(MCSIM_STATIC_LIB)
 #   if defined(MCSIM_DLL_EXPORTS)
 #       define MCSIM_DLL_SPEC __declspec(dllexport)
 #   else
