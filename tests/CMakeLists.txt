@@ -2,9 +2,7 @@ set( TARGET_NAME tests )
 
 ################################################################################
 
-#find_package( LibXml2 REQUIRED )
 find_package( GTest REQUIRED )
-find_package( Threads REQUIRED )
 
 ################################################################################
 
@@ -66,10 +64,8 @@ target_link_libraries( ${TARGET_NAME}
 
     mcutils
 
-    ${LIBXML2_LIBRARIES}
     GTest::gtest
     GTest::gtest_main
-    ${CMAKE_THREAD_LIBS_INIT}
 
     -Wl,--end-group
 )

@@ -70,9 +70,6 @@ unix: LIBS += \
     -lgcov --coverage \
     -pthread
 
-win32: LIBS += \
-    -lws2_32
-
 ################################################################################
 
 include(../mcsim/mcsim.pri)
