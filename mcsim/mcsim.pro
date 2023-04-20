@@ -50,7 +50,7 @@ win32-msvc*: DEFINES += MCSIM_DLL_EXPORTS
 INCLUDEPATH += ../
 
 win32: INCLUDEPATH += \
-    $(LIMBCUTILS_DIR)/include
+    $(LIBMCUTILS_DIR)/include
 
 unix: INCLUDEPATH += \
     /usr/local/include
@@ -58,7 +58,7 @@ unix: INCLUDEPATH += \
 ################################################################################
 
 win32: LIBS += \
-    -L$(LIMBCUTILS_DIR)/lib \
+    -L$(LIBMCUTILS_DIR)/lib \
     -lmcutils
 
 ################################################################################

@@ -47,7 +47,7 @@ win32-msvc*: DEFINES += MCSIM_STATIC_LIB
 INCLUDEPATH += ./ $$PWD/../
 
 win32: INCLUDEPATH += \
-    $(LIMBCUTILS_DIR)/include \
+    $(LIBMCUTILS_DIR)/include \
     $(GTEST_DIR)/include
 
 ################################################################################
@@ -58,7 +58,7 @@ unix: LIBS += \
     -L/usr/local/lib
 
 win32: LIBS += \
-    -L$(LIMBCUTILS_DIR)/lib \
+    -L$(LIBMCUTILS_DIR)/lib \
     -L$(GTEST_DIR)/lib
 
 LIBS += \

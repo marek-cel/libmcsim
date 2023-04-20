@@ -64,8 +64,7 @@ target_link_libraries( ${TARGET_NAME}
     prop
     rotor
 
-    mcutils-math
-    mcutils-misc
+    mcutils
 
     ${LIBXML2_LIBRARIES}
     GTest::gtest

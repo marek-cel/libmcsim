@@ -2,6 +2,14 @@ set( TARGET_NAME mcsim )
 
 ################################################################################
 
+if( WIN32 )
+    if(BUILD_SHARED_LIBS)
+        add_definitions( -DMCSIM_DLL_EXPORTS )
+    endif()
+endif()
+
+################################################################################
+
 set( HEADERS
     defs.h
 )
@@ -51,7 +59,12 @@ install( TARGETS ${TARGET_NAME}
 
 ################################################################################
 
+if( WIN32 )
+    set( LIBS ${MCUTILS_LIBRARY} )
+endif()
+
+################################################################################
+
 target_link_libraries( ${TARGET_NAME}
-    mcutils-math
-    mcutils-misc
+    ${LIBS}
 )
