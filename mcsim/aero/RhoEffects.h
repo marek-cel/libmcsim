@@ -39,15 +39,11 @@ namespace mc
  *   <li><a href="https://en.wikipedia.org/wiki/Prandtl%E2%80%93Glauert_singularity">Prandtl–Glauert singularity - Wikipedia</a></li>
  * </ul>
  *
- * @param machNumber Mach number
+ * @param mach Mach number
  * @param max maximum value
  * @return pressure coefficient factor
  */
-double MCSIMAPI getPrandtlGlauertFactor( double machNumber, double max = 5.0 );
-
-// TODO:
-//double MCSIMAPI getKarmanTsienFactor( double machNumber, double max = 5.0 );
-//double MCSIMAPI getLaitoneFactor( double machNumber, double max = 5.0 );
+double MCSIMAPI getPrandtlGlauertFactor( double mach, double max = 5.0 );
 
 } // namespace mc
 
