@@ -56,7 +56,7 @@ MCSIMAPI double getAngleOfAttack( double u, double w,
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] angle of attack
  */
-MCSIMAPI inline double getAngleOfAttack( const Vector3 &vel_bas,
+MCSIMAPI inline double getAngleOfAttack( const Vector3& vel_bas,
                                          double vel_min = 1.0e-6 )
 {
     return getAngleOfAttack( vel_bas.u(), vel_bas.w(), vel_min );
@@ -89,7 +89,7 @@ MCSIMAPI double getSideslipAngle( double v, double uw,
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] sideslip angle
  */
-MCSIMAPI inline double getSideslipAngle( const Vector3 &vel_bas,
+MCSIMAPI inline double getSideslipAngle( const Vector3& vel_bas,
                                          double vel_min = 1.0e-6 )
 {
     return getSideslipAngle( vel_bas.v(), vel_bas.getLengthXZ(), vel_min );
