@@ -47,38 +47,38 @@ void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
     double wi = dwi_dvi * inducedVelocity;
 
     // fuselage velocity
-    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas % _data.r_ac_bas )
+    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas % data_.r_ac_bas )
                       - Vector3( 0.0, 0.0, -wi );
 
     // angle of attack and sideslip angle
-    _angleOfAttack = getAngleOfAttack( vel_f_bas );
-    _sideslipAngle = getSideslipAngle( vel_f_bas );
+    angleOfAttack_ = getAngleOfAttack( vel_f_bas );
+    sideslipAngle_ = getSideslipAngle( vel_f_bas );
 
     // dynamic pressure
     double dynPress = 0.5 * airDensity * vel_f_bas.getLength2();
 
-    Vector3 for_aero( dynPress * getCx( _angleOfAttack ) * _data.area,
-                      dynPress * getCy( _sideslipAngle ) * _data.area,
-                      dynPress * getCz( _angleOfAttack ) * _data.area );
+    Vector3 for_aero( dynPress * getCx( angleOfAttack_ ) * data_.area,
+                      dynPress * getCy( sideslipAngle_ ) * data_.area,
+                      dynPress * getCz( angleOfAttack_ ) * data_.area );
 
-    Vector3 mom_stab( dynPress * getCl( _sideslipAngle ) * _sl,
-                      dynPress * getCm( _angleOfAttack ) * _sl,
-                      dynPress * getCn( _sideslipAngle ) * _sl );
+    Vector3 mom_stab( dynPress * getCl( sideslipAngle_ ) * area_length_,
+                      dynPress * getCm( angleOfAttack_ ) * area_length_,
+                      dynPress * getCn( sideslipAngle_ ) * area_length_ );
 
 
-    double sinAlpha = sin( _angleOfAttack );
-    double cosAlpha = cos( _angleOfAttack );
-    double sinBeta  = sin( _sideslipAngle );
-    double cosBeta  = cos( _sideslipAngle );
+    double sinAlpha = sin( angleOfAttack_ );
+    double cosAlpha = cos( angleOfAttack_ );
+    double sinBeta  = sin( sideslipAngle_ );
+    double cosBeta  = cos( sideslipAngle_ );
 
     Vector3 for_bas = getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
     Vector3 mom_bas = getStab2BAS( sinAlpha, cosAlpha ) * mom_stab
-                    + ( _data.r_ac_bas % for_bas );
+                    + ( data_.r_ac_bas % for_bas );
 
-    _for_bas = for_bas;
-    _mom_bas = mom_bas;
+    for_bas_ = for_bas;
+    mom_bas_ = mom_bas;
 
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
+    if ( !for_bas_.isValid() || !mom_bas_.isValid() )
     {
         // TODO
     }
@@ -88,42 +88,42 @@ void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 double Fuselage::getCx( double angleOfAttack ) const
 {
-    return _data.cx.getValue( angleOfAttack );
+    return data_.cx.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCy( double sideslipAngle ) const
 {
-    return _data.cy.getValue( sideslipAngle );
+    return data_.cy.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCz( double angleOfAttack ) const
 {
-    return _data.cz.getValue( angleOfAttack );
+    return data_.cz.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCl( double sideslipAngle ) const
 {
-    return _data.cl.getValue( sideslipAngle );
+    return data_.cl.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCm( double angleOfAttack ) const
 {
-    return _data.cm.getValue( angleOfAttack );
+    return data_.cm.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCn( double sideslipAngle ) const
 {
-    return _data.cn.getValue( sideslipAngle );
+    return data_.cn.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

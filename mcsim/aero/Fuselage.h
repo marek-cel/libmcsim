@@ -48,17 +48,18 @@ public:
 
     struct Data
     {
-        Vector3 r_ac_bas;          ///< [m] fuselage aerodynamic center expressed in BAS
+        Vector3 r_ac_bas;                           ///< [m] fuselage aerodynamic center expressed in BAS
 
-        Table cx { Table::oneRecordTable( 0.0 ) };                  ///< [-] drag coefficient vs [rad] angle of attack
-        Table cy { Table::oneRecordTable( 0.0 ) };                  ///< [-] sideforce coefficient vs [rad] angle of sideslip
-        Table cz { Table::oneRecordTable( 0.0 ) };                  ///< [-] lift coefficient vs [rad] angle of attack
-        Table cl { Table::oneRecordTable( 0.0 ) };                  ///< [-] rolling moment coefficient vs [rad] angle of sideslip
-        Table cm { Table::oneRecordTable( 0.0 ) };                  ///< [-] pitching moment coefficient vs [rad] angle of attack
-        Table cn { Table::oneRecordTable( 0.0 ) };                  ///< [-] yawing moment coefficient vs [rad] angle of sideslip
+        Table cx { Table::oneRecordTable( 0.0 ) };  ///< [-] drag coefficient vs [rad] angle of attack
+        Table cy { Table::oneRecordTable( 0.0 ) };  ///< [-] sideforce coefficient vs [rad] angle of sideslip
+        Table cz { Table::oneRecordTable( 0.0 ) };  ///< [-] lift coefficient vs [rad] angle of attack
 
-        double length { 0.0 } ;             ///< [m] reference length
-        double area   { 0.0 } ;               ///< [m^2] reference area
+        Table cl { Table::oneRecordTable( 0.0 ) };  ///< [-] rolling moment coefficient vs [rad] angle of sideslip
+        Table cm { Table::oneRecordTable( 0.0 ) };  ///< [-] pitching moment coefficient vs [rad] angle of attack
+        Table cn { Table::oneRecordTable( 0.0 ) };  ///< [-] yawing moment coefficient vs [rad] angle of sideslip
+
+        double length { 0.0 } ;                     ///< [m] reference length
+        double area   { 0.0 } ;                     ///< [m^2] reference area
     };
 
     /** @brief Constructor. */
@@ -78,26 +79,26 @@ public:
      * @param inducedVelocity [m/s] rotor induced velocity
      * @param wakeSkewAngle [rad] rotor wake skew angle
      */
-    virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
-                                        const Vector3 &omg_air_bas,
+    virtual void computeForceAndMoment( const Vector3& vel_air_bas,
+                                        const Vector3& omg_air_bas,
                                         double airDensity,
                                         double inducedVelocity = 0.0,
                                         double wakeSkewAngle = 0.0 );
 
-    inline const Vector3& getForce_BAS  () const { return _for_bas; }
-    inline const Vector3& getMoment_BAS () const { return _mom_bas; }
+    inline const Vector3& getForce_BAS  () const { return for_bas_; }
+    inline const Vector3& getMoment_BAS () const { return mom_bas_; }
 
 protected:
 
-    Data _data;
+    Data data_;
 
-    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
-    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
+    Vector3 for_bas_;           ///< [N] total force vector expressed in BAS
+    Vector3 mom_bas_;           ///< [N*m] total moment vector expressed in BAS
 
-    double _sl;                 ///< [m^3] S*l where S is reference area and l is reference length
+    double area_length_;        ///< [m^3] S*l where S is reference area and l is reference length
 
-    double _angleOfAttack;      ///< [rad] angle of attack
-    double _sideslipAngle;      ///< [rad] angle of sideslip
+    double angleOfAttack_;      ///< [rad] angle of attack
+    double sideslipAngle_;      ///< [rad] angle of sideslip
 
     /**
      * @brief Computes drag coefficient.
