@@ -85,8 +85,8 @@ public:
                                         double inducedVelocity = 0.0,
                                         double wakeSkewAngle = 0.0 );
 
-    inline const Vector3& getForce_BAS  () const { return for_bas_; }
-    inline const Vector3& getMoment_BAS () const { return mom_bas_; }
+    inline const Vector3& getForceBAS  () const { return for_bas_; }
+    inline const Vector3& getMomentBAS () const { return mom_bas_; }
 
 protected:
 
