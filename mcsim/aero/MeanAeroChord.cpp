@@ -37,7 +37,7 @@ double getMeanAerodynamicChord( double cr, double ct )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getMeanAerodynamicChord( const Table &chord )
+double getMeanAerodynamicChord( const Table& chord )
 {
     double sum_mac = 0.0;
     double sum_area = 0.0;

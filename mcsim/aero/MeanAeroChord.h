@@ -52,7 +52,7 @@ double getMeanAerodynamicChord( double cr, double ct );
  * @param chord [m] wing chord vs [m] spanwise coordinate
  * @return [m] mean aerodynamic chord
  */
-double getMeanAerodynamicChord( const Table &chord );
+double getMeanAerodynamicChord( const Table& chord );
 
 } // namespace mc
 
