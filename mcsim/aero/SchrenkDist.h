@@ -46,12 +46,6 @@ class MCSIMAPI SchrenkDist
 {
 public:
 
-    /** @brief Constructor. */
-    SchrenkDist();
-
-    /** @brief Destructor. */
-    virtual ~SchrenkDist();
-
     /**
      * @brief Computes approximation of drag coefficient.
      * Computes simple approximation of normalized spanwise drag coefficient
@@ -86,17 +80,17 @@ public:
      * @brief Sets wing chord.
      * @param chord [m] wing chord vs [m] spanwise coordinate
      */
-    void setChord( const Table &chord );
+    void setChord( const Table& chord );
 
 protected:
 
-    double _area;               ///< [m^2] wing area
-    double _span;               ///< [m] wing span
+    double area_ = 0.0;         ///< [m^2] wing area
+    double span_ = 0.0;         ///< [m] wing span
 
-    Table _chord;               ///< [m] wing chord vs [m] spanwise coordinate
+    Table chord_;               ///< [m] wing chord vs [m] spanwise coordinate
 
-    double _4S_bpi;             ///< [m]   4*S/(b*pi) where S is wing area and b is wing span
-    double _2_b;                ///< [1/m] 2/b where b is wing span
+    double aux_factor_1_ = 0.0; ///< [m]   4*S/(b*pi) where S is wing area and b is wing span
+    double aux_factor_2_ = 0.0; ///< [1/m] 2/b        where b is wing span
 
     /** */
     void updateAxiliaryParameters();

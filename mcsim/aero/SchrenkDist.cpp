@@ -33,22 +33,9 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SchrenkDist::SchrenkDist()
-    : _area ( 0.0 )
-    , _span ( 0.0 )
-    , _4S_bpi ( 0.0 )
-    , _2_b ( 0.0 )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-SchrenkDist::~SchrenkDist() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
 double SchrenkDist::getDragCoefDist( double y ) const
 {
-    return ( y < 0.4 * _span ) ? 0.95 : 1.2;
+    return ( y < 0.4 * span_ ) ? 0.95 : 1.2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,15 +43,15 @@ double SchrenkDist::getDragCoefDist( double y ) const
 double SchrenkDist::getLiftCoefDist( double y ) const
 {
     // equivalent elliptical wing chord
-    double chord_e = _4S_bpi * sqrt( 1.0 - Math::pow2( y * _2_b ) );
-    return 0.5 * ( 1.0 + chord_e / _chord.getValue( y ) );
+    double chord_e = aux_factor_1_ * sqrt( 1.0 - Math::pow2( y * aux_factor_2_ ) );
+    return 0.5 * ( 1.0 + chord_e / chord_.getValue( y ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SchrenkDist::setArea( double area )
 {
-    _area = area;
+    area_ = area;
     updateAxiliaryParameters();
 }
 
@@ -72,23 +59,23 @@ void SchrenkDist::setArea( double area )
 
 void SchrenkDist::setSpan( double span )
 {
-    _span = span;
+    span_ = span;
     updateAxiliaryParameters();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SchrenkDist::setChord( const Table &chord )
+void SchrenkDist::setChord( const Table& chord )
 {
-    _chord = chord;
+    chord_ = chord;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SchrenkDist::updateAxiliaryParameters()
 {
-    _4S_bpi = ( 4.0 * _area ) / ( _span * M_PI );
-    _2_b = 2.0 / _span;
+    aux_factor_1_ = ( 4.0 * area_ ) / ( span_ * M_PI );
+    aux_factor_2_ = 2.0 / span_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
