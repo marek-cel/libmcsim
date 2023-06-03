@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/aero/Fuselage.h>
+#include <mcsim/aero/AeroBody.h>
 
 #include <mcutils/math/Math.h>
 #include <mcutils/misc/Units.h>
@@ -34,45 +34,45 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
+void AeroBody::computeForceAndMoment( const Vector3 &vel_air_bas,
                                       const Vector3 &omg_air_bas,
-                                      double airDensity,
-                                      double inducedVelocity,
-                                      double wakeSkewAngle )
+                                      double air_dens,
+                                      double vel_ind,
+                                      double skew_angle )
 {
     // rotor downwash on the fuselage, NASA-TM-84281, p.33
-    double dwi_dvi = 1.299 + 0.671 * wakeSkewAngle
-                   - 1.172 * Math::pow2( wakeSkewAngle )
-                   + 0.351 * Math::pow3( wakeSkewAngle );
-    double wi = dwi_dvi * inducedVelocity;
+    double dwi_dvi = 1.299 + 0.671 * skew_angle
+                   - 1.172 * Math::pow2( skew_angle )
+                   + 0.351 * Math::pow3( skew_angle );
+    double wi = dwi_dvi * vel_ind;
 
     // fuselage velocity
     Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas % data_.r_ac_bas )
                       - Vector3( 0.0, 0.0, -wi );
 
     // angle of attack and sideslip angle
-    angleOfAttack_ = getAngleOfAttack( vel_f_bas );
-    sideslipAngle_ = getSideslipAngle( vel_f_bas );
+    alpha_ = getAngleOfAttack( vel_f_bas );
+    beta_  = getSideslipAngle( vel_f_bas );
 
     // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_f_bas.getLength2();
+    double dyn_press = 0.5 * air_dens * vel_f_bas.getLength2();
 
-    Vector3 for_aero( dynPress * getCx( angleOfAttack_ ) * data_.area,
-                      dynPress * getCy( sideslipAngle_ ) * data_.area,
-                      dynPress * getCz( angleOfAttack_ ) * data_.area );
+    Vector3 for_aero( dyn_press * getCx( alpha_ ) * data_.area,
+                      dyn_press * getCy( beta_  ) * data_.area,
+                      dyn_press * getCz( alpha_ ) * data_.area );
 
-    Vector3 mom_stab( dynPress * getCl( sideslipAngle_ ) * area_length_,
-                      dynPress * getCm( angleOfAttack_ ) * area_length_,
-                      dynPress * getCn( sideslipAngle_ ) * area_length_ );
+    Vector3 mom_stab( dyn_press * getCl( beta_  ) * sl_,
+                      dyn_press * getCm( alpha_ ) * sl_,
+                      dyn_press * getCn( beta_  ) * sl_ );
 
 
-    double sinAlpha = sin( angleOfAttack_ );
-    double cosAlpha = cos( angleOfAttack_ );
-    double sinBeta  = sin( sideslipAngle_ );
-    double cosBeta  = cos( sideslipAngle_ );
+    double sin_alpha = sin( alpha_ );
+    double cos_alpha = cos( alpha_ );
+    double sin_beta  = sin( beta_  );
+    double cos_beta  = cos( beta_  );
 
-    Vector3 for_bas = getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
-    Vector3 mom_bas = getStab2BAS( sinAlpha, cosAlpha ) * mom_stab
+    Vector3 for_bas = getAero2BAS( sin_alpha, cos_alpha, sin_beta, cos_beta ) * for_aero;
+    Vector3 mom_bas = getStab2BAS( sin_alpha, cos_alpha ) * mom_stab
                     + ( data_.r_ac_bas % for_bas );
 
     for_bas_ = for_bas;
@@ -86,42 +86,42 @@ void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::getCx( double angleOfAttack ) const
+double AeroBody::getCx( double angleOfAttack ) const
 {
     return data_.cx.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::getCy( double sideslipAngle ) const
+double AeroBody::getCy( double sideslipAngle ) const
 {
     return data_.cy.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::getCz( double angleOfAttack ) const
+double AeroBody::getCz( double angleOfAttack ) const
 {
     return data_.cz.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::getCl( double sideslipAngle ) const
+double AeroBody::getCl( double sideslipAngle ) const
 {
     return data_.cl.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::getCm( double angleOfAttack ) const
+double AeroBody::getCm( double angleOfAttack ) const
 {
     return data_.cm.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::getCn( double sideslipAngle ) const
+double AeroBody::getCn( double sideslipAngle ) const
 {
     return data_.cn.getValue( sideslipAngle );
 }

@@ -9,7 +9,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/aero/AeroAngles.h \
-    $$PWD/aero/Fuselage.h \
+    $$PWD/aero/AeroBody.h \
     $$PWD/aero/MeanAeroChord.h \
     $$PWD/aero/RhoEffects.h \
     $$PWD/aero/SchrenkDist.h \
@@ -19,7 +19,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/aero/AeroAngles.cpp \
-    $$PWD/aero/Fuselage.cpp \
+    $$PWD/aero/AeroBody.cpp \
     $$PWD/aero/MeanAeroChord.cpp \
     $$PWD/aero/RhoEffects.cpp \
     $$PWD/aero/SchrenkDist.cpp \

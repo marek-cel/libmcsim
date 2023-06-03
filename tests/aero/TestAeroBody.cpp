@@ -1,15 +1,15 @@
 #include <gtest/gtest.h>
 
-#include <mcsim/aero/Fuselage.h>
+#include <mcsim/aero/AeroBody.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class TestFuselage : public ::testing::Test
+class TestAeroBody : public ::testing::Test
 {
 protected:
 
-    TestFuselage() {}
-    virtual ~TestFuselage() {}
+    TestAeroBody() {}
+    virtual ~TestAeroBody() {}
 
     void SetUp() override {}
     void TearDown() override {}
@@ -17,24 +17,24 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestFuselage, CanConstruct)
+TEST_F(TestAeroBody, CanConstruct)
 {
-    mc::Fuselage *fuselage = nullptr;
-    EXPECT_NO_THROW( fuselage = new mc::Fuselage() );
+    mc::AeroBody* fuselage = nullptr;
+    EXPECT_NO_THROW( fuselage = new mc::AeroBody );
     delete fuselage;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestFuselage, CanDestruct)
+TEST_F(TestAeroBody, CanDestruct)
 {
-    mc::Fuselage *fuselage = new mc::Fuselage();
+    mc::AeroBody* fuselage = new mc::AeroBody();
     EXPECT_NO_THROW( delete fuselage );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestFuselage, CanInstantiate)
+TEST_F(TestAeroBody, CanInstantiate)
 {
-    mc::Fuselage fuselage;
+    mc::AeroBody fuselage;
 }

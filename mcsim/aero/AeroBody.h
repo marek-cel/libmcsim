@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_AERO_FUSELAGE_H_
-#define MCSIM_AERO_FUSELAGE_H_
+#ifndef MCSIM_AERO_AEROBODY_H_
+#define MCSIM_AERO_AEROBODY_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -35,14 +35,22 @@ namespace mc
 {
 
 /**
- * @brief Fuselage aerodynamics model class.
+ * @brief Body aerodynamics model class.
+ *
+ * Very simple aerodynamic forces and moments model. It can be used to represent
+ * bodies that have a relatively small impact on overall aerodynamic forces and
+ * moments, such as the fuselage, nacelles, pods, and fairings.
+ *
+ * In addition to the basic functionality, the model could take into account
+ * effects due to rotorcraft lift rotor downwash.
  *
  * <h3>Refernces:</h3>
  * <ul>
+ *   <li>Fiszdon W.: Mechanika Lotu, Czesc I, 1961, p. 44-52. [in Polish]</li>
  *   <li><a href="https://ntrs.nasa.gov/citations/19830001781">A Mathematical Model of a Single Main Rototr Helicopter for Piloted Simulation. NASA-TM-84281</a></li>
  * </ul>
  */
-class MCSIMAPI Fuselage
+class MCSIMAPI AeroBody
 {
 public:
 
@@ -50,101 +58,94 @@ public:
     {
         Vector3 r_ac_bas;                           ///< [m] fuselage aerodynamic center expressed in BAS
 
-        Table cx { Table::oneRecordTable( 0.0 ) };  ///< [-] drag coefficient vs [rad] angle of attack
-        Table cy { Table::oneRecordTable( 0.0 ) };  ///< [-] sideforce coefficient vs [rad] angle of sideslip
-        Table cz { Table::oneRecordTable( 0.0 ) };  ///< [-] lift coefficient vs [rad] angle of attack
+        Table cx = Table::oneRecordTable( 0.0 );    ///< [-] drag coefficient vs [rad] angle of attack in wind axes
+        Table cy = Table::oneRecordTable( 0.0 );    ///< [-] side force coefficient vs [rad] angle of sideslip in wind axes
+        Table cz = Table::oneRecordTable( 0.0 );    ///< [-] lift coefficient vs [rad] angle of attack in wind axes
 
-        Table cl { Table::oneRecordTable( 0.0 ) };  ///< [-] rolling moment coefficient vs [rad] angle of sideslip
-        Table cm { Table::oneRecordTable( 0.0 ) };  ///< [-] pitching moment coefficient vs [rad] angle of attack
-        Table cn { Table::oneRecordTable( 0.0 ) };  ///< [-] yawing moment coefficient vs [rad] angle of sideslip
+        Table cl = Table::oneRecordTable( 0.0 );    ///< [-] rolling moment coefficient vs [rad] angle of sideslip in stability axes
+        Table cm = Table::oneRecordTable( 0.0 );    ///< [-] pitching moment coefficient vs [rad] angle of attack in stability axes
+        Table cn = Table::oneRecordTable( 0.0 );    ///< [-] yawing moment coefficient vs [rad] angle of sideslip in stability axes
 
-        double length { 0.0 } ;                     ///< [m] reference length
-        double area   { 0.0 } ;                     ///< [m^2] reference area
+        double length = 0.0;                        ///< [m] reference length
+        double area   = 0.0;                        ///< [m^2] reference area
     };
 
-    /** @brief Constructor. */
-    Fuselage() = default;
-
-    // LCOV_EXCL_START
-    // excluded from coverage report due to deleting destructor calling issues
-    /** @brief Destructor. */
-    virtual ~Fuselage() = default;
-    // LCOV_EXCL_STOP
+    virtual ~AeroBody() = default;
 
     /**
      * @brief Computes force and moment.
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
-     * @param airDensity [kg/m^3] air density
-     * @param inducedVelocity [m/s] rotor induced velocity
-     * @param wakeSkewAngle [rad] rotor wake skew angle
+     * @param air_dens [kg/m^3] air density
+     * @param vel_ind [m/s] rotor induced velocity (for rotorcrafts)
+     * @param skew_ang [rad] rotor wake skew angle (for rotorcrafts)
      */
     virtual void computeForceAndMoment( const Vector3& vel_air_bas,
                                         const Vector3& omg_air_bas,
-                                        double airDensity,
-                                        double inducedVelocity = 0.0,
-                                        double wakeSkewAngle = 0.0 );
+                                        double air_dens,
+                                        double vel_ind = 0.0,
+                                        double skew_ang = 0.0 );
 
     inline const Vector3& getForceBAS  () const { return for_bas_; }
     inline const Vector3& getMomentBAS () const { return mom_bas_; }
 
 protected:
 
-    Data data_;
+    Data data_;                 ///< fuselage data struct
 
     Vector3 for_bas_;           ///< [N] total force vector expressed in BAS
     Vector3 mom_bas_;           ///< [N*m] total moment vector expressed in BAS
 
-    double area_length_;        ///< [m^3] S*l where S is reference area and l is reference length
+    double sl_;                 ///< [m^3] S*l where S is reference area and l is reference length
 
-    double angleOfAttack_;      ///< [rad] angle of attack
-    double sideslipAngle_;      ///< [rad] angle of sideslip
+    double alpha_;              ///< [rad] angle of attack
+    double beta_;               ///< [rad] angle of sideslip
 
     /**
      * @brief Computes drag coefficient.
-     * @param angleOfAttack [rad] angle of attack
+     * @param alpha [rad] angle of attack
      * @return [-] drag coefficient
      */
-    virtual double getCx( double angleOfAttack ) const;
+    virtual double getCx( double alpha ) const;
 
     /**
-     * @brief Computes sideforce coefficient.
-     * @param sideslipAngle [rad] angle of sideslip
+     * @brief Computes side force coefficient.
+     * @param beta [rad] angle of sideslip
      * @return [-] sideforce coefficient
      */
-    virtual double getCy( double sideslipAngle ) const;
+    virtual double getCy( double beta ) const;
 
     /**
      * @brief Computes lift coefficient.
-     * @param angleOfAttack [rad] angle of attack
+     * @param alpha [rad] angle of attack
      * @return [-] lift coefficient
      */
-    virtual double getCz( double angleOfAttack ) const;
+    virtual double getCz( double alpha ) const;
 
     /**
      * @brief Computes rolling moment coefficient.
-     * @param sideslipAngle [rad] angle of sideslip
+     * @param beta [rad] angle of sideslip
      * @return [-] rolling moment coefficient
      */
-    virtual double getCl( double sideslipAngle ) const;
+    virtual double getCl( double beta ) const;
 
     /**
      * @brief Computes pitching moment coefficient.
-     * @param angleOfAttack [rad] angle of attack
+     * @param alpha [rad] angle of attack
      * @return [-] pitching moment coefficient
      */
-    virtual double getCm( double angleOfAttack ) const;
+    virtual double getCm( double alpha ) const;
 
     /**
      * @brief Computes yawing moment coefficient.
-     * @param sideslipAngle [rad] angle of sideslip
+     * @param beta [rad] angle of sideslip
      * @return [-] yawing moment coefficient
      */
-    virtual double getCn( double sideslipAngle ) const;
+    virtual double getCn( double beta ) const;
 };
 
 } // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_AERO_FUSELAGE_H_
+#endif // MCSIM_AERO_AEROBODY_H_

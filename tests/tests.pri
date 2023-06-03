@@ -5,7 +5,7 @@ SOURCES += \
 
 SOURCES += \
     $$PWD/aero/TestAeroAngles.cpp \
-    $$PWD/aero/TestFuselage.cpp \
+    $$PWD/aero/TestAeroBody.cpp \
     $$PWD/aero/TestMeanAeroChord.cpp \
     $$PWD/aero/TestRhoEffects.cpp \
     $$PWD/aero/TestSchrenkDist.cpp \

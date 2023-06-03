@@ -97,37 +97,37 @@ MCSIMAPI inline double getSideslipAngle( const Vector3& vel_bas,
 
 /**
  * @brief Returns rotation matrix from aerodynamic axes system to BAS.
- * @param alpha [rad] angle of attack cosine
- * @param beta [rad] sideslip angle cosine
+ * @param alpha [rad] angle of attack
+ * @param beta [rad] sideslip angle
  * @return rotation matrix from WAS to BAS
  */
 MCSIMAPI Matrix3x3 getAero2BAS( double alpha, double beta );
 
 /**
  * @brief Returns rotation matrix from aerodynamic axes system to BAS.
- * @param sinAlpha [-] sine of angle of attack cosine
- * @param cosAlpha [-] cosine of angle of attack cosine
- * @param sinBeta  [-] sine of sideslip angle cosine
- * @param cosBeta  [-] cosine of sideslip angle cosine
+ * @param sin_alpha [-] angle of attack sine
+ * @param cos_alpha [-] angle of attack cosine
+ * @param sin_beta  [-] sideslip angle sine
+ * @param cos_beta  [-] sideslip angle cosine
  * @return rotation matrix from WAS to BAS
  */
-MCSIMAPI Matrix3x3 getAero2BAS( double sinAlpha , double cosAlpha,
-                                double sinBeta  , double cosBeta );
+MCSIMAPI Matrix3x3 getAero2BAS( double sin_alpha , double cos_alpha,
+                                double sin_beta  , double cos_beta );
 
 /**
  * @brief Returns rotation matrix from stability axes system to BAS.
- * @param alpha [rad] angle of attack cosine
+ * @param alpha [rad] angle of attack
  * @return rotation matrix from WAS to BAS
  */
 MCSIMAPI Matrix3x3 getStab2BAS( double alpha );
 
 /**
  * @brief Returns rotation matrix from stability axes system to BAS.
- * @param sinAlpha [-] sine of angle of attack cosine
- * @param cosAlpha [-] cosine of angle of attack cosine
+ * @param sin_alpha [-] angle of attack sine
+ * @param cos_alpha [-] angle of attack cosine
  * @return rotation matrix from WAS to BAS
  */
-MCSIMAPI Matrix3x3 getStab2BAS( double sinAlpha, double cosAlpha );
+MCSIMAPI Matrix3x3 getStab2BAS( double sin_alpha, double cos_alpha );
 
 } // namespace mc
 

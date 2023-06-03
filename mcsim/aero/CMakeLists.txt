@@ -4,7 +4,7 @@ set( TARGET_NAME aero )
 
 set( HEADERS
     AeroAngles.h
-    Fuselage.h
+    AeroBody.h
     MeanAeroChord.h
     RhoEffects.h
     SchrenkDist.h
@@ -15,7 +15,7 @@ set( HEADERS
 
 set( SOURCES
     AeroAngles.cpp
-    Fuselage.cpp
+    AeroBody.cpp
     MeanAeroChord.cpp
     RhoEffects.cpp
     SchrenkDist.cpp

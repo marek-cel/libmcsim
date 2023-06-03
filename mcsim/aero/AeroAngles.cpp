@@ -69,22 +69,22 @@ Matrix3x3 getAero2BAS( double alpha, double beta )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 getAero2BAS( double sinAlpha , double cosAlpha,
-                       double sinBeta  , double cosBeta )
+Matrix3x3 getAero2BAS( double sin_alpha , double cos_alpha,
+                       double sin_beta  , double cos_beta )
 {
     Matrix3x3 aero2bas;
 
-    aero2bas(0,0) = -cosAlpha * cosBeta;
-    aero2bas(0,1) = -cosAlpha * sinBeta;
-    aero2bas(0,2) =  sinAlpha;
+    aero2bas(0,0) = -cos_alpha * cos_beta;
+    aero2bas(0,1) = -cos_alpha * sin_beta;
+    aero2bas(0,2) =  sin_alpha;
 
-    aero2bas(1,0) = -sinBeta;
-    aero2bas(1,1) =  cosBeta;
+    aero2bas(1,0) = -sin_beta;
+    aero2bas(1,1) =  cos_beta;
     aero2bas(1,2) =  0.0;
 
-    aero2bas(2,0) = -sinAlpha * cosBeta;
-    aero2bas(2,1) = -sinAlpha * sinBeta;
-    aero2bas(2,2) = -cosAlpha;
+    aero2bas(2,0) = -sin_alpha * cos_beta;
+    aero2bas(2,1) = -sin_alpha * sin_beta;
+    aero2bas(2,2) = -cos_alpha;
 
     return aero2bas;
 }
@@ -98,21 +98,21 @@ Matrix3x3 getStab2BAS( double alpha )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 getStab2BAS( double sinAlpha, double cosAlpha )
+Matrix3x3 getStab2BAS( double sin_alpha, double cos_alpha )
 {
     Matrix3x3 stab2bas;
 
-    stab2bas(0,0) = -cosAlpha;
+    stab2bas(0,0) = -cos_alpha;
     stab2bas(0,1) =  0.0;
-    stab2bas(0,2) =  sinAlpha;
+    stab2bas(0,2) =  sin_alpha;
 
     stab2bas(1,0) = 0.0;
     stab2bas(1,1) = 1.0;
     stab2bas(1,2) = 0.0;
 
-    stab2bas(2,0) = -sinAlpha;
+    stab2bas(2,0) = -sin_alpha;
     stab2bas(2,1) =  0.0;
-    stab2bas(2,2) = -cosAlpha;
+    stab2bas(2,2) = -cos_alpha;
 
     return stab2bas;
 }
