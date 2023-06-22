@@ -83,13 +83,13 @@ public:
      * @brief Computes force and moment.
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
-     * @param air_dens [kg/m^3] air density
+     * @param rho [kg/m^3] air density
      * @param vel_ind [m/s] rotor induced velocity (for rotorcrafts)
      * @param skew_ang [rad] rotor wake skew angle (for rotorcrafts)
      */
     virtual void ComputeForceAndMoment(const Vector3& vel_air_bas,
                                        const Vector3& omg_air_bas,
-                                       double air_dens,
+                                       double rho,
                                        double vel_ind = 0.0,
                                        double skew_ang = 0.0);
 
@@ -98,7 +98,7 @@ public:
 
 protected:
 
-    Data data_;                 ///< fuselage data struct
+    Data data_;                 ///< aero body data struct
 
     Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
     Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS

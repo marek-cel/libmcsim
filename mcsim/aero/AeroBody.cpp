@@ -36,7 +36,7 @@ namespace mc
 
 void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
                                      const Vector3 &omg_air_bas,
-                                     double air_dens,
+                                     double rho,
                                      double vel_ind,
                                      double skew_angle)
 {
@@ -55,7 +55,7 @@ void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
     beta_  = GetSideslipAngle(vel_f_bas);
 
     // dynamic pressure
-    double dyn_press = 0.5 * air_dens * vel_f_bas.GetLength2();
+    double dyn_press = 0.5 * rho * vel_f_bas.GetLength2();
 
     Vector3 f_aero( dyn_press * GetCx( alpha_ ) * data_.area,
                     dyn_press * GetCy( beta_  ) * data_.area,
@@ -71,9 +71,11 @@ void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
     double sin_beta  = sin( beta_  );
     double cos_beta  = cos( beta_  );
 
-    Vector3 f_bas = GetAero2BAS(sin_alpha, cos_alpha, sin_beta, cos_beta) * f_aero;
-    Vector3 m_bas = GetStab2BAS(sin_alpha, cos_alpha) * m_stab
-                  + ( data_.r_ac_bas % f_bas );
+    Matrix3x3 aero2bas = GetAero2BAS(sin_alpha, cos_alpha, sin_beta, cos_beta);
+    Matrix3x3 stab2bas = GetStab2BAS(sin_alpha, cos_alpha);
+
+    Vector3 f_bas = aero2bas * f_aero;
+    Vector3 m_bas = stab2bas * m_stab + ( data_.r_ac_bas % f_bas );
 
     f_bas_ = f_bas;
     m_bas_ = m_bas;
