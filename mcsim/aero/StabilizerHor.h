@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <memory>
+
 #include <mcutils/math/Table.h>
 #include <mcutils/math/Vector3.h>
 
@@ -80,17 +82,17 @@ public:
                                        const Vector3& omg_air_bas,
                                        double rho, double aoa = 0.0);
 
-    inline const Data& data() const { return data_; }
+    inline const std::weak_ptr<Data> data() const { return data_; }
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
 
 protected:
 
-    Data data_;                 ///< horizontal stabilizer data struct
+    std::shared_ptr<Data> data_;    ///< horizontal stabilizer data struct
 
-    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
-    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS
 
     /**
      * @brief Computes stabilizer angle of attack.

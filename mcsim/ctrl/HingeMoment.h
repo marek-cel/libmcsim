@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <memory>
+
 #include <mcsim/defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,11 +78,11 @@ public:
     virtual double GetHingeMoment(double dynPress, double alpha, double delta,
                                   double delta_t = 0.0) const;
 
-    inline const Data& data() const { return data_; }
+    inline const std::weak_ptr<Data> data() const { return data_; }
 
 protected:
 
-        Data data_;     ///< hinge moment model data
+        std::shared_ptr<Data> data_;    ///< hinge moment data struct
 };
 
 } // namespace mc

@@ -77,14 +77,14 @@ void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
     Matrix3x3 aero2bas = GetAero2BAS(sin_alpha, cos_alpha, sin_beta, cos_beta);
     Matrix3x3 stab2bas = GetStab2BAS(sin_alpha, cos_alpha);
 
-    Vector3 f_bas = aero2bas * f_aero;
-    Vector3 m_bas = stab2bas * m_stab + ( data_->r_ac_bas % f_bas );
+    f_bas_ = aero2bas * f_aero;
+    m_bas_ = stab2bas * m_stab + ( data_->r_ac_bas % f_bas );
 
-    f_bas_ = f_bas;
-    m_bas_ = m_bas;
-
-    if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
+    if ( f_bas.IsValid() || m_bas.IsValid() )
     {
+        f_bas_.Zeroize();
+        m_bas_.Zeroize();
+
         // TODO
     }
 }

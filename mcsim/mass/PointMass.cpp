@@ -31,22 +31,22 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PointMass::Update( double mass )
+void PointMass::Update(double mass)
 {
-    mass_ = Math::Satur( 0.0, data_.mass_max, mass );
+    mass_ = Math::Satur(0.0, data_->mass_max, mass);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PointMass::AddToInertiaTensor( Matrix3x3* i_bas )
+void PointMass::AddToInertiaTensor(Matrix3x3* i_bas)
 {
-    double r_x2 = data_.r_cg_bas.x() * data_.r_cg_bas.x();
-    double r_y2 = data_.r_cg_bas.y() * data_.r_cg_bas.y();
-    double r_z2 = data_.r_cg_bas.z() * data_.r_cg_bas.z();
+    double r_x2 = data_->r_cg_bas.x() * data_->r_cg_bas.x();
+    double r_y2 = data_->r_cg_bas.y() * data_->r_cg_bas.y();
+    double r_z2 = data_->r_cg_bas.z() * data_->r_cg_bas.z();
 
-    double d_it_xy = mass_ * data_.r_cg_bas.x() * data_.r_cg_bas.y();
-    double d_it_xz = mass_ * data_.r_cg_bas.x() * data_.r_cg_bas.z();
-    double d_it_yz = mass_ * data_.r_cg_bas.y() * data_.r_cg_bas.z();
+    double d_it_xy = mass_ * data_->r_cg_bas.x() * data_->r_cg_bas.y();
+    double d_it_xz = mass_ * data_->r_cg_bas.x() * data_->r_cg_bas.z();
+    double d_it_yz = mass_ * data_->r_cg_bas.y() * data_->r_cg_bas.z();
 
     (*i_bas).xx() += mass_ * ( r_y2 + r_z2 );
     (*i_bas).xy() -= d_it_xy;
@@ -63,9 +63,9 @@ void PointMass::AddToInertiaTensor( Matrix3x3* i_bas )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PointMass::AddToFirstMomentOfMass( Vector3* s_bas )
+void PointMass::AddToFirstMomentOfMass(Vector3* s_bas)
 {
-    (*s_bas) += mass_ * data_.r_cg_bas;
+    *s_bas += mass_ * data_->r_cg_bas;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

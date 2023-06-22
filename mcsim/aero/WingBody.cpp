@@ -40,11 +40,14 @@ void WingBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
     f_bas_.Zeroize();
     m_bas_.Zeroize();
 
-    AddForceAndMoment(data_.r_ac_l_bas, vel_air_bas, omg_air_bas, rho);
-    AddForceAndMoment(data_.r_ac_r_bas, vel_air_bas, omg_air_bas, rho);
+    AddForceAndMoment(data_->r_ac_l_bas, vel_air_bas, omg_air_bas, rho);
+    AddForceAndMoment(data_->r_ac_r_bas, vel_air_bas, omg_air_bas, rho);
 
     if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
     {
+        f_bas_.Zeroize();
+        m_bas_.Zeroize();
+
         // TODO
     }
 }
@@ -53,8 +56,8 @@ void WingBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
 
 void WingBody::Update(const Vector3 &vel_air_bas, const Vector3 &omg_air_bas)
 {
-    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas % data_.r_ac_l_bas );
-    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas % data_.r_ac_r_bas );
+    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas % data_->r_ac_l_bas );
+    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas % data_->r_ac_r_bas );
 
     aoa_l_ = GetAngleOfAttack(vel_l_bas);
     aoa_r_ = GetAngleOfAttack(vel_r_bas);
@@ -110,42 +113,42 @@ void WingBody::AddForceAndMoment(const Vector3 &r_ac_bas,
 
 double WingBody::GetCd(double alpha) const
 {
-    return data_.cd.GetValue(alpha);
+    return data_->cd.GetValue(alpha);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double WingBody::GetCy(double beta) const
 {
-    return data_.cy.GetValue(beta);
+    return data_->cy.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double WingBody::GetCl(double alpha) const
 {
-    return data_.cl.GetValue(alpha);
+    return data_->cl.GetValue(alpha);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double WingBody::GetCml(double beta) const
 {
-    return data_.cml.GetValue(beta);
+    return data_->cml.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double WingBody::GetCmm(double alpha) const
 {
-    return data_.cmm.GetValue(alpha);
+    return data_->cmm.GetValue(alpha);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double WingBody::GetCmn(double beta) const
 {
-    return data_.cmn.GetValue(beta);
+    return data_->cmn.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

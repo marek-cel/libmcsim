@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <memory>
+
 #include <mcutils/math/Matrix3x3.h>
 
 #include <mcsim/defs.h>
@@ -89,25 +91,25 @@ public:
                         const Vector3& pos_wgs,
                         double altitude_agl);
 
-    inline const Data& data() const { return data_; }
+    inline const std::weak_ptr<Data> data() const { return data_; }
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
 
 protected:
 
-    Data data_;                 ///< winch launcher data struct
+    std::shared_ptr<Data> data_;    ///< winch launcher data struct
 
-    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
-    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 pos_wgs_;           ///< [m] winch position expressed in WGS
+    Vector3 pos_wgs_;               ///< [m] winch position expressed in WGS
 
-    double f_ = 0.0;            ///< [N]   current cable force
-    double v_ = 0.0;            ///< [m/s] current cable velocity
-    double l_ = 0.0;            ///< [m]   current cable length
+    double f_ = 0.0;                ///< [N]   current cable force
+    double v_ = 0.0;                ///< [m/s] current cable velocity
+    double l_ = 0.0;                ///< [m]   current cable length
 
-    bool active_ = true;        ///< specify if winch is active
+    bool active_ = true;            ///< specify if winch is active
 };
 
 } // namespace mc

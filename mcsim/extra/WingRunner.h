@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <memory>
+
 #include <mcutils/math/Vector3.h>
 
 #include <mcsim/defs.h>
@@ -86,19 +88,19 @@ public:
      */
     virtual void Update(double dt, const Vector3& vel_bas, bool on_ground);
 
-    inline const Data& data() const { return data_; }
+    inline const std::weak_ptr<Data> data() const { return data_; }
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
 
 protected:
 
-    Data data_;                 ///< wing runner data
+    std::shared_ptr<Data> data_;    ///< wing runner data struct
 
-    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
-    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS
 
-    bool active_ = true;        ///< specify if wing runner is active
+    bool active_ = true;            ///< specify if wing runner is active
 };
 
 } // namespace mc

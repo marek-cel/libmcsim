@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <memory>
+
 #include <mcutils/math/Matrix3x3.h>
 #include <mcutils/math/Vector3.h>
 
@@ -73,15 +75,15 @@ public:
      */
     void AddToFirstMomentOfMass(Vector3* s_bas);
 
-    inline const Data& data() const { return data_; }
+    inline const std::weak_ptr<Data> data() const { return data_; }
 
     inline double mass() const { return mass_; }
 
 private:
 
-    Data data_;         ///< wing runner data
+    std::shared_ptr<Data> data_;    ///< point mass data struct
 
-    double mass_;       ///< [kg] current mass
+    double mass_;                   ///< [kg] current mass
 };
 
 } // namespace mc
