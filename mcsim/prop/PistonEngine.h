@@ -53,29 +53,35 @@ public:
         Running  = 2    ///< engine running
     };
 
+    /**
+     * @brief Engine data struct.
+     */
     struct Data
     {
-        Table power_rpm;                ///< [W] power vs engine rpm
-        Table power_throttle;           ///< [-] power coefficient vs throttle
-        Table power_altitude;           ///< [-] power coefficient vs altitude
-        Table mixture;                  ///< [-] mixture vs mixture lever position
-        Table power_factor;             ///< [-] power factor vs fuel to air ratio
-        Table map_throttle;             ///< [-] manifold absolute pressure ratio due to throttle
-        Table map_rpm;                  ///< [-] manifold absolute pressure ratio due to engine rpm
+        Table power_rpm;            ///< [W] power vs engine rpm
+        Table power_throttle;       ///< [-] power coefficient vs throttle
+        Table power_altitude;       ///< [-] power coefficient vs altitude
+        Table mixture;              ///< [-] mixture vs mixture lever position
+        Table power_factor;         ///< [-] power factor vs fuel to air ratio
+        Table map_throttle;         ///< [-] manifold absolute pressure ratio due to throttle
+        Table map_rpm;              ///< [-] manifold absolute pressure ratio due to engine rpm
 
-        double rpm_min      { 0.0 };    ///< [rpm]      engine minimum rpm
-        double rpm_max      { 0.0 };    ///< [rpm]      engine maximum rpm
-        double starter      { 0.0 };    ///< [N*m]      starter torque
-        double displacement { 0.0 };    ///< [m^3]      displacement
-        double inertia      { 0.0 };    ///< [kg*m^2]   polar moment of inertia
-        double specFuelCons { 0.0 };    ///< [kg/(W*s)] specific fuel consumption
+        double rpm_min      = 0.0;  ///< [rpm]      engine minimum rpm
+        double rpm_max      = 0.0;  ///< [rpm]      engine maximum rpm
+        double starter      = 0.0;  ///< [N*m]      starter torque
+        double displacement = 0.0;  ///< [m^3]      displacement
+        double inertia      = 0.0;  ///< [kg*m^2]   polar moment of inertia
+        double specFuelCons = 0.0;  ///< [kg/(W*s)] specific fuel consumption
     };
 
-    /** @brief Constructor. */
+    // LCOV_EXCL_START
     PistonEngine() = default;
-
-    /** @brief Destructor. */
+    PistonEngine(const PistonEngine&) = delete;
+    PistonEngine(PistonEngine&&) = default;
+    PistonEngine& operator=(const PistonEngine&) = delete;
+    PistonEngine& operator=(PistonEngine&&) = default;
     virtual ~PistonEngine() = default;
+    // LCOV_EXCL_STOP
 
     /**
      * @brief Updates engine.
