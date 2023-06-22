@@ -78,9 +78,9 @@ void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
     Matrix3x3 stab2bas = GetStab2BAS(sin_alpha, cos_alpha);
 
     f_bas_ = aero2bas * f_aero;
-    m_bas_ = stab2bas * m_stab + ( data_->r_ac_bas % f_bas );
+    m_bas_ = stab2bas * m_stab + ( data_->r_ac_bas % f_bas_ );
 
-    if ( f_bas.IsValid() || m_bas.IsValid() )
+    if ( f_bas_.IsValid() || m_bas_.IsValid() )
     {
         f_bas_.Zeroize();
         m_bas_.Zeroize();
