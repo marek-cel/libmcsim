@@ -38,16 +38,16 @@ namespace mc
 void WinchLauncher::computeForceAndMoment( const Matrix3x3 &wgs2bas,
                                            const Vector3 &pos_wgs )
 {
-    _for_bas.zeroize();
-    _mom_bas.zeroize();
+    _for_bas.Zeroize();
+    _mom_bas.Zeroize();
 
     if ( _active )
     {
         Vector3 pos_bas = wgs2bas * ( _pos_wgs - pos_wgs );
 
-        double x = std::max( 0.0, pos_bas.getLength() - _len );
+        double x = std::max( 0.0, pos_bas.GetLength() - _len );
 
-        _for_bas = std::max( _for, fabs( x ) * x * _data.stiffness ) * pos_bas.getNormalized();
+        _for_bas = std::max( _for, fabs( x ) * x * _data.stiffness ) * pos_bas.GetNormalized();
         _mom_bas = _data.r_a_bas % _for_bas;
     }
 }
@@ -70,7 +70,7 @@ void WinchLauncher::update( double timeStep,
 
             Vector3 pos_ned = wgs2ned * ( pos_wgs - _pos_wgs );
 
-            if ( atan2( -pos_ned.z(), pos_ned.getLengthXY() ) > _data.ang_max )
+            if ( atan2( -pos_ned.z(), pos_ned.GetLengthXY() ) > _data.ang_max )
             {
                 _active = false;
             }

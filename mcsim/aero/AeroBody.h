@@ -56,18 +56,18 @@ public:
 
     struct Data
     {
-        Vector3 r_ac_bas;                           ///< [m] fuselage aerodynamic center expressed in BAS
+        Vector3 r_ac_bas;       ///< [m] fuselage aerodynamic center expressed in BAS
 
-        Table cx = Table::oneRecordTable( 0.0 );    ///< [-] drag coefficient vs [rad] angle of attack in wind axes
-        Table cy = Table::oneRecordTable( 0.0 );    ///< [-] side force coefficient vs [rad] angle of sideslip in wind axes
-        Table cz = Table::oneRecordTable( 0.0 );    ///< [-] lift coefficient vs [rad] angle of attack in wind axes
+        Table cx;               ///< [-] drag coefficient vs [rad] angle of attack in wind axes
+        Table cy;               ///< [-] side force coefficient vs [rad] angle of sideslip in wind axes
+        Table cz;               ///< [-] lift coefficient vs [rad] angle of attack in wind axes
 
-        Table cl = Table::oneRecordTable( 0.0 );    ///< [-] rolling moment coefficient vs [rad] angle of sideslip in stability axes
-        Table cm = Table::oneRecordTable( 0.0 );    ///< [-] pitching moment coefficient vs [rad] angle of attack in stability axes
-        Table cn = Table::oneRecordTable( 0.0 );    ///< [-] yawing moment coefficient vs [rad] angle of sideslip in stability axes
+        Table cl;               ///< [-] rolling moment coefficient vs [rad] angle of sideslip in stability axes
+        Table cm;               ///< [-] pitching moment coefficient vs [rad] angle of attack in stability axes
+        Table cn;               ///< [-] yawing moment coefficient vs [rad] angle of sideslip in stability axes
 
-        double length = 0.0;                        ///< [m] reference length
-        double area   = 0.0;                        ///< [m^2] reference area
+        double length = 0.0;    ///< [m] reference length
+        double area   = 0.0;    ///< [m^2] reference area
     };
 
     virtual ~AeroBody() = default;

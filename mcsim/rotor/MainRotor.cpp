@@ -59,7 +59,7 @@ void MainRotor::computeForceAndMoment( const Vector3 & /*vel_bas*/,
     // RAS <-> CAS
     _ras2cas = Matrix3x3( Angles( _theta_1c, _theta_1s, 0.0 ) );
 
-    _cas2ras = _ras2cas.getTransposed();
+    _cas2ras = _ras2cas.GetTransposed();
 
     // BAS -> CAS
     _bas2cas = _bas2ras * _ras2cas;
@@ -69,24 +69,24 @@ void MainRotor::computeForceAndMoment( const Vector3 & /*vel_bas*/,
     Vector3 vel_air_cas = _ras2cas * vel_air_ras;
 
     // sideslip angle
-    double beta_cas = getSideslipAngle( vel_air_cas );
-    double beta_ras = getSideslipAngle( vel_air_ras );
+    double beta_cas = GetSideslipAngle( vel_air_cas );
+    double beta_ras = GetSideslipAngle( vel_air_ras );
 
     // RAS -> RWAS
     _ras2rwas = Matrix3x3( Angles( 0.0, 0.0, beta_ras ) );
-    _rwas2ras = _ras2rwas.getTransposed();
+    _rwas2ras = _ras2rwas.GetTransposed();
 
     // CAS <-> CWAS
     _cas2cwas = Matrix3x3( Angles( 0.0, 0.0, beta_cas ) );
-    _cwas2cas = _cas2cwas.getTransposed();
+    _cwas2cas = _cas2cwas.GetTransposed();
 
     // BAS <-> CWAS
     _bas2cwas = _bas2cas * _cas2cwas;
-    _cwas2bas = _bas2cwas.getTransposed();
+    _cwas2bas = _bas2cwas.GetTransposed();
 
     // BAS <-> RWAS
     _bas2rwas = _bas2ras * _ras2rwas;
-    _rwas2bas = _bas2rwas.getTransposed();
+    _rwas2bas = _bas2rwas.GetTransposed();
 
     // velocity transformations
     Vector3 vel_air_rwas = _ras2rwas * vel_air_ras;
@@ -101,7 +101,7 @@ void MainRotor::computeForceAndMoment( const Vector3 & /*vel_bas*/,
     Vector3 acc_hub_cwas = _bas2cwas * acc_hub_bas;
 
     // angle of attack
-    double alpha = getAngleOfAttack( vel_air_rwas );
+    double alpha = GetAngleOfAttack( vel_air_rwas );
 
     // flapping coefficients
     double beta_1c_cwas = 0.0;
@@ -110,7 +110,7 @@ void MainRotor::computeForceAndMoment( const Vector3 & /*vel_bas*/,
     const double p = omg_air_cwas.p();
     const double q = omg_air_cwas.q();
 
-    const double airspeed = vel_air_cwas.getLength();
+    const double airspeed = vel_air_cwas.GetLength();
 
     // rotor advance ratio
     const double mu_x  = airspeed * cos( alpha ) / _omegaR;
@@ -170,16 +170,16 @@ void MainRotor::computeForceAndMoment( const Vector3 & /*vel_bas*/,
     double beta_1s_cas = beta_1s_cwas * cosBetaCAS + beta_1c_cwas * sinBetaCAS * ( -1.0 * _cdir );
 
     // flapping coefficients
-    _beta_1c = Math::satur( -_data.beta_max, _data.beta_max, beta_1c_cas - _theta_1s );
-    _beta_1s = Math::satur( -_data.beta_max, _data.beta_max, beta_1s_cas + _theta_1c );
+    _beta_1c = Math::Satur( -_data.beta_max, _data.beta_max, beta_1c_cas - _theta_1s );
+    _beta_1s = Math::Satur( -_data.beta_max, _data.beta_max, beta_1s_cas + _theta_1c );
 
     _coningAngle =  _beta_0;
     _diskRoll    = -_beta_1s * _cdir;
     _diskPitch   = -_beta_1c;
 
     // DAS <-> BAS
-    _das2bas = Matrix3x3( Angles( _diskRoll, _diskPitch, 0.0 ) ).getTransposed() * _ras2bas;
-    _bas2das = _das2bas.getTransposed();
+    _das2bas = Matrix3x3( Angles( _diskRoll, _diskPitch, 0.0 ) ).GetTransposed() * _ras2bas;
+    _bas2das = _das2bas.GetTransposed();
 
     // drag coefficient (Padfield p.98)
     double cd = _data.delta_0 + _data.delta_2 * _ct*_ct;
@@ -220,7 +220,7 @@ void MainRotor::computeForceAndMoment( const Vector3 & /*vel_bas*/,
     _mom_bas = ( _data.r_hub_bas % _for_bas )
              + _ras2bas * Vector3( 0.0, 0.0, _cdir * _torque );
 
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
+    if ( !_for_bas.IsValid() || !_mom_bas.IsValid() )
     {
         // TODO
     }
@@ -253,7 +253,7 @@ void MainRotor::setData( const Data &data )
 
     // calculate derived data
     _bas2ras = mc::Matrix3x3( mc::Angles( 0.0, _data.inclination, 0.0 ) );
-    _ras2bas = _bas2ras.getTransposed();
+    _ras2bas = _bas2ras.GetTransposed();
 
     _r2 = _data.r * _data.r;
     _r3 = _data.r * _r2;
@@ -293,15 +293,15 @@ void MainRotor::updateFlappingAnglesAndThrustCoef( double mu_x, double mu_x2, do
             + ( _b4 * q / _omega + _cdir * 16.0 * p / ( gamma * _omega ) ) / ( _b2 * ( mu_x2 / 2.0 + _b2 ) );
 
     // limits
-    _beta_0       = Math::satur( -_data.beta_max, _data.beta_max, _beta_0       );
-    _beta_1c_cwas = Math::satur( -_data.beta_max, _data.beta_max, _beta_1c_cwas );
-    _beta_1s_cwas = Math::satur( -_data.beta_max, _data.beta_max, _beta_1s_cwas );
+    _beta_0       = Math::Satur( -_data.beta_max, _data.beta_max, _beta_0       );
+    _beta_1c_cwas = Math::Satur( -_data.beta_max, _data.beta_max, _beta_1c_cwas );
+    _beta_1s_cwas = Math::Satur( -_data.beta_max, _data.beta_max, _beta_1s_cwas );
 
     // thrust coefficient
     _ct = 0.5 * _data.a * _s * _data.b * ( _lambda * _data.b / 2.0
                                          + _theta_0 * ( _b2 + 1.5 * mu_x2 ) / 3.0
                                          + _data.b * mu_x * _beta_1c_cwas / 4.0 );
-    Math::satur( -_data.ct_max, _data.ct_max, _ct );
+    Math::Satur( -_data.ct_max, _data.ct_max, _ct );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -319,7 +319,7 @@ void MainRotor::updateFlappingAnglesThrustCoefsAndVelocity( double mu_x, double 
 
         double lambda_i0_new = sqrt( 0.5 * _ct );
 
-        if ( isValid( lambda_i0_new ) ) _lambda_i0 = lambda_i0_new;
+        if ( IsValid( lambda_i0_new ) ) _lambda_i0 = lambda_i0_new;
 
         // zero function (Padfield p.124)
         // momentum theory - hover and climb
@@ -341,7 +341,7 @@ void MainRotor::updateFlappingAnglesThrustCoefsAndVelocity( double mu_x, double 
         // (Padfield p.124)
         double lambda_i_new = _lambda_i + f_j * h_j;
 
-        if ( isValid( lambda_i_new ) ) _lambda_i = lambda_i_new;
+        if ( IsValid( lambda_i_new ) ) _lambda_i = lambda_i_new;
     }
 }
 

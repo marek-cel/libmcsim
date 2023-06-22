@@ -43,12 +43,12 @@ public:
 
     struct Data
     {
-        Vector3 r_ac_bas;          ///< [m] stabilizer aerodynamic center expressed in BAS
+        Vector3 r_ac_bas;       ///< [m] stabilizer aerodynamic center expressed in BAS
 
-        Table cx { Table::oneRecordTable( 0.0 ) };                  ///< [-] drag coefficient vs sideslip angle
-        Table cy { Table::oneRecordTable( 0.0 ) };                  ///< [-] sideforce coefficient vs sideslip angle
+        Table cx;               ///< [-] drag coefficient vs sideslip angle
+        Table cy;               ///< [-] sideforce coefficient vs sideslip angle
 
-        double area;               ///< [m^2] stabilizer reference area
+        double area = 0.0;      ///< [m^2] stabilizer reference area
     };
 
     /**

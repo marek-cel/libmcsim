@@ -45,8 +45,8 @@ void SimpleSupport::computeForceAndMoment( const Vector3 &vel_bas,
                                            bool steering, bool antiskid,
                                            double surf_coef )
 {
-    _for_bas.zeroize();
-    _mom_bas.zeroize();
+    _for_bas.Zeroize();
+    _mom_bas.Zeroize();
 
     double deflection_norm = n_c_bas * ( r_c_bas - _data.r_u_bas );
 
@@ -80,13 +80,13 @@ void SimpleSupport::computeForceAndMoment( const Vector3 &vel_bas,
 
         if ( _data.v_max > 0.0 )
         {
-            coef_roll = Math::satur( 0.0, 1.0, fabs( v_roll ) / _data.v_max ) * Math::sign( v_roll );
-            coef_slip = Math::satur( 0.0, 1.0, fabs( v_slip ) / _data.v_max ) * Math::sign( v_slip );
+            coef_roll = Math::Satur( 0.0, 1.0, fabs( v_roll ) / _data.v_max ) * Math::Sign( v_roll );
+            coef_slip = Math::Satur( 0.0, 1.0, fabs( v_slip ) / _data.v_max ) * Math::Sign( v_slip );
         }
         else
         {
-            coef_roll = Math::sign( v_roll );
-            coef_slip = Math::sign( v_slip );
+            coef_roll = Math::Sign( v_roll );
+            coef_slip = Math::Sign( v_slip );
         }
 
         if ( _staticFriction )
@@ -94,8 +94,8 @@ void SimpleSupport::computeForceAndMoment( const Vector3 &vel_bas,
             if ( fabs( _d_roll ) < _data.d_max && fabs( _d_slip ) < _data.d_max )
             {
                 // spring-like model of static friction as a logistic function
-                double cr = ( 2.0 / ( 1.0 + exp( -3.0 * Math::satur( 0.0, 1.0, fabs( _d_roll ) / _data.d_max ) ) ) - 1.0 ) * Math::sign( _d_roll );
-                double cs = ( 2.0 / ( 1.0 + exp( -3.0 * Math::satur( 0.0, 1.0, fabs( _d_slip ) / _data.d_max ) ) ) - 1.0 ) * Math::sign( _d_slip );
+                double cr = ( 2.0 / ( 1.0 + exp( -3.0 * Math::Satur( 0.0, 1.0, fabs( _d_roll ) / _data.d_max ) ) ) - 1.0 ) * Math::Sign( _d_roll );
+                double cs = ( 2.0 / ( 1.0 + exp( -3.0 * Math::Satur( 0.0, 1.0, fabs( _d_slip ) / _data.d_max ) ) ) - 1.0 ) * Math::Sign( _d_slip );
 
                 if      ( coef_roll < 0.0 && cr < 0.0 ) { if ( cr < coef_roll ) coef_roll = cr; }
                 else if ( coef_roll > 0.0 && cr > 0.0 ) { if ( cr > coef_roll ) coef_roll = cr; }
@@ -109,8 +109,8 @@ void SimpleSupport::computeForceAndMoment( const Vector3 &vel_bas,
             }
         }
 
-        coef_roll = Math::satur( -1.0, 1.0, coef_roll );
-        coef_slip = Math::satur( -1.0, 1.0, coef_slip );
+        coef_roll = Math::Satur( -1.0, 1.0, coef_roll );
+        coef_slip = Math::Satur( -1.0, 1.0, coef_slip );
 
         // braking friction
         mu_roll_t += mu_surf_s * _brake;
@@ -146,9 +146,9 @@ void SimpleSupport::computeForceAndMoment( const Vector3 &vel_bas,
 
         // max friction check
         double max_fric = mu_surf_s * for_norm;
-        double max_coef = max_fric / for_tan_bas.getLength();
+        double max_coef = max_fric / for_tan_bas.GetLength();
 
-        if ( max_coef < 1.0 && isValid( max_coef ) )
+        if ( max_coef < 1.0 && IsValid( max_coef ) )
         {
             for_tan_bas = max_coef * for_tan_bas;
         }
@@ -235,11 +235,11 @@ void SimpleSupport::calculateVariables( const Vector3 &vel_bas,
     Vector3 v_norm_bas = (*v_norm) * n_c_bas;
     Vector3 v_tang_bas = v_c_bas - v_norm_bas;
 
-    double v_tang = v_tang_bas.getLength();
+    double v_tang = v_tang_bas.GetLength();
 
     // longitudal and lateral directions
-    (*dir_lon_bas) = ( n_c_bas % Vector3::ey() ).getNormalized();
-    (*dir_lat_bas) = ( Vector3::ex() % n_c_bas ).getNormalized();
+    (*dir_lon_bas) = ( n_c_bas % Vector3::ey() ).GetNormalized();
+    (*dir_lat_bas) = ( Vector3::ex() % n_c_bas ).GetNormalized();
 
     // longitudal and lateral velocity components
     double vel_lon = v_tang_bas * (*dir_lon_bas);
@@ -253,7 +253,7 @@ void SimpleSupport::calculateVariables( const Vector3 &vel_bas,
 
     if ( _data.steerable && steering )
     {
-        delta = Math::satur( -_data.delta_max, _data.delta_max, _delta );
+        delta = Math::Satur( -_data.delta_max, _data.delta_max, _delta );
 
         (*cosDelta) = cos( delta );
         (*sinDelta) = sin( delta );

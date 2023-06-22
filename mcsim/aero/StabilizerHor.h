@@ -43,16 +43,15 @@ public:
 
     struct Data
     {
-        Vector3 r_ac_bas;                           ///< [m] stabilizer aerodynamic center expressed in BAS
+        Vector3 r_ac_bas;           ///< [m] stabilizer aerodynamic center expressed in BAS
 
-        Table cx { Table::oneRecordTable( 0.0 ) };  ///< [-] drag coefficient vs angle of attack
-        Table cz { Table::oneRecordTable( 0.0 ) };  ///< [-] lift coefficient vs angle of attack
+        Table cx;                   ///< [-] drag coefficient vs angle of attack
+        Table cz;                   ///< [-] lift coefficient vs angle of attack
 
-        Table dw { Table::oneRecordTable( 0.0 ) };  ///< [rad] downwash angle vs wing angle of attack
+        Table dw;                   ///< [rad] downwash angle vs wing angle of attack
 
-        double area { 0.0 };                        ///< [m^2] stabilizer reference area
-
-        double incidence { 0.0 };                   ///< [rad] stabilizer incidence angle
+        double area = 0.0;          ///< [m^2] stabilizer reference area
+        double incidence = 0.0;     ///< [rad] stabilizer incidence angle
     };
 
     /**

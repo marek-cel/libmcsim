@@ -35,11 +35,14 @@ namespace mc
 
 /**
  * @brief Sailplane wing runner model class.
+ * This class is intended to model forces applied to a sailplane by a wingrunner
+ * (a person that holds sailplane wing in the initial phase of take-off).
  */
 class MCSIMAPI WingRunner
 {
 public:
 
+    /** @brief Data struct. */
     struct Data
     {
         Vector3 r_w_bas;    ///< [m] wing coordinates expressed in BAS
@@ -81,7 +84,7 @@ public:
 
 protected:
 
-    Data _data;             ///<
+    Data _data;             ///< wingrunner data
 
     Vector3 _for_bas;       ///< [N] total force vector expressed in BAS
     Vector3 _mom_bas;       ///< [N*m] total moment vector expressed in BAS

@@ -37,21 +37,21 @@ double getMeanAerodynamicChord( double cr, double ct )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getMeanAerodynamicChord( const Table& chord )
+double getMeanAerodynamicChord(const Table& chord)
 {
     double sum_mac = 0.0;
     double sum_area = 0.0;
 
-    for ( unsigned int i = 1; i < chord.getSize(); ++i )
+    for ( unsigned int i = 1; i < chord.size(); ++i )
     {
-        double cr = chord.getValueByIndex( i - 1 );
-        double ct = chord.getValueByIndex( i );
-        double dy = chord.getKeyByIndex( i ) - chord.getKeyByIndex( i -1 );
+        double cr = chord.GetValueByIndex(i - 1);
+        double ct = chord.GetValueByIndex(i);
+        double dy = chord.GetKeyByIndex(i) - chord.GetKeyByIndex(i -1);
 
-        double area = 0.5 * dy * ( cr + ct );
+        double area = 0.5 * dy * (cr + ct);
 
         sum_area += area;
-        sum_mac += area * getMeanAerodynamicChord( cr, ct );
+        sum_mac += area * getMeanAerodynamicChord(cr, ct);
     }
 
     return sum_mac / sum_area;

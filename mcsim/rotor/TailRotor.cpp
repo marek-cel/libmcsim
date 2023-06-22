@@ -42,12 +42,12 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
     Vector3 vel_air_ras = _bas2ras * ( vel_air_bas + ( omg_air_bas % _data.r_hub_bas ) );
 
     // angle of attack
-    double alpha = getAngleOfAttack( vel_air_ras );
+    double alpha = GetAngleOfAttack( vel_air_ras );
 
     // induced velocity
     double lambda = 0.0;
 
-    const double airspeed = vel_air_ras.getLength();
+    const double airspeed = vel_air_ras.GetLength();
 
     // rotor advance ratio
     const double mu   = airspeed * cos( alpha ) / omegaR;
@@ -89,7 +89,7 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
         // (Padfield p.124)
         double lambda_i_new = lambda_i + f_j * h_j;
 
-        if ( isValid( lambda_i_new ) ) lambda_i = lambda_i_new;
+        if ( IsValid( lambda_i_new ) ) lambda_i = lambda_i_new;
     }
 
     // drag coefficient
@@ -108,7 +108,7 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
     _for_bas = _ras2bas * Vector3( 0.0, 0.0, -_thrust );
     _mom_bas = _data.r_hub_bas % _for_bas;
 
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
+    if ( !_for_bas.IsValid() || !_mom_bas.IsValid() )
     {
         // TODO
     }

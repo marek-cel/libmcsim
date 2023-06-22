@@ -33,7 +33,7 @@ namespace mc
 
 void PointMass::update( double mass )
 {
-    _mass = Math::satur( 0.0, _mass_max, mass );
+    _mass = Math::Satur( 0.0, _mass_max, mass );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

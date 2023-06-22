@@ -33,23 +33,23 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double SchrenkDist::getDragCoefDist( double y ) const
+double SchrenkDist::getDragCoefDist(double y) const
 {
     return ( y < 0.4 * span_ ) ? 0.95 : 1.2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double SchrenkDist::getLiftCoefDist( double y ) const
+double SchrenkDist::getLiftCoefDist(double y) const
 {
     // equivalent elliptical wing chord
-    double chord_e = aux_factor_1_ * sqrt( 1.0 - Math::pow2( y * aux_factor_2_ ) );
-    return 0.5 * ( 1.0 + chord_e / chord_.getValue( y ) );
+    double chord_e = aux_factor_1_ * sqrt( 1.0 - Math::Pow2(y * aux_factor_2_) );
+    return 0.5 * ( 1.0 + chord_e / chord_.GetValue(y) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SchrenkDist::setArea( double area )
+void SchrenkDist::setArea(double area)
 {
     area_ = area;
     updateAxiliaryParameters();
@@ -57,7 +57,7 @@ void SchrenkDist::setArea( double area )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SchrenkDist::setSpan( double span )
+void SchrenkDist::setSpan(double span)
 {
     span_ = span;
     updateAxiliaryParameters();
@@ -65,7 +65,7 @@ void SchrenkDist::setSpan( double span )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SchrenkDist::setChord( const Table& chord )
+void SchrenkDist::setChord(const Table& chord)
 {
     chord_ = chord;
 }

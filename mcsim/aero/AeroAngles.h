@@ -47,8 +47,8 @@ namespace mc
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] angle of attack
  */
-MCSIMAPI double getAngleOfAttack( double u, double w,
-                                  double vel_min = 1.0e-6 );
+MCSIMAPI double GetAngleOfAttack(double u, double w,
+                                 double vel_min = 1.0e-6);
 
 /**
  * @brief Returns angle of attack.
@@ -56,10 +56,10 @@ MCSIMAPI double getAngleOfAttack( double u, double w,
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] angle of attack
  */
-MCSIMAPI inline double getAngleOfAttack( const Vector3& vel_bas,
-                                         double vel_min = 1.0e-6 )
+MCSIMAPI inline double GetAngleOfAttack(const Vector3& vel_bas,
+                                        double vel_min = 1.0e-6)
 {
-    return getAngleOfAttack( vel_bas.u(), vel_bas.w(), vel_min );
+    return GetAngleOfAttack(vel_bas.u(), vel_bas.w(), vel_min);
 }
 
 /**
@@ -78,8 +78,8 @@ MCSIMAPI inline double getAngleOfAttack( const Vector3& vel_bas,
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] sideslip angle
  */
-MCSIMAPI double getSideslipAngle( double v, double uw,
-                                  double vel_min = 1.0e-6 );
+MCSIMAPI double GetSideslipAngle(double v, double uw,
+                                 double vel_min = 1.0e-6);
 
 /**
  * @brief Returns sideslip angle.
@@ -89,10 +89,10 @@ MCSIMAPI double getSideslipAngle( double v, double uw,
  * @param vel_min [m/s] minimum airspeed of calculations
  * @return [rad] sideslip angle
  */
-MCSIMAPI inline double getSideslipAngle( const Vector3& vel_bas,
-                                         double vel_min = 1.0e-6 )
+MCSIMAPI inline double GetSideslipAngle(const Vector3& vel_bas,
+                                        double vel_min = 1.0e-6)
 {
-    return getSideslipAngle( vel_bas.v(), vel_bas.getLengthXZ(), vel_min );
+    return GetSideslipAngle(vel_bas.v(), vel_bas.GetLengthXZ(), vel_min);
 }
 
 /**
@@ -101,7 +101,7 @@ MCSIMAPI inline double getSideslipAngle( const Vector3& vel_bas,
  * @param beta [rad] sideslip angle
  * @return rotation matrix from WAS to BAS
  */
-MCSIMAPI Matrix3x3 getAero2BAS( double alpha, double beta );
+MCSIMAPI Matrix3x3 GetAero2BAS(double alpha, double beta);
 
 /**
  * @brief Returns rotation matrix from aerodynamic axes system to BAS.
@@ -111,15 +111,15 @@ MCSIMAPI Matrix3x3 getAero2BAS( double alpha, double beta );
  * @param cos_beta  [-] sideslip angle cosine
  * @return rotation matrix from WAS to BAS
  */
-MCSIMAPI Matrix3x3 getAero2BAS( double sin_alpha , double cos_alpha,
-                                double sin_beta  , double cos_beta );
+MCSIMAPI Matrix3x3 GetAero2BAS(double sin_alpha , double cos_alpha,
+                               double sin_beta  , double cos_beta);
 
 /**
  * @brief Returns rotation matrix from stability axes system to BAS.
  * @param alpha [rad] angle of attack
  * @return rotation matrix from WAS to BAS
  */
-MCSIMAPI Matrix3x3 getStab2BAS( double alpha );
+MCSIMAPI Matrix3x3 GetStab2BAS(double alpha);
 
 /**
  * @brief Returns rotation matrix from stability axes system to BAS.
@@ -127,7 +127,7 @@ MCSIMAPI Matrix3x3 getStab2BAS( double alpha );
  * @param cos_alpha [-] angle of attack cosine
  * @return rotation matrix from WAS to BAS
  */
-MCSIMAPI Matrix3x3 getStab2BAS( double sin_alpha, double cos_alpha );
+MCSIMAPI Matrix3x3 GetStab2BAS(double sin_alpha, double cos_alpha);
 
 } // namespace mc
 

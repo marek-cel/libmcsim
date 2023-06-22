@@ -42,11 +42,11 @@ void Propeller::computeThrust( double airspeed, double airDensity )
     if ( _speed_rps > 0.0 )
     {
         double advance = airspeed / ( _data.diameter * _speed_rps );
-        double coefThrust = _data.coefThrust.getValue( advance, _pitch );
+        double coefThrust = _data.coefThrust.GetValue( advance, _pitch );
 
         _thrust = coefThrust * airDensity
-                * Math::pow2( _speed_rps )
-                * Math::pow4( _data.diameter );
+                * Math::Pow2( _speed_rps )
+                * Math::Pow4( _data.diameter );
     }
     else
     {
@@ -83,10 +83,10 @@ void Propeller::update( double propellerLever,
     _pitch = getPropellerPitch( propellerLever );
 
     double advance = airspeed / ( _data.diameter * ( _speed_rps > 0.1 ? _speed_rps : 0.1 ) );
-    double coefPower = _data.coefPower.getValue( advance, _pitch );
+    double coefPower = _data.coefPower.GetValue( advance, _pitch );
     double powerRequired = coefPower * airDensity
-            * Math::pow3( _speed_rps )
-            * Math::pow5( _data.diameter );
+            * Math::Pow3( _speed_rps )
+            * Math::Pow5( _data.diameter );
 
     _inducedVelocity = getInducedVelocity( airspeed, airDensity );
 
@@ -132,7 +132,7 @@ double Propeller::getInducedVelocity( double airspeed, double airDensity )
 
 double Propeller::getPropellerPitch( double propellerLever )
 {
-    return _data.propPitch.getValue( propellerLever );
+    return _data.propPitch.GetValue( propellerLever );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -196,7 +196,7 @@ void AtmosphereUS76::update( double altitude )
 
         if ( altitude > _h_b[ 6 ] )
         {
-            Log::w( "Atmosphere altitude above valid range." );
+            Log::Warning( "Atmosphere altitude above valid range." );
         }
     }
 
@@ -246,7 +246,7 @@ void AtmosphereUS76::setPressureSL( double p_sl )
     }
     else
     {
-        Log::w( "Atmosphere wrong value of sea level pressure." );
+        Log::Warning( "Atmosphere wrong value of sea level pressure." );
     }
 }
 
@@ -260,7 +260,7 @@ void AtmosphereUS76::setTemperatureSL( double t_sl )
     }
     else
     {
-        Log::w( "Atmosphere wrong value of sea level temperature." );
+        Log::Warning( "Atmosphere wrong value of sea level temperature." );
     }
 }
 

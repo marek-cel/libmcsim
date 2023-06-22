@@ -56,19 +56,19 @@ public:
      */
     struct Data
     {
-        Vector3 r_ac_l_bas;                         ///< [m] left half wing aerodynamic center expressed in BAS
-        Vector3 r_ac_r_bas;                         ///< [m] right half wing aerodynamic center expressed in BAS
+        Vector3 r_ac_l_bas;     ///< [m] left half wing aerodynamic center expressed in BAS
+        Vector3 r_ac_r_bas;     ///< [m] right half wing aerodynamic center expressed in BAS
 
-        Table cx { Table::oneRecordTable( 0.0 ) };  ///< [-] drag coefficient vs [rad] angle of attack
-        Table cy { Table::oneRecordTable( 0.0 ) };  ///< [-] sideforce coefficient vs [rad] angle of sideslip
-        Table cz { Table::oneRecordTable( 0.0 ) };  ///< [-] lift coefficient vs [rad] angle of attack
-        Table cl { Table::oneRecordTable( 0.0 ) };  ///< [-] rolling moment coefficient vs [rad] angle of sideslip
-        Table cm { Table::oneRecordTable( 0.0 ) };  ///< [-] pitching moment coefficient vs [rad] angle of attack
-        Table cn { Table::oneRecordTable( 0.0 ) };  ///< [-] yawing moment coefficient vs [rad] angle of sideslip
+        Table cx;               ///< [-] drag coefficient vs [rad] angle of attack
+        Table cy;               ///< [-] sideforce coefficient vs [rad] angle of sideslip
+        Table cz;               ///< [-] lift coefficient vs [rad] angle of attack
+        Table cl;               ///< [-] rolling moment coefficient vs [rad] angle of sideslip
+        Table cm;               ///< [-] pitching moment coefficient vs [rad] angle of attack
+        Table cn;               ///< [-] yawing moment coefficient vs [rad] angle of sideslip
 
-        double area { 0.0 };                        ///< [m^2] wing reference area
-        double mac  { 0.0 };                        ///< [m] wing mean aerodynamic chord
-        double span { 0.0 };                        ///< [m] wing span
+        double area = 0.0;      ///< [m^2] wing reference area
+        double mac  = 0.0;      ///< [m] wing mean aerodynamic chord
+        double span = 0.0;      ///< [m] wing span
     };
 
     // LCOV_EXCL_START

@@ -32,20 +32,20 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getPrandtlGlauertFactor( double mach, double max )
+double getPrandtlGlauertFactor(double mach, double max)
 {
     double factor  = 1.0;
 
     if ( mach < 1.0 )
     {
-        factor = 1.0 / sqrt( fabs( 1.0 - Math::pow2( mach ) ) );
+        factor = 1.0 / sqrt(fabs(1.0 - Math::Pow2(mach)));
     }
     else
     {
-        factor = 1.0 / sqrt( fabs( Math::pow2( mach ) - 1.0 ) );
+        factor = 1.0 / sqrt(fabs(Math::Pow2(mach) - 1.0));
     }
 
-    if ( factor > max || !isValid( factor ) )
+    if ( factor > max || !IsValid(factor) )
     {
         factor = max;
     }

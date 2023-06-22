@@ -31,13 +31,13 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WingRunner::computeForceAndMoment( const Vector3 &vel_bas,
-                                        const Vector3 &omg_bas,
-                                        const Vector3 &r_c_bas,
-                                        const Vector3 &n_c_bas )
+void WingRunner::computeForceAndMoment(const Vector3 &vel_bas,
+                                       const Vector3 &omg_bas,
+                                       const Vector3 &r_c_bas,
+                                       const Vector3 &n_c_bas)
 {
-    _for_bas.zeroize();
-    _mom_bas.zeroize();
+    _for_bas.Zeroize();
+    _mom_bas.Zeroize();
 
     if ( _active )
     {
@@ -61,13 +61,13 @@ void WingRunner::computeForceAndMoment( const Vector3 &vel_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WingRunner::update( double timeStep, const Vector3 &vel_bas, bool onGround )
+void WingRunner::update(double timeStep, const Vector3 &vel_bas, bool onGround)
 {
     if ( _active )
     {
         if ( timeStep > 0.0 )
         {
-            if ( vel_bas.getLength() > 1.0 || ( !onGround ) )
+            if ( vel_bas.GetLength() > 1.0 || ( !onGround ) )
             {
                 _active = false;
             }

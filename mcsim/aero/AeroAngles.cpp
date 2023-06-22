@@ -29,48 +29,42 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getAngleOfAttack( double u, double w, double vel_min )
+double GetAngleOfAttack(double u, double w, double vel_min)
 {
-    double angleOfAttack = 0.0;
-
-    if ( fabs( u ) > vel_min || fabs( w ) > vel_min )
+    double alpha = 0.0;
+    if ( fabs(u) > vel_min || fabs(w) > vel_min )
     {
         // Drela M.: Flight Vehicle Aerodynamics. p.203
-        angleOfAttack = atan2( w, u );
+        alpha = atan2(w, u);
     }
-
-    return angleOfAttack;
+    return alpha;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getSideslipAngle( double v, double uw, double vel_min )
+double GetSideslipAngle(double v, double uw, double vel_min)
 {
-    double sideslipAngle = 0.0;
-
-    double uw_abs = fabs( uw );
-
-    if ( uw_abs > vel_min || fabs( v ) > vel_min )
+    double beta = 0.0;
+    double uw_abs = fabs(uw);
+    if ( uw_abs > vel_min || fabs(v) > vel_min )
     {
         // Drela M.: Flight Vehicle Aerodynamics. p.203
-        sideslipAngle = atan2( v, uw_abs );
+        beta = atan2(v, uw_abs);
     }
-
-    return sideslipAngle;
+    return beta;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 getAero2BAS( double alpha, double beta )
+Matrix3x3 GetAero2BAS(double alpha, double beta)
 {
-    return getAero2BAS( sin( alpha ), cos( alpha ),
-                        sin( beta ), cos( beta ) );
+    return GetAero2BAS(sin(alpha), cos(alpha), sin(beta), cos(beta));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 getAero2BAS( double sin_alpha , double cos_alpha,
-                       double sin_beta  , double cos_beta )
+Matrix3x3 GetAero2BAS(double sin_alpha , double cos_alpha,
+                      double sin_beta  , double cos_beta)
 {
     Matrix3x3 aero2bas;
 
@@ -91,14 +85,14 @@ Matrix3x3 getAero2BAS( double sin_alpha , double cos_alpha,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 getStab2BAS( double alpha )
+Matrix3x3 GetStab2BAS(double alpha)
 {
-    return getStab2BAS( sin( alpha ), cos( alpha ) );
+    return GetStab2BAS(sin(alpha), cos(alpha));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 getStab2BAS( double sin_alpha, double cos_alpha )
+Matrix3x3 GetStab2BAS(double sin_alpha, double cos_alpha)
 {
     Matrix3x3 stab2bas;
 

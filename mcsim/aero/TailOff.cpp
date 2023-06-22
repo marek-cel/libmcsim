@@ -37,13 +37,13 @@ void TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
                                      const Vector3 &omg_air_bas,
                                      double airDensity )
 {
-    _for_bas.zeroize();
-    _mom_bas.zeroize();
+    _for_bas.Zeroize();
+    _mom_bas.Zeroize();
 
     addForceAndMoment( _data.r_ac_l_bas, vel_air_bas, omg_air_bas, airDensity );
     addForceAndMoment( _data.r_ac_r_bas, vel_air_bas, omg_air_bas, airDensity );
 
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
+    if ( !_for_bas.IsValid() || !_mom_bas.IsValid() )
     {
         // TODO
     }
@@ -56,8 +56,8 @@ void TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
     Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas % _data.r_ac_l_bas );
     Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas % _data.r_ac_r_bas );
 
-    _aoa_l = getAngleOfAttack( vel_l_bas );
-    _aoa_r = getAngleOfAttack( vel_r_bas );
+    _aoa_l = GetAngleOfAttack( vel_l_bas );
+    _aoa_r = GetAngleOfAttack( vel_r_bas );
 
     bool stall_l = ( _aoa_l < _aoa_critical_neg ) || ( _aoa_l > _aoa_critical_pos );
     bool stall_r = ( _aoa_r < _aoa_critical_neg ) || ( _aoa_r > _aoa_critical_pos );
@@ -76,11 +76,11 @@ void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
     Vector3 vel_wing_bas = vel_air_bas + ( omg_air_bas % r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = getAngleOfAttack( vel_wing_bas );
-    double sideslipAngle = getSideslipAngle( vel_wing_bas );
+    double angleOfAttack = GetAngleOfAttack( vel_wing_bas );
+    double sideslipAngle = GetSideslipAngle( vel_wing_bas );
 
     // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_wing_bas.getLength2();
+    double dynPress = 0.5 * airDensity * vel_wing_bas.GetLength2();
 
     Vector3 for_aero( dynPress * getCx( angleOfAttack ) * _area_2,
                       dynPress * getCy( sideslipAngle ) * _area_2,
@@ -96,8 +96,8 @@ void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
     double sinBeta  = sin( sideslipAngle );
     double cosBeta  = cos( sideslipAngle );
 
-    Vector3 for_bas = getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
-    Vector3 mom_bas = getStab2BAS( sinAlpha, cosAlpha ) * mom_stab
+    Vector3 for_bas = GetAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
+    Vector3 mom_bas = GetStab2BAS( sinAlpha, cosAlpha ) * mom_stab
                     + ( r_ac_bas % for_bas );
 
     _for_bas += for_bas;
@@ -108,42 +108,42 @@ void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
 
 double TailOff::getCx( double angleOfAttack ) const
 {
-    return _data.cx.getValue( angleOfAttack );
+    return _data.cx.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCy( double sideslipAngle ) const
 {
-    return _data.cy.getValue( sideslipAngle );
+    return _data.cy.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCz( double angleOfAttack ) const
 {
-    return _data.cz.getValue( angleOfAttack );
+    return _data.cz.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCl( double sideslipAngle ) const
 {
-    return _data.cl.getValue( sideslipAngle );
+    return _data.cl.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCm( double angleOfAttack ) const
 {
-    return _data.cm.getValue( angleOfAttack );
+    return _data.cm.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCn( double sideslipAngle ) const
 {
-    return _data.cn.getValue( sideslipAngle );
+    return _data.cn.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

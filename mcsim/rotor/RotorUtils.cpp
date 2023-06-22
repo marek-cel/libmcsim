@@ -37,7 +37,7 @@ double getVortexRingInfluenceCoef( double vx_norm, double vz_norm )
     if ( vz_norm > 0.0 && vz_norm < 2.0 )
     {
         k0 = -1.08*vz_norm*vz_norm + 2.04*vz_norm - 0.63;
-        k0 = Math::satur( 0.0, 1.0, k0 );
+        k0 = Math::Satur( 0.0, 1.0, k0 );
     }
 
     double kv = 0.0;
@@ -50,7 +50,7 @@ double getVortexRingInfluenceCoef( double vx_norm, double vz_norm )
         double vx_norm5 = vx_norm * vx_norm4;
         kv = 11.25*vx_norm5	- 20.87*vx_norm4 + 9.49*vx_norm3
            -  0.64*vx_norm2 -  0.22*vx_norm  + 1.0;
-        kv = Math::satur( 0.0, 1.0, kv );
+        kv = Math::Satur( 0.0, 1.0, kv );
     }
 
     return k0*kv;

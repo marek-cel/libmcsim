@@ -42,8 +42,8 @@ void AeroBody::computeForceAndMoment( const Vector3 &vel_air_bas,
 {
     // rotor downwash on the fuselage, NASA-TM-84281, p.33
     double dwi_dvi = 1.299 + 0.671 * skew_angle
-                   - 1.172 * Math::pow2( skew_angle )
-                   + 0.351 * Math::pow3( skew_angle );
+                   - 1.172 * Math::Pow2( skew_angle )
+                   + 0.351 * Math::Pow3( skew_angle );
     double wi = dwi_dvi * vel_ind;
 
     // fuselage velocity
@@ -51,11 +51,11 @@ void AeroBody::computeForceAndMoment( const Vector3 &vel_air_bas,
                       - Vector3( 0.0, 0.0, -wi );
 
     // angle of attack and sideslip angle
-    alpha_ = getAngleOfAttack( vel_f_bas );
-    beta_  = getSideslipAngle( vel_f_bas );
+    alpha_ = GetAngleOfAttack( vel_f_bas );
+    beta_  = GetSideslipAngle( vel_f_bas );
 
     // dynamic pressure
-    double dyn_press = 0.5 * air_dens * vel_f_bas.getLength2();
+    double dyn_press = 0.5 * air_dens * vel_f_bas.GetLength2();
 
     Vector3 for_aero( dyn_press * getCx( alpha_ ) * data_.area,
                       dyn_press * getCy( beta_  ) * data_.area,
@@ -71,14 +71,14 @@ void AeroBody::computeForceAndMoment( const Vector3 &vel_air_bas,
     double sin_beta  = sin( beta_  );
     double cos_beta  = cos( beta_  );
 
-    Vector3 for_bas = getAero2BAS( sin_alpha, cos_alpha, sin_beta, cos_beta ) * for_aero;
-    Vector3 mom_bas = getStab2BAS( sin_alpha, cos_alpha ) * mom_stab
+    Vector3 for_bas = GetAero2BAS( sin_alpha, cos_alpha, sin_beta, cos_beta ) * for_aero;
+    Vector3 mom_bas = GetStab2BAS( sin_alpha, cos_alpha ) * mom_stab
                     + ( data_.r_ac_bas % for_bas );
 
     for_bas_ = for_bas;
     mom_bas_ = mom_bas;
 
-    if ( !for_bas_.isValid() || !mom_bas_.isValid() )
+    if ( !for_bas_.IsValid() || !mom_bas_.IsValid() )
     {
         // TODO
     }
@@ -88,42 +88,42 @@ void AeroBody::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 double AeroBody::getCx( double angleOfAttack ) const
 {
-    return data_.cx.getValue( angleOfAttack );
+    return data_.cx.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::getCy( double sideslipAngle ) const
 {
-    return data_.cy.getValue( sideslipAngle );
+    return data_.cy.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::getCz( double angleOfAttack ) const
 {
-    return data_.cz.getValue( angleOfAttack );
+    return data_.cz.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::getCl( double sideslipAngle ) const
 {
-    return data_.cl.getValue( sideslipAngle );
+    return data_.cl.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::getCm( double angleOfAttack ) const
 {
-    return data_.cm.getValue( angleOfAttack );
+    return data_.cm.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::getCn( double sideslipAngle ) const
 {
-    return data_.cn.getValue( sideslipAngle );
+    return data_.cn.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
