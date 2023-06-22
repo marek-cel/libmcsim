@@ -100,14 +100,14 @@ public:
 
     /**
      * @brief Integrates wheel model.
-     * @param timeStep [s] time step
+     * @param dt [s] time step
      * @param vel_bas
      * @param omg_bas
      * @param r_c_bas
      * @param n_c_bas
      * @param steering
      */
-    virtual void integrate( double timeStep,
+    virtual void integrate( double dt,
                             const Vector3 &vel_bas,
                             const Vector3 &omg_bas,
                             const Vector3 &r_c_bas,

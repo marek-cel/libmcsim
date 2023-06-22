@@ -56,17 +56,17 @@ void Propeller::computeThrust( double airspeed, double airDensity )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Propeller::integrate( double timeStep, double engineInertia )
+void Propeller::integrate( double dt, double engineInertia )
 {
     // integrating propeller omega
-    _omega += ( ( _torqueAvailable - _torqueRequired ) / ( _data.inertia + engineInertia ) ) * timeStep;
+    _omega += ( ( _torqueAvailable - _torqueRequired ) / ( _data.inertia + engineInertia ) ) * dt;
 
     _speed_rps = std::max( 0.0, _omega / ( 2.0 * M_PI ) );
 
     // engine friction stops propeller
     if ( _torqueAvailable < _torqueRequired && _speed_rps < 1.0 )
     {
-        _speed_rps = _speed_rps < 0.1 ? 0.0 : Physics::inertia( 0.0, _speed_rps, timeStep, 0.1 );
+        _speed_rps = _speed_rps < 0.1 ? 0.0 : Physics::inertia( 0.0, _speed_rps, dt, 0.1 );
         _omega = 2.0 * M_PI * _speed_rps;
     }
 

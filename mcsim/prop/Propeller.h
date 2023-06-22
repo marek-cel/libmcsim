@@ -88,10 +88,10 @@ public:
 
     /**
      * @brief Integrates model.
-     * @param timeStep [s] time step
+     * @param dt [s] time step
      * @param engineInertia [kg*m^2] engine polar moment of inertia
      */
-    virtual void integrate( double timeStep, double engineInertia );
+    virtual void integrate( double dt, double engineInertia );
 
     /**
      * @brief Updates propeller.

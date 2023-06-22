@@ -161,7 +161,7 @@ void SimpleSupport::computeForceAndMoment( const Vector3 &vel_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SimpleSupport::integrate( double timeStep,
+void SimpleSupport::integrate( double dt,
                                const Vector3 &vel_bas,
                                const Vector3 &omg_bas,
                                const Vector3 &r_c_bas,
@@ -188,8 +188,8 @@ void SimpleSupport::integrate( double timeStep,
                                 &dir_lon_bas, &dir_lat_bas,
                                 &cosDelta, &sinDelta, &v_norm, &v_roll, &v_slip );
 
-            _d_roll += v_roll * timeStep;
-            _d_slip += v_slip * timeStep;
+            _d_roll += v_roll * dt;
+            _d_slip += v_slip * dt;
 
             if ( fabs( v_roll ) > _data.v_max || fabs( v_slip ) > _data.v_max )
             {
