@@ -29,7 +29,7 @@ set( SOURCES
     extra/TestWinchLauncher.cpp
     extra/TestWingRunner.cpp
 
-    gear/TestSimpleSupport.cpp
+    gear/TestSimpleGear.cpp
 
     mass/TestInertiaMatrix.cpp
     mass/TestPointMass.cpp

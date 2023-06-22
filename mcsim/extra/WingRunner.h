@@ -42,11 +42,14 @@ class MCSIMAPI WingRunner
 {
 public:
 
-    /** @brief Data struct. */
+    /**
+     * @brief Wing runner data struct.
+     */
     struct Data
     {
-        Vector3 r_w_bas;    ///< [m] wing coordinates expressed in BAS
-        Vector3 r_f_bas;    ///< [m] feet coordinates expressed in BAS
+        Vector3 r_wt_bas;   ///< [m] wing tip coordinates expressed in BAS
+
+        double h_wt = 0.0;  ///< [m] wing tip desired position above ground
 
         double k = 0.0;     ///< [N/m] stiffness (linear spring) coefficient
         double c = 0.0;     ///< [N/(m/s)] damping coefficient
@@ -83,8 +86,7 @@ public:
      */
     virtual void Update(double dt, const Vector3& vel_bas, bool on_ground);
 
-    inline Vector3 getPosWing_BAS() const { return data_.r_w_bas; }
-    inline Vector3 getPosFeet_BAS() const { return data_.r_f_bas; }
+    inline const Data& data() const { return data_; }
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }

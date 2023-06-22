@@ -58,10 +58,10 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/gear/BrakeGroup.h \
-    $$PWD/gear/SimpleSupport.h
+    $$PWD/gear/SimpleGear.h
 
 SOURCES += \
-    $$PWD/gear/SimpleSupport.cpp
+    $$PWD/gear/SimpleGear.cpp
 
 ################################################################################
 

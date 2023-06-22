@@ -41,21 +41,18 @@ void WingRunner::ComputeForceAndMoment(const Vector3& vel_bas,
 
     if ( active_ )
     {
-        double deflection_norm = n_c_bas * ( r_c_bas - data_.r_f_bas );
+        double delta = n_c_bas * ( r_c_bas - data_.r_wt_bas ) - data_.h_wt;
 
-        if ( deflection_norm > 1.0e-6 )
-        {
-            // contact point velocities components
-            Vector3 v_c_bas = vel_bas + ( omg_bas % r_c_bas );
-            double v_norm = n_c_bas * v_c_bas;
+        // wing tip velocities components
+        Vector3 v_c_bas = vel_bas + ( omg_bas % data_.r_wt_bas );
+        double v_norm = n_c_bas * v_c_bas;
 
-            // normal force
-            double for_norm = data_.k * deflection_norm - data_.c * v_norm;
+        // normal force
+        double for_norm = data_.k * delta - data_.c * v_norm;
 
-            // resulting forces
-            f_bas_ = for_norm * n_c_bas;
-            m_bas_ = r_c_bas % f_bas_;
-        }
+        // resulting forces
+        f_bas_ = for_norm * n_c_bas;
+        m_bas_ = r_c_bas % f_bas_;
     }
 }
 

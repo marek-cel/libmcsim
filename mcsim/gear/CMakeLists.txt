@@ -4,11 +4,11 @@ set( TARGET_NAME gear )
 
 set( HEADERS
     BrakeGroup.h
-    SimpleSupport.h
+    SimpleGear.h
 )
 
 set( SOURCES
-    SimpleSupport.cpp
+    SimpleGear.cpp
 )
 
 ################################################################################

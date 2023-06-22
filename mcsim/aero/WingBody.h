@@ -101,6 +101,8 @@ public:
     virtual void Update(const Vector3& vel_air_bas,
                         const Vector3& omg_air_bas);
 
+    inline const Data& data() const { return data_; }
+
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
 

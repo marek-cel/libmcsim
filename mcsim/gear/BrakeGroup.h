@@ -34,10 +34,10 @@ namespace mc
 /** Brake group enum. */
 enum class BrakeGroup
 {
-    None = 0,   ///< 0: none
-    Left,       ///< 1: left brake group
-    Right,      ///< 2: right brake group
-    Both        ///< 3: both brake groups
+    None  = 0x0,    ///< none
+    Left  = 0x1,    ///< left brake group
+    Right = 0x2,    ///< right brake group
+    Nose  = 0x4,    ///< nose brake group
 };
 
 } // namespace mc

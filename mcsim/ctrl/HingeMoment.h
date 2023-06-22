@@ -76,6 +76,8 @@ public:
     virtual double GetHingeMoment(double dynPress, double alpha, double delta,
                                   double delta_t = 0.0) const;
 
+    inline const Data& data() const { return data_; }
+
 protected:
 
         Data data_;     ///< hinge moment model data

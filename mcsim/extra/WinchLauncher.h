@@ -40,6 +40,9 @@ class MCSIMAPI WinchLauncher
 {
 public:
 
+    /**
+     * @brief Winch launcher data struct.
+     */
     struct Data
     {
         Vector3 r_a_bas;            ///< [m] winch cable attachment point expressed in BAS
@@ -85,6 +88,8 @@ public:
                         const Matrix3x3& wgs2ned,
                         const Vector3& pos_wgs,
                         double altitude_agl);
+
+    inline const Data& data() const { return data_; }
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
