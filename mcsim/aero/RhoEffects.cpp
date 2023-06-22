@@ -38,11 +38,11 @@ double GetPrandtlGlauertFactor(double mach, double max)
 
     if ( mach < 1.0 )
     {
-        factor = 1.0 / sqrt(fabs(1.0 - Math::Pow2(mach)));
+        factor = 1.0 / sqrt( fabs(1.0 - Math::Pow2(mach)) );
     }
     else
     {
-        factor = 1.0 / sqrt(fabs(Math::Pow2(mach) - 1.0));
+        factor = 1.0 / sqrt( fabs(Math::Pow2(mach) - 1.0) );
     }
 
     if ( factor > max || !IsValid(factor) )

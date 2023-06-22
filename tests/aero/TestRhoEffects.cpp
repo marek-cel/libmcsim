@@ -27,12 +27,12 @@ TEST_F(TestRhoEffects, CanGetPrandtlGlauertCpFactor)
 
     do
     {
-        double factor = mc::getPrandtlGlauertFactor( mach, factor_max );
+        double factor = mc::GetPrandtlGlauertFactor(mach, factor_max);
 
         // https://en.wikipedia.org/wiki/Prandtl%E2%80%93Glauert_singularity
         // cp = cp0 / sqrt( | 1 - M^2 | )
-        double factor_expected = 1.0 / sqrt( fabs( 1.0 - pow( mach, 2.0 ) ) );
-        factor_expected = std::min( factor_expected, factor_max );
+        double factor_expected = 1.0 / sqrt( fabs(1.0 - pow(mach, 2.0)) );
+        factor_expected = std::min(factor_expected, factor_max);
 
         EXPECT_NEAR( factor, factor_expected, 1.0e-3 );
 

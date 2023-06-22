@@ -21,17 +21,17 @@ TEST_F(TestMeanAeroChord, CanGetMeanAerodynamicChordFromCrAndCt)
 {
     double cr = 1.0;
     double ct = 1.0;
-    double mac = mc::getMeanAerodynamicChord( cr, ct );
+    double mac = mc::GetMeanAerodynamicChord(cr, ct);
     EXPECT_NEAR( mac, 1.0, 1.0e-3 );
 
     cr = 2.0;
     ct = 1.0;
-    mac = mc::getMeanAerodynamicChord( cr, ct );
+    mac = mc::GetMeanAerodynamicChord(cr, ct);
     EXPECT_NEAR( mac, 1.5556, 1.0e-3 );
 
     cr = 1.0;
     ct = 2.0;
-    mac = mc::getMeanAerodynamicChord( cr, ct );
+    mac = mc::GetMeanAerodynamicChord(cr, ct);
     EXPECT_NEAR( mac, 1.5556, 1.0e-3 );
 }
 
@@ -48,7 +48,7 @@ TEST_F(TestMeanAeroChord, CanGetMeanAerodynamicChordFromTable)
     y.push_back( 1.0 );
     c.push_back( 1.0 );
 
-    double mac = mc::getMeanAerodynamicChord( mc::Table( y, c ) );
+    double mac = mc::GetMeanAerodynamicChord(mc::Table(y, c));
     EXPECT_NEAR( mac, 1.0, 1.0e-3 );
 
     y.clear();
@@ -60,7 +60,7 @@ TEST_F(TestMeanAeroChord, CanGetMeanAerodynamicChordFromTable)
     y.push_back( 1.0 );
     c.push_back( 1.0 );
 
-    mac = mc::getMeanAerodynamicChord( mc::Table( y, c ) );
+    mac = mc::GetMeanAerodynamicChord(mc::Table(y, c));
     EXPECT_NEAR( mac, 1.5556, 1.0e-3 );
 
     y.clear();
@@ -72,7 +72,7 @@ TEST_F(TestMeanAeroChord, CanGetMeanAerodynamicChordFromTable)
     y.push_back( 1.0 );
     c.push_back( 2.0 );
 
-    mac = mc::getMeanAerodynamicChord( mc::Table( y, c ) );
+    mac = mc::GetMeanAerodynamicChord(mc::Table(y, c));
     EXPECT_NEAR( mac, 1.5556, 1.0e-3 );
 
     y.clear();
@@ -89,6 +89,6 @@ TEST_F(TestMeanAeroChord, CanGetMeanAerodynamicChordFromTable)
     y.push_back( 2.0 );
     c.push_back( 1.0 );
 
-    mac = mc::getMeanAerodynamicChord( mc::Table( y, c ) );
+    mac = mc::GetMeanAerodynamicChord(mc::Table(y, c));
     EXPECT_NEAR( mac, 2.59, 1.0e-2 );
 }

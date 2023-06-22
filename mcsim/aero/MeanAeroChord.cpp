@@ -51,7 +51,7 @@ double GetMeanAerodynamicChord(const Table& chord)
         double area = 0.5 * dy * (cr + ct);
 
         sum_area += area;
-        sum_mac += area * getMeanAerodynamicChord(cr, ct);
+        sum_mac += area * GetMeanAerodynamicChord(cr, ct);
     }
 
     return sum_mac / sum_area;

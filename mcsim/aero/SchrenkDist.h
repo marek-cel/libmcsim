@@ -53,7 +53,7 @@ public:
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
      * @return [-] spanwise drag coefficient
      */
-    virtual double getDragCoefDist( double y ) const;
+    virtual double GetDragCoefDist(double y) const;
 
     /**
      * @brief Computes approximation of lift coefficient.
@@ -62,25 +62,25 @@ public:
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
      * @return [-] spanwise lift coefficient
      */
-    virtual double getLiftCoefDist( double y ) const;
+    virtual double GetLiftCoefDist(double y) const;
 
     /**
      * @brief Sets wing area.
      * @param area [m^2] wing area
      */
-    void setArea( double area );
+    void set_area(double area);
 
     /**
      * @brief Sets wing span.
      * @param span [m] wing span
      */
-    void setSpan( double span );
+    void set_span(double span);
 
     /**
      * @brief Sets wing chord.
      * @param chord [m] wing chord vs [m] spanwise coordinate
      */
-    void setChord( const Table& chord );
+    void set_chord(const Table& chord);
 
 protected:
 
@@ -93,7 +93,7 @@ protected:
     double aux_factor_2_ = 0.0; ///< [1/m] 2/b        where b is wing span
 
     /** */
-    void updateAxiliaryParameters();
+    void UpdateAxiliaryParameters();
 };
 
 } // namespace mc
