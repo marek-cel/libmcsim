@@ -89,8 +89,8 @@ public:
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param rho [kg/m^3] air density
      */
-    virtual void ComputeForceAndMoment(const Vector3 &vel_air_bas,
-                                       const Vector3 &omg_air_bas,
+    virtual void ComputeForceAndMoment(const Vector3& vel_air_bas,
+                                       const Vector3& omg_air_bas,
                                        double rho);
 
     /**
@@ -98,8 +98,8 @@ public:
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      */
-    virtual void Update(const Vector3 &vel_air_bas,
-                        const Vector3 &omg_air_bas);
+    virtual void Update(const Vector3& vel_air_bas,
+                        const Vector3& omg_air_bas);
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
@@ -135,9 +135,9 @@ protected:
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param rho [kg/m^3] air density
      */
-    virtual void AddForceAndMoment(const Vector3 &r_ac_bas,
-                                   const Vector3 &vel_air_bas,
-                                   const Vector3 &omg_air_bas,
+    virtual void AddForceAndMoment(const Vector3& r_ac_bas,
+                                   const Vector3& vel_air_bas,
+                                   const Vector3& omg_air_bas,
                                    double rho);
 
     /**

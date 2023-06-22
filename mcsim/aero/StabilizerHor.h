@@ -76,8 +76,8 @@ public:
      * @param rho [kg/m^3] air density
      * @param aoa [rad] wing angle of attack
      */
-    virtual void ComputeForceAndMoment(const Vector3 &vel_air_bas,
-                                       const Vector3 &omg_air_bas,
+    virtual void ComputeForceAndMoment(const Vector3& vel_air_bas,
+                                       const Vector3& omg_air_bas,
                                        double rho, double aoa = 0.0);
 
     inline const Vector3& f_bas() const { return f_bas_; }
@@ -99,7 +99,7 @@ protected:
      * @param aoa [rad] wing angle of attack
      * @return [rad] stabilizer angle of attack
      */
-    virtual double GetAngleOfAttack(const Vector3 &vel_air_bas, double aoa);
+    virtual double GetAngleOfAttack(const Vector3& vel_air_bas, double aoa);
 
     /**
      * @brief Computes drag coefficient.
