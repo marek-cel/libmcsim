@@ -35,52 +35,57 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WinchLauncher::computeForceAndMoment( const Matrix3x3 &wgs2bas,
-                                           const Vector3 &pos_wgs )
+void WinchLauncher::ComputeForceAndMoment( const Matrix3x3& wgs2bas,
+                                           const Vector3& pos_wgs )
 {
-    _for_bas.Zeroize();
-    _mom_bas.Zeroize();
+    f_bas_.Zeroize();
+    m_bas_.Zeroize();
 
-    if ( _active )
+    if ( active_ )
     {
-        Vector3 pos_bas = wgs2bas * ( _pos_wgs - pos_wgs );
+        Vector3 pos_bas = wgs2bas * ( pos_wgs_ - pos_wgs );
 
-        double x = std::max( 0.0, pos_bas.GetLength() - _len );
+        double x = std::max(0.0, pos_bas.GetLength() - l_);
 
-        _for_bas = std::max( _for, fabs( x ) * x * _data.stiffness ) * pos_bas.GetNormalized();
-        _mom_bas = _data.r_a_bas % _for_bas;
+        f_bas_ = std::max(f_, fabs(x) * x * data_.stiffness) * pos_bas.GetNormalized();
+        m_bas_ = data_.r_a_bas % f_bas_;
+
+        if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
+        {
+            // TODO
+        }
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WinchLauncher::update( double timeStep,
-                            const Matrix3x3 &bas2wgs,
-                            const Matrix3x3 &wgs2ned,
-                            const Vector3 &pos_wgs,
-                            double altitude_agl )
+void WinchLauncher::Update(double timeStep,
+                           const Matrix3x3& bas2wgs,
+                           const Matrix3x3& wgs2ned,
+                           const Vector3& pos_wgs,
+                           double altitude_agl)
 {
-    if ( _active )
+    if ( active_ )
     {
         if ( timeStep > 0.0 )
         {
-            _for = Physics::inertia( _data.for_max, _for, timeStep, _data.tc_for );
-            _vel = Physics::inertia( _data.vel_max, _vel, timeStep, _data.tc_vel );
-            _len = _len - timeStep * _vel;
+            f_ = Physics::inertia(data_.f_max, f_, timeStep, data_.tc_f);
+            v_ = Physics::inertia(data_.v_max, v_, timeStep, data_.tc_v);
+            l_ = l_ - timeStep * v_;
 
-            Vector3 pos_ned = wgs2ned * ( pos_wgs - _pos_wgs );
+            Vector3 pos_ned = wgs2ned * ( pos_wgs - pos_wgs_ );
 
-            if ( atan2( -pos_ned.z(), pos_ned.GetLengthXY() ) > _data.ang_max )
+            if ( atan2( -pos_ned.z(), pos_ned.GetLengthXY() ) > data_.e_max )
             {
-                _active = false;
+                active_ = false;
             }
         }
         else
         {
             if ( altitude_agl < 0.0 )
             {
-                _pos_wgs = pos_wgs + bas2wgs * Vector3( _data.len_max, 0.0, 0.0 );
-                _len = _data.len_max;
+                pos_wgs_ = pos_wgs + bas2wgs * Vector3(data_.l_max, 0.0, 0.0);
+                l_ = data_.l_max;
             }
         }
     }

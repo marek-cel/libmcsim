@@ -44,30 +44,33 @@ public:
     {
         Vector3 r_a_bas;            ///< [m] winch cable attachment point expressed in BAS
 
-        double for_max { 0.0 };     ///< [N]   maximum cable force
-        double len_max { 0.0 };     ///< [m]   maximum cable length
-        double ang_max { 0.0 };     ///< [rad] maximum elevation
-        double vel_max { 0.0 };     ///< [m/s] maximum cable velocity
+        double f_max = 0.0;         ///< [N]   maximum cable force
+        double l_max = 0.0;         ///< [m]   maximum cable length
+        double e_max = 0.0;         ///< [rad] maximum elevation
+        double v_max = 0.0;         ///< [m/s] maximum cable velocity
 
-        double tc_for { 0.0 };      ///< [s] force time constant
-        double tc_vel { 0.0 };      ///< [s] velocity time constant
+        double tc_f = 0.0;          ///< [s] force time constant
+        double tc_v = 0.0;          ///< [s] velocity time constant
 
-        double stiffness { 0.0 };   ///< [N/m^2] cable stiffness
+        double stiffness = 0.0;     ///< [N/m^2] cable stiffness
     };
 
-    /** @brief Constructor. */
+    // LCOV_EXCL_START
     WinchLauncher() = default;
-
-    /** @brief Destructor. */
+    WinchLauncher(const WinchLauncher&) = delete;
+    WinchLauncher(WinchLauncher&&) = default;
+    WinchLauncher& operator=(const WinchLauncher&) = delete;
+    WinchLauncher& operator=(WinchLauncher&&) = default;
     virtual ~WinchLauncher() = default;
+    // LCOV_EXCL_STOP
 
     /**
      * @brief Computes force and moment.
      * @param wgs2bas matrix of rotation from WGS to BAS
      * @param pos_wgs [m] aircraft position expressed in WGS
      */
-    virtual void computeForceAndMoment( const Matrix3x3 &wgs2bas,
-                                        const Vector3 &pos_wgs );
+    virtual void ComputeForceAndMoment(const Matrix3x3& wgs2bas,
+                                       const Vector3& pos_wgs);
 
     /**
      * @brief Update winch model.
@@ -77,29 +80,29 @@ public:
      * @param pos_wgs [m] aircraft position expressed in WGS
      * @param altitude_agl [m] altitude above ground level
      */
-    virtual void update( double timeStep,
-                         const Matrix3x3 &bas2wgs,
-                         const Matrix3x3 &wgs2ned,
-                         const Vector3 &pos_wgs,
-                         double altitude_agl );
+    virtual void Update(double timeStep,
+                        const Matrix3x3& bas2wgs,
+                        const Matrix3x3& wgs2ned,
+                        const Vector3& pos_wgs,
+                        double altitude_agl);
 
-    inline const Vector3& getForce_BAS  () const { return _for_bas; }
-    inline const Vector3& getMoment_BAS () const { return _mom_bas; }
+    inline const Vector3& f_bas() const { return f_bas_; }
+    inline const Vector3& m_bas() const { return m_bas_; }
 
 protected:
 
-    Data _data;             ///<
+    Data data_;                 ///< winch launcher data struct
 
-    Vector3 _for_bas;       ///< [N] total force vector expressed in BAS
-    Vector3 _mom_bas;       ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 _pos_wgs;       ///< [m] winch position expressed in WGS
+    Vector3 pos_wgs_;           ///< [m] winch position expressed in WGS
 
-    double _for { 0.0 };    ///< [N]   current cable force
-    double _vel { 0.0 };    ///< [m/s] current cable velocity
-    double _len { 0.0 };    ///< [m]   current cable length
+    double f_ = 0.0;            ///< [N]   current cable force
+    double v_ = 0.0;            ///< [m/s] current cable velocity
+    double l_ = 0.0;            ///< [m]   current cable length
 
-    bool _active { true };  ///< specify if winch is active
+    bool active_ = true;        ///< specify if winch is active
 };
 
 } // namespace mc
