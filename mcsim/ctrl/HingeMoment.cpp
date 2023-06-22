@@ -29,31 +29,15 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-HingeMoment::HingeMoment()
-    : _area  ( 0.0 )
-    , _chord ( 0.0 )
-    , _dch_dalpha   ( 0.0 )
-    , _dch_ddelta   ( 0.0 )
-    , _dch_ddelta_t ( 0.0 )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-HingeMoment::~HingeMoment() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double HingeMoment::getHingeMoment( double dynamicPress,
-                                    double alpha,
-                                    double delta,
-                                    double delta_t ) const
+double HingeMoment::GetHingeMoment(double dynPress, double alpha, double delta,
+                                   double delta_t) const
 {
     // control surface hinge moment coefficient
-    double ch = _dch_dalpha   * alpha
-              + _dch_ddelta   * delta
-              + _dch_ddelta_t * delta_t;
+    double ch = data_.dch_dalpha   * alpha
+              + data_.dch_ddelta   * delta
+              + data_.dch_ddelta_t * delta_t;
 
-    return dynamicPress * _area * _chord * ch;
+    return dynPress * data_.area * data_.chord * ch;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -32,7 +32,7 @@ namespace mc
 {
 
 /**
- * @brief Flight control hinge moment class.
+ * @brief Flight control hinge moment model class.
  *
  * <h3>Refernces:</h3>
  * <ul>
@@ -44,32 +44,41 @@ class MCSIMAPI HingeMoment
 {
 public:
 
-    /** @brief Constructor. */
-    HingeMoment();
+    /**
+     * @brief Hinge moment model data struct.
+     */
+    struct Data
+    {
+        double area  = 0.0;         ///< [m^2] control surface area
+        double chord = 0.0;         ///< [m]   control surface mean chord (from hinge to trailing edge)
 
-    /** @brief Destructor. */
-    virtual ~HingeMoment();
+        double dch_dalpha   = 0.0;  ///< [1/rad] hinge moment coefficient due to angle of attack
+        double dch_ddelta   = 0.0;  ///< [1/rad] hinge moment coefficient due to deflection
+        double dch_ddelta_t = 0.0;  ///< [1/rad] hinge moment coefficient due to trim deflection
+    };
+
+    // LCOV_EXCL_START
+    HingeMoment() = default;
+    HingeMoment(const HingeMoment&) = delete;
+    HingeMoment(HingeMoment&&) = default;
+    HingeMoment& operator=(const HingeMoment&) = delete;
+    HingeMoment& operator=(HingeMoment&&) = default;
+    virtual ~HingeMoment() = default;
+    // LCOV_EXCL_STOP
 
     /**
      * @brief Computes hinge moment.
-     * @param dynamicPress [Pa] dynamic pressure
+     * @param dynPress [Pa] dynamic pressure
      * @param alpha   [rad] angle of attack
      * @param delta   [rad] control surface deflection
      * @param delta_t [rad] control surface trim deflection
      */
-    virtual double getHingeMoment( double dynamicPress,
-                                   double alpha,
-                                   double delta,
-                                   double delta_t = 0.0 ) const;
+    virtual double GetHingeMoment(double dynPress, double alpha, double delta,
+                                  double delta_t = 0.0) const;
 
 protected:
 
-    double _area;           ///< [m^2] control surface area
-    double _chord;          ///< [m]   control surface mean chord (from hinge to trailing edge)
-
-    double _dch_dalpha;     ///< [1/rad] hinge moment coefficient due to angle of attack
-    double _dch_ddelta;     ///< [1/rad] hinge moment coefficient due to deflection
-    double _dch_ddelta_t;   ///< [1/rad] hinge moment coefficient due to trim deflection
+        Data data_;     ///< hinge moment model data
 };
 
 } // namespace mc
