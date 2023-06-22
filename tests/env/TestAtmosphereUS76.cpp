@@ -23,14 +23,14 @@ TEST_F(TestAtmosphereUS76, CanAssertTrue)
 {
     mc::AtmosphereUS76 atm;
 
-    atm.update( 0.0 );
+    atm.Update(0.0);
 
-    std::cout << "t= " << atm.getTemperature() << std::endl;
-    std::cout << "p= " << atm.getPressure() << std::endl;
-    std::cout << "rho= " << atm.getDensity() << std::endl;
-    std::cout << "a= " << atm.getSpeedOfSound() << std::endl;
-    std::cout << "mu= " << atm.getDynViscosity() << std::endl;
-    std::cout << "nu= " << atm.getKinViscosity() << std::endl;
+    std::cout << "t= " << atm.temperature() << std::endl;
+    std::cout << "p= " << atm.pressure() << std::endl;
+    std::cout << "rho= " << atm.density() << std::endl;
+    std::cout << "a= " << atm.speed_of_sound() << std::endl;
+    std::cout << "mu= " << atm.dyn_viscosity() << std::endl;
+    std::cout << "nu= " << atm.kin_viscosity() << std::endl;
 
     ASSERT_TRUE( true );
 }

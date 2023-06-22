@@ -35,7 +35,7 @@ namespace mc
 ////////////////////////////////////////////////////////////////////////////////
 
 // US Standard Atmosphere 1976, Table 3, p.3
-const double AtmosphereUS76::_m_i[] = {
+const double AtmosphereUS76::kM_i[] = {
     28.0134  ,
     31.9988  ,
     39.948   ,
@@ -49,7 +49,7 @@ const double AtmosphereUS76::_m_i[] = {
 };
 
 // US Standard Atmosphere 1976, Table 3, p.3
-const double AtmosphereUS76::_f_i[] = {
+const double AtmosphereUS76::kF_i[] = {
     0.78084     ,
     0.209476    ,
     0.00934     ,
@@ -63,7 +63,7 @@ const double AtmosphereUS76::_f_i[] = {
 };
 
 // US Standard Atmosphere 1976, Table 4, p.3
-const double AtmosphereUS76::_h_b[] = {
+const double AtmosphereUS76::kH_b[] = {
     11000.0 ,
     20000.0 ,
     32000.0 ,
@@ -74,7 +74,7 @@ const double AtmosphereUS76::_h_b[] = {
 };
 
 // US Standard Atmosphere 1976, Table I, p.50-73
-const double AtmosphereUS76::_p_b[] = {
+const double AtmosphereUS76::kP_b[] = {
     101325.0   ,
      22632.0   ,
       5474.8   ,
@@ -85,7 +85,7 @@ const double AtmosphereUS76::_p_b[] = {
 };
 
 // US Standard Atmosphere 1976, Table I, p.50-73
-const double AtmosphereUS76::_t_b[] = {
+const double AtmosphereUS76::kT_b[] = {
     288.15 ,
     216.65 ,
     216.65 ,
@@ -96,7 +96,7 @@ const double AtmosphereUS76::_t_b[] = {
 };
 
 // US Standard Atmosphere 1976, Table 4, p.3
-const double AtmosphereUS76::_l_b[] = {
+const double AtmosphereUS76::kL_b[] = {
     -6.5e-3 ,
      0.0    ,
      1.0e-3 ,
@@ -107,57 +107,57 @@ const double AtmosphereUS76::_l_b[] = {
 };
 
 // [m/s^2] standard gravitional acceleration
-const double AtmosphereUS76::_g = 9.80665;
+const double AtmosphereUS76::kG = 9.80665;
 
 // [kg/kmol] mean molecular weight, US Standard Atmosphere 1976, p.9
-const double AtmosphereUS76::_m =
-        ( AtmosphereUS76::_m_i[ AtmosphereUS76::N2  ] * AtmosphereUS76::_f_i[ AtmosphereUS76::N2  ]
-        + AtmosphereUS76::_m_i[ AtmosphereUS76::O2  ] * AtmosphereUS76::_f_i[ AtmosphereUS76::O2  ]
-        + AtmosphereUS76::_m_i[ AtmosphereUS76::Ar  ] * AtmosphereUS76::_f_i[ AtmosphereUS76::Ar  ]
-        + AtmosphereUS76::_m_i[ AtmosphereUS76::CO2 ] * AtmosphereUS76::_f_i[ AtmosphereUS76::CO2 ]
-        + AtmosphereUS76::_m_i[ AtmosphereUS76::Ne  ] * AtmosphereUS76::_f_i[ AtmosphereUS76::Ne  ]
-        + AtmosphereUS76::_m_i[ AtmosphereUS76::He  ] * AtmosphereUS76::_f_i[ AtmosphereUS76::He  ]
-        + AtmosphereUS76::_m_i[ AtmosphereUS76::Kr  ] * AtmosphereUS76::_f_i[ AtmosphereUS76::Kr  ]
-        + AtmosphereUS76::_m_i[ AtmosphereUS76::Xe  ] * AtmosphereUS76::_f_i[ AtmosphereUS76::Xe  ]
-        + AtmosphereUS76::_m_i[ AtmosphereUS76::CH4 ] * AtmosphereUS76::_f_i[ AtmosphereUS76::CH4 ]
-        + AtmosphereUS76::_m_i[ AtmosphereUS76::H2  ] * AtmosphereUS76::_f_i[ AtmosphereUS76::H2  ] )
+const double AtmosphereUS76::kM =
+        ( AtmosphereUS76::kM_i[ AtmosphereUS76::N2  ] * AtmosphereUS76::kF_i[ AtmosphereUS76::N2  ]
+        + AtmosphereUS76::kM_i[ AtmosphereUS76::O2  ] * AtmosphereUS76::kF_i[ AtmosphereUS76::O2  ]
+        + AtmosphereUS76::kM_i[ AtmosphereUS76::Ar  ] * AtmosphereUS76::kF_i[ AtmosphereUS76::Ar  ]
+        + AtmosphereUS76::kM_i[ AtmosphereUS76::CO2 ] * AtmosphereUS76::kF_i[ AtmosphereUS76::CO2 ]
+        + AtmosphereUS76::kM_i[ AtmosphereUS76::Ne  ] * AtmosphereUS76::kF_i[ AtmosphereUS76::Ne  ]
+        + AtmosphereUS76::kM_i[ AtmosphereUS76::He  ] * AtmosphereUS76::kF_i[ AtmosphereUS76::He  ]
+        + AtmosphereUS76::kM_i[ AtmosphereUS76::Kr  ] * AtmosphereUS76::kF_i[ AtmosphereUS76::Kr  ]
+        + AtmosphereUS76::kM_i[ AtmosphereUS76::Xe  ] * AtmosphereUS76::kF_i[ AtmosphereUS76::Xe  ]
+        + AtmosphereUS76::kM_i[ AtmosphereUS76::CH4 ] * AtmosphereUS76::kF_i[ AtmosphereUS76::CH4 ]
+        + AtmosphereUS76::kM_i[ AtmosphereUS76::H2  ] * AtmosphereUS76::kF_i[ AtmosphereUS76::H2  ] )
         /
-        ( AtmosphereUS76::_f_i[ AtmosphereUS76::N2  ]
-        + AtmosphereUS76::_f_i[ AtmosphereUS76::O2  ]
-        + AtmosphereUS76::_f_i[ AtmosphereUS76::Ar  ]
-        + AtmosphereUS76::_f_i[ AtmosphereUS76::CO2 ]
-        + AtmosphereUS76::_f_i[ AtmosphereUS76::Ne  ]
-        + AtmosphereUS76::_f_i[ AtmosphereUS76::He  ]
-        + AtmosphereUS76::_f_i[ AtmosphereUS76::Kr  ]
-        + AtmosphereUS76::_f_i[ AtmosphereUS76::Xe  ]
-        + AtmosphereUS76::_f_i[ AtmosphereUS76::CH4 ]
-        + AtmosphereUS76::_f_i[ AtmosphereUS76::H2  ] );
+        ( AtmosphereUS76::kF_i[ AtmosphereUS76::N2  ]
+        + AtmosphereUS76::kF_i[ AtmosphereUS76::O2  ]
+        + AtmosphereUS76::kF_i[ AtmosphereUS76::Ar  ]
+        + AtmosphereUS76::kF_i[ AtmosphereUS76::CO2 ]
+        + AtmosphereUS76::kF_i[ AtmosphereUS76::Ne  ]
+        + AtmosphereUS76::kF_i[ AtmosphereUS76::He  ]
+        + AtmosphereUS76::kF_i[ AtmosphereUS76::Kr  ]
+        + AtmosphereUS76::kF_i[ AtmosphereUS76::Xe  ]
+        + AtmosphereUS76::kF_i[ AtmosphereUS76::CH4 ]
+        + AtmosphereUS76::kF_i[ AtmosphereUS76::H2  ] );
 
-const double AtmosphereUS76::_r          = 8.31432e3;   // US Standard Atmosphere 1976, Table 2, p.2
-const double AtmosphereUS76::_s          = 110.0;       // US Standard Atmosphere 1976, Table 2, p.2
-const double AtmosphereUS76::_beta       = 1.458e-6;    // US Standard Atmosphere 1976, Table 2, p.2
-const double AtmosphereUS76::_gamma      = 1.4;         // US Standard Atmosphere 1976, Table 2, p.2
+const double AtmosphereUS76::kR     = 8.31432e3;        // US Standard Atmosphere 1976, Table 2, p.2
+const double AtmosphereUS76::kS     = 110.0;            // US Standard Atmosphere 1976, Table 2, p.2
+const double AtmosphereUS76::kBeta  = 1.458e-6;         // US Standard Atmosphere 1976, Table 2, p.2
+const double AtmosphereUS76::kGamma = 1.4;              // US Standard Atmosphere 1976, Table 2, p.2
 
-const double AtmosphereUS76::_std_sl_p   = 101325.0;    // US Standard Atmosphere 1976, Table 2, p.2
-const double AtmosphereUS76::_std_sl_t   = 288.15;      // US Standard Atmosphere 1976, Table 2, p.2
-const double AtmosphereUS76::_std_sl_rho = 1.225;
-const double AtmosphereUS76::_std_sl_c   = 340.293;
-const double AtmosphereUS76::_std_sl_mu  = 1.79118e-05;
-const double AtmosphereUS76::_std_sl_nu  = 1.46218e-05;
+const double AtmosphereUS76::kStdSL_press = 101325.0;   // US Standard Atmosphere 1976, Table 2, p.2
+const double AtmosphereUS76::kStdSL_temp  = 288.15;     // US Standard Atmosphere 1976, Table 2, p.2
+const double AtmosphereUS76::kStdSL_rho   = 1.225;
+const double AtmosphereUS76::kStdSL_sos   = 340.293;
+const double AtmosphereUS76::kStdSL_mu    = 1.79118e-05;
+const double AtmosphereUS76::kStdSL_nu    = 1.46218e-05;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AtmosphereUS76::getDensityAltitude( double pressure, double temperature,
-                                           double altitude )
+double AtmosphereUS76::GetDensityAltitude(double pressure, double temperature,
+                                          double altitude)
 {
-    static double b = ( -_l_b[ 0 ]*_r  ) / ( _g*_m + _l_b[ 0 ]*_r  );
+    static double b = ( -kL_b[0]*kR  ) / ( kG*kM + kL_b[0]*kR  );
 
     double result = altitude;
 
-    if ( altitude < _h_b[ 0 ] )
+    if ( altitude < kH_b[0] )
     {
-        double a = ( pressure / _std_sl_p ) / ( temperature / _std_sl_t );
-        result = -( _std_sl_t / _l_b[ 0 ] ) * ( 1.0 - pow( a, b ) );
+        double a = ( pressure / kStdSL_press ) / ( temperature / kStdSL_temp );
+        result = -( kStdSL_temp / kL_b[0] ) * ( 1.0 - pow(a, b) );
     }
 
     return result;
@@ -165,36 +165,36 @@ double AtmosphereUS76::getDensityAltitude( double pressure, double temperature,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void AtmosphereUS76::update( double altitude )
+void AtmosphereUS76::Update(double altitude)
 {
-    double h_b = _h_b[ 5 ];
-    double p_b = _p_b[ 6 ];
-    double t_b = _t_b[ 6 ];
+    double h_b = kH_b[ 5 ];
+    double p_b = kP_b[ 6 ];
+    double t_b = kT_b[ 6 ];
     double l_b = 0.0;
 
-    if ( altitude < _h_b[ 0 ] )
+    if ( altitude < kH_b[ 0 ] )
     {
         h_b = 0.0;
-        p_b = _p_b[ 0 ];
-        t_b = _temperature_0;
-        l_b = -( _temperature_0 - _t_b[ 1 ] ) / _h_b[ 0 ];
+        p_b = kP_b[ 0 ];
+        t_b = sl_temperature_;
+        l_b = -( sl_temperature_ - kT_b[ 1 ] ) / kH_b[ 0 ];
     }
     else
     {
         for ( int i = 1; i < 7; ++i )
         {
-            if ( altitude < _h_b[ i ] )
+            if ( altitude < kH_b[i] )
             {
-                h_b = _h_b[ i - 1 ];
-                p_b = _p_b[ i ];
-                t_b = _t_b[ i ];
-                l_b = _l_b[ i ];
+                h_b = kH_b[i - 1];
+                p_b = kP_b[i];
+                t_b = kT_b[i];
+                l_b = kL_b[i];
 
                 break;
             }
         }
 
-        if ( altitude > _h_b[ 6 ] )
+        if ( altitude > kH_b[6] )
         {
             Log::Warning( "Atmosphere altitude above valid range." );
         }
@@ -203,46 +203,45 @@ void AtmosphereUS76::update( double altitude )
     double delta_h = altitude - h_b;
 
     // [K] temperature, US Standard Atmosphere 1976, p.10
-    _temperature = t_b + l_b * delta_h;
+    temperature_ = t_b + l_b * delta_h;
 
     // [Pa] pressure, US Standard Atmosphere 1976, p.12
     if ( fabs( l_b ) < 1.0e-6 )
     {
-        _pressure = p_b * exp( -( _g * _m * delta_h ) / ( _r * t_b ) );
+        pressure_ = p_b * exp( -( kG * kM * delta_h ) / ( kR * t_b ) );
     }
     else
     {
-        _pressure = p_b * pow( t_b / _temperature, ( _g * _m ) / ( _r * l_b ) );
+        pressure_ = p_b * pow(t_b/temperature_, (kG * kM) / (kR*l_b));
 
-        if ( altitude < _h_b[ 0 ] )
+        if ( altitude < kH_b[0] )
         {
-            double c_h = ( _h_b[ 0 ] - altitude ) / _h_b[ 0 ];
-            double c_p = ( c_h * _pressure_0 + ( 1.0 - c_h ) * _std_sl_p ) / _std_sl_p;
-
-            _pressure = _pressure * c_p;
+            double c_h = ( kH_b[0] - altitude ) / kH_b[0];
+            double c_p = ( c_h * sl_pressure_ + (1.0 - c_h) * kStdSL_press ) / kStdSL_press;
+            pressure_ = pressure_ * c_p;
         }
     }
 
     // [kg/m^3] density, US Standard Atmosphere 1976, p.15
-    _density = ( _pressure * _m ) / ( _r * _temperature );
+    density_ = ( pressure_ * kM ) / ( kR * temperature_ );
 
     // [m/s] speed of sound, US Standard Atmosphere 1976, p.18
-    _speedOfSound = sqrt( ( _gamma * _r * _temperature ) / _m );
+    speed_of_sound_ = sqrt( ( kGamma * kR * temperature_ ) / kM );
 
     // [Pa*s] dynamic viscosity, US Standard Atmosphere 1976, p.19
-    _dynViscosity = _beta * pow( _temperature, 3.0 / 2.0 ) / ( _temperature + _s );
+    dyn_viscosity_ = kBeta * pow(temperature_, 3.0/2.0) / ( temperature_ + kS );
 
     // [m^2/s] kinematic viscosity, US Standard Atmosphere 1976, p.19
-    _kinViscosity = _dynViscosity / _density;
+    kin_viscosity_ = dyn_viscosity_ / density_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void AtmosphereUS76::setPressureSL( double p_sl )
+void AtmosphereUS76::set_sl_pressure(double press)
 {
-    if ( p_sl > 90000.0 && p_sl < 110000.0 )
+    if ( press > 90000.0 && press < 110000.0 )
     {
-        _pressure_0 = p_sl;
+        sl_pressure_ = press;
     }
     else
     {
@@ -252,11 +251,11 @@ void AtmosphereUS76::setPressureSL( double p_sl )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void AtmosphereUS76::setTemperatureSL( double t_sl )
+void AtmosphereUS76::set_sl_temperature(double temp)
 {
-    if ( t_sl > 173.15 && t_sl < 373.15 )
+    if ( temp > 173.15 && temp < 373.15 )
     {
-        _temperature_0 = t_sl;
+        sl_temperature_ = temp;
     }
     else
     {
