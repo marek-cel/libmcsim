@@ -74,13 +74,13 @@ public:
 
     /**
      * @brief Update winch model.
-     * @param timeStep [s] time step
+     * @param dt [s] time step
      * @param bas2wgs matrix of rotation from BAS to WGS
      * @param wgs2ned matrix of rotation from WGS to NED
      * @param pos_wgs [m] aircraft position expressed in WGS
      * @param altitude_agl [m] altitude above ground level
      */
-    virtual void Update(double timeStep,
+    virtual void Update(double dt,
                         const Matrix3x3& bas2wgs,
                         const Matrix3x3& wgs2ned,
                         const Vector3& pos_wgs,

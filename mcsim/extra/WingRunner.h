@@ -48,15 +48,20 @@ public:
         Vector3 r_w_bas;    ///< [m] wing coordinates expressed in BAS
         Vector3 r_f_bas;    ///< [m] feet coordinates expressed in BAS
 
-        double k { 0.0 };   ///< [N/m] stiffness (linear spring) coefficient
-        double c { 0.0 };   ///< [N/(m/s)] damping coefficient
+        double k = 0.0;     ///< [N/m] stiffness (linear spring) coefficient
+        double c = 0.0;     ///< [N/(m/s)] damping coefficient
+
+        double v_max = 0.0; ///< [m/s] maximum speed
     };
 
-    /** @brief Constructor. */
+    // LCOV_EXCL_START
     WingRunner() = default;
-
-    /** @brief Destructor. */
+    WingRunner(const WingRunner&) = delete;
+    WingRunner(WingRunner&&) = default;
+    WingRunner& operator=(const WingRunner&) = delete;
+    WingRunner& operator=(WingRunner&&) = default;
     virtual ~WingRunner() = default;
+    // LCOV_EXCL_STOP
 
     /**
      * @brief Computes force and moment.
@@ -65,31 +70,33 @@ public:
      * @param r_c_bas [m] contact point coordinates expressed in BAS
      * @param n_c_bas [-] contact point normal vector expressed in BAS
      */
-    virtual void computeForceAndMoment( const Vector3 &vel_bas,
-                                        const Vector3 &omg_bas,
-                                        const Vector3 &r_c_bas,
-                                        const Vector3 &n_c_bas );
+    virtual void ComputeForceAndMoment(const Vector3& vel_bas,
+                                       const Vector3& omg_bas,
+                                       const Vector3& r_c_bas,
+                                       const Vector3& n_c_bas);
 
     /**
      * @brief Update wing runner model.
-     * @param timeStep [s] time step
+     * @param dt [s] time step
+     * @param vel_bas [m/s] aircraft velocity expressed in BAS
+     * @param on_ground specifies if aircraft is on the ground
      */
-    virtual void update( double timeStep, const Vector3 &vel_bas, bool onGround );
+    virtual void Update(double dt, const Vector3& vel_bas, bool on_ground);
 
-    inline const Vector3& getForce_BAS  () const { return _for_bas; }
-    inline const Vector3& getMoment_BAS () const { return _mom_bas; }
+    inline Vector3 getPosWing_BAS() const { return data_.r_w_bas; }
+    inline Vector3 getPosFeet_BAS() const { return data_.r_f_bas; }
 
-    inline Vector3 getRw_BAS() const { return _data.r_w_bas; }
-    inline Vector3 getRf_BAS() const { return _data.r_f_bas; }
+    inline const Vector3& f_bas() const { return f_bas_; }
+    inline const Vector3& m_bas() const { return m_bas_; }
 
 protected:
 
-    Data _data;             ///< wingrunner data
+    Data data_;                 ///< wing runner data
 
-    Vector3 _for_bas;       ///< [N] total force vector expressed in BAS
-    Vector3 _mom_bas;       ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
 
-    bool _active { true };  ///< specify if wing runner is active
+    bool active_ = true;        ///< specify if wing runner is active
 };
 
 } // namespace mc

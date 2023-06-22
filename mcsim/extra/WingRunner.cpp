@@ -31,17 +31,17 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WingRunner::computeForceAndMoment(const Vector3 &vel_bas,
-                                       const Vector3 &omg_bas,
-                                       const Vector3 &r_c_bas,
-                                       const Vector3 &n_c_bas)
+void WingRunner::ComputeForceAndMoment(const Vector3& vel_bas,
+                                       const Vector3& omg_bas,
+                                       const Vector3& r_c_bas,
+                                       const Vector3& n_c_bas)
 {
-    _for_bas.Zeroize();
-    _mom_bas.Zeroize();
+    f_bas_.Zeroize();
+    m_bas_.Zeroize();
 
-    if ( _active )
+    if ( active_ )
     {
-        double deflection_norm = n_c_bas * ( r_c_bas - _data.r_f_bas );
+        double deflection_norm = n_c_bas * ( r_c_bas - data_.r_f_bas );
 
         if ( deflection_norm > 1.0e-6 )
         {
@@ -50,26 +50,26 @@ void WingRunner::computeForceAndMoment(const Vector3 &vel_bas,
             double v_norm = n_c_bas * v_c_bas;
 
             // normal force
-            double for_norm = _data.k * deflection_norm - _data.c * v_norm;
+            double for_norm = data_.k * deflection_norm - data_.c * v_norm;
 
             // resulting forces
-            _for_bas = for_norm * n_c_bas;
-            _mom_bas = r_c_bas % _for_bas;
+            f_bas_ = for_norm * n_c_bas;
+            m_bas_ = r_c_bas % f_bas_;
         }
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WingRunner::update(double timeStep, const Vector3 &vel_bas, bool onGround)
+void WingRunner::Update(double dt, const Vector3 &vel_bas, bool on_ground)
 {
-    if ( _active )
+    if ( active_ )
     {
-        if ( timeStep > 0.0 )
+        if ( dt > 0.0 )
         {
-            if ( vel_bas.GetLength() > 1.0 || ( !onGround ) )
+            if ( vel_bas.GetLength() > data_.v_max || ( !on_ground ) )
             {
-                _active = false;
+                active_ = false;
             }
         }
     }
