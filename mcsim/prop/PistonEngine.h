@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <memory>
+
 #include <mcutils/math/Table.h>
 
 #include <mcsim/defs.h>
@@ -46,7 +48,7 @@ class MCSIMAPI PistonEngine
 public:
 
     /** Engine state enum. */
-    enum State
+    enum class State
     {
         Stopped  = 0,   ///< engine stopped
         Starting = 1,   ///< engine starting
@@ -96,149 +98,88 @@ public:
      * @param magneto_l     specifies if left magneto is enabled
      * @param magneto_r     specifies if right magneto is enabled
      */
-    virtual void update( double throttleLever,
-                         double mixtureLever,
-                         double rpm,
-                         double airPressure,
-                         double airDensity,
-                         double densityAlt,
-                         bool fuel,
-                         bool starter,
-                         bool magneto_l = true,
-                         bool magneto_r = true );
+    virtual void Update(double throttleLever,
+                        double mixtureLever,
+                        double rpm,
+                        double airPressure,
+                        double airDensity,
+                        double densityAlt,
+                        bool fuel,
+                        bool starter,
+                        bool magneto_l = true,
+                        bool magneto_r = true);
 
-    /**
-     * @brief Returns engine state.
-     * @return engine state
-     */
-    inline State getState() const
-    {
-        return _state;
-    }
+    inline const std::weak_ptr<Data> data() const { return data_; }
 
-    /**
-     * @brief Returns engine air flow.
-     * @return [kg/s] engine air flow
-     */
-    inline double getAirFlow() const
-    {
-        return _airFlow;
-    }
+    inline State state() const { return state_; }
 
-    /**
-     * @brief Returns engine fuel consumption.
-     * @return [kg/s] engine fuel consumption
-     */
-    inline double getFuelFlow() const
-    {
-        return _fuelFlow;
-    }
+    inline double rpm() const { return rpm_; }
+    inline double map() const { return map_; }
+    inline double pwr() const { return pwr_; }
+    inline double trq() const { return trq_; }
+    inline double af()  const { return af_;  }
+    inline double ff()  const { return ff_;  }
 
-    /**
-     * @brief Returns engine polar moment of inertia.
-     * @return [kg*m^2] engine polar moment of inertia
-     */
-    inline double getInertia() const
-    {
-        return _data.inertia;
-    }
-
-    /**
-     * @brief Returns engine manifold absolute pressure.
-     * @return [Pa] engine manifold absolute pressure
-     */
-    inline double getMAP() const
-    {
-        return _map;
-    }
-
-    /**
-     * @brief Returns engine net power.
-     * @return [W] engine net power
-     */
-    inline double getPower()  const
-    {
-        return _power;
-    }
-
-    /**
-     * @brief Returns engine rpm.
-     * @return [rpm] engine rpm
-     */
-    inline double getRPM() const
-    {
-        return _rpm;
-    }
-
-    /**
-     * @brief Returns engine torque.
-     * @return [N*m] engine torque
-     */
-    inline double getTorque() const
-    {
-        return _torque;
-    }
-
-    void setRPM( double rpm );
+    void set_rpm(double rpm);
 
 protected:
 
-    Data _data;                 ///<
+    std::shared_ptr<Data> data_;    ///< aero body data struct
 
-    State _state { Stopped };   ///< engine state
+    State state_ = State::Stopped;  ///< engine state
 
-    double _rpm      { 0.0 };   ///< [rpm]  engine rpm
-    double _map      { 0.0 };   ///< [Pa]   manifold absolute pressure
-    double _power    { 0.0 };   ///< [W]    net power
-    double _torque   { 0.0 };   ///< [N*m]  torque
-    double _airFlow  { 0.0 };   ///< [kg/s] air flow
-    double _fuelFlow { 0.0 };   ///< [kg/s] fuel flow
+    double rpm_ = 0.0;              ///< [rpm]  engine rpm
+    double map_ = 0.0;              ///< [Pa]   manifold absolute pressure
+    double pwr_ = 0.0;              ///< [W]    net power
+    double trq_ = 0.0;              ///< [N*m]  torque
+    double af_  = 0.0;              ///< [kg/s] air flow
+    double ff_  = 0.0;              ///< [kg/s] fuel flow
 
     /**
      * @brief Computes manifold absolute pressure.
      * @param throttleLever [0.0,1.0] throttle lever position
      * @param rpm [rpm] engine rpm
-     * @param airPressure [Pa] air pressure
+     * @param press [Pa] air pressure
      * @return [Pa] manifold absolute pressure
      */
-    virtual double getManifoldAbsolutePressure( double throttleLever,
-                                                double rpm, double airPressure );
+    virtual double GetManifoldAbsolutePressure(double throttleLever,
+                                               double rpm, double press);
 
     /**
      * @brief Computes fuel to air ratio.
      * @param mixture [-] mixture
-     * @param airDensity [kg/m^3] air density
+     * @param rho [kg/m^3] air density
      * @return [-] fuel to air ratio
      */
-    virtual double getFuelToAirRatio( double mixture, double airDensity );
+    virtual double GetFuelToAirRatio(double mixture, double rho);
 
     /**
      * @brief Computes engine power factor.
      * @param fuel specifies if fuel is provided
      * @param mixture [-] mixture
-     * @param airDensity [kg/m^3] air density
+     * @param rho [kg/m^3] air density
      * @param magneto_l specifies if left magneto is enabled
      * @param magneto_r specifies if right magneto is enabled
      * @return [-] power factor
      */
-    virtual double getPowerFactor( double mixture, double airDensity, bool fuel,
-                                   bool magneto_l = true, bool magneto_r = true );
+    virtual double GetPowerFactor(double mixture, double rho, bool fuel,
+                                  bool magneto_l = true, bool magneto_r = true);
 
     /**
      * @brief Computes engine net power.
      * @param throttleLever [0.0,1.0] throttle lever position
      * @param mixtureLever [0.0,1.0] mixture lever position
      * @param rpm [rpm] engine rpm
-     * @param airDensity [kg/m^3] air density
+     * @param rho [kg/m^3] air density
      * @param densityAltitude [m] air density altitude
      * @param fuel specifies if fuel is provided
      * @param magneto_l specifies if left magneto is enabled
      * @param magneto_r specifies if right magneto is enabled
      * @return [W] net power
      */
-    virtual double getNetPower( double throttleLever, double mixtureLever, double rpm,
-                                double airDensity, double densityAltitude,
-                                bool fuel, bool magneto_l, bool magneto_r );
+    virtual double GetNetPower(double throttleLever, double mixtureLever, double rpm,
+                               double rho, double densityAltitude,
+                               bool fuel, bool magneto_l, bool magneto_r);
 };
 
 } // namespace mc
