@@ -54,17 +54,20 @@ class MCSIMAPI AeroBody
 {
 public:
 
+    /**
+     * @brief Aero body data struct.
+     */
     struct Data
     {
         Vector3 r_ac_bas;       ///< [m] fuselage aerodynamic center expressed in BAS
 
-        Table cx;               ///< [-] drag coefficient vs [rad] angle of attack in wind axes
+        Table cd;               ///< [-] drag coefficient vs [rad] angle of attack in wind axes
         Table cy;               ///< [-] side force coefficient vs [rad] angle of sideslip in wind axes
-        Table cz;               ///< [-] lift coefficient vs [rad] angle of attack in wind axes
+        Table cl;               ///< [-] lift coefficient vs [rad] angle of attack in wind axes
 
-        Table cl;               ///< [-] rolling moment coefficient vs [rad] angle of sideslip in stability axes
-        Table cm;               ///< [-] pitching moment coefficient vs [rad] angle of attack in stability axes
-        Table cn;               ///< [-] yawing moment coefficient vs [rad] angle of sideslip in stability axes
+        Table cml;              ///< [-] rolling moment coefficient vs [rad] angle of sideslip in stability axes
+        Table cmm;              ///< [-] pitching moment coefficient vs [rad] angle of attack in stability axes
+        Table cmn;              ///< [-] yawing moment coefficient vs [rad] angle of sideslip in stability axes
 
         double length = 0.0;    ///< [m] reference length
         double area   = 0.0;    ///< [m^2] reference area
@@ -113,7 +116,7 @@ protected:
      * @param alpha [rad] angle of attack
      * @return [-] drag coefficient
      */
-    virtual double GetCx(double alpha) const;
+    virtual double GetCd(double alpha) const;
 
     /**
      * @brief Computes side force coefficient.
@@ -127,28 +130,28 @@ protected:
      * @param alpha [rad] angle of attack
      * @return [-] lift coefficient
      */
-    virtual double GetCz(double alpha) const;
+    virtual double GetCl(double alpha) const;
 
     /**
      * @brief Computes rolling moment coefficient.
      * @param beta [rad] angle of sideslip
      * @return [-] rolling moment coefficient
      */
-    virtual double GetCl(double beta) const;
+    virtual double GetCml(double beta) const;
 
     /**
      * @brief Computes pitching moment coefficient.
      * @param alpha [rad] angle of attack
      * @return [-] pitching moment coefficient
      */
-    virtual double GetCm(double alpha) const;
+    virtual double GetCmm(double alpha) const;
 
     /**
      * @brief Computes yawing moment coefficient.
      * @param beta [rad] angle of sideslip
      * @return [-] yawing moment coefficient
      */
-    virtual double GetCn(double beta) const;
+    virtual double GetCmn(double beta) const;
 };
 
 } // namespace mc

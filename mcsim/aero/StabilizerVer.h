@@ -36,16 +36,22 @@ namespace mc
 
 /**
  * @brief Vertical stabilizer aerodynamics model class.
+ * This class is intended to be used in tail-off approach.
+ * @see Fuselage
+ * @see WingBody
  */
 class MCSIMAPI StabilizerVer
 {
 public:
 
+    /**
+     * @brief Vertical stabilizer data struct.
+     */
     struct Data
     {
         Vector3 r_ac_bas;       ///< [m] stabilizer aerodynamic center expressed in BAS
 
-        Table cx;               ///< [-] drag coefficient vs sideslip angle
+        Table cd;               ///< [-] drag coefficient vs sideslip angle
         Table cy;               ///< [-] sideforce coefficient vs sideslip angle
 
         double area = 0.0;      ///< [m^2] stabilizer reference area
@@ -85,7 +91,7 @@ protected:
      * @param beta [rad] sideslip angle
      * @return [-] drag coefficient
      */
-    virtual double GetCx(double beta) const;
+    virtual double GetCd(double beta) const;
 
     /**
      * @brief Computes sideforce coefficient.

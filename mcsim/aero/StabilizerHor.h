@@ -36,17 +36,23 @@ namespace mc
 
 /**
  * @brief Horizontal stabilizer aerodynamics model class.
+ * This class is intended to be used in tail-off approach.
+ * @see Fuselage
+ * @see WingBody
  */
 class MCSIMAPI StabilizerHor
 {
 public:
 
+    /**
+     * @brief Horizontal stabilizer data struct.
+     */
     struct Data
     {
         Vector3 r_ac_bas;           ///< [m] stabilizer aerodynamic center expressed in BAS
 
-        Table cx;                   ///< [-] drag coefficient vs angle of attack
-        Table cz;                   ///< [-] lift coefficient vs angle of attack
+        Table cd;                   ///< [-] drag coefficient vs angle of attack
+        Table cl;                   ///< [-] lift coefficient vs angle of attack
 
         Table dw;                   ///< [rad] downwash angle vs wing angle of attack
 
@@ -100,14 +106,14 @@ protected:
      * @param alpha [rad] angle of attack
      * @return [-] drag coefficient
      */
-    virtual double GetCx(double alpha) const;
+    virtual double GetCd(double alpha) const;
 
     /**
      * @brief Computes lift coefficient.
      * @param alpha [rad] angle of attack
      * @return [-] lift coefficient
      */
-    virtual double GetCz(double alpha) const;
+    virtual double GetCl(double alpha) const;
 };
 
 } // namespace mc

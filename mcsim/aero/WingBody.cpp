@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <mcsim/aero/TailOff.h>
+#include <mcsim/aero/WingBody.h>
 
 #include <mcutils/misc/Units.h>
 
@@ -33,17 +33,17 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
+void WingBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
                                      const Vector3 &omg_air_bas,
-                                     double airDensity )
+                                     double rho)
 {
-    _for_bas.Zeroize();
-    _mom_bas.Zeroize();
+    f_bas_.Zeroize();
+    m_bas_.Zeroize();
 
-    addForceAndMoment( _data.r_ac_l_bas, vel_air_bas, omg_air_bas, airDensity );
-    addForceAndMoment( _data.r_ac_r_bas, vel_air_bas, omg_air_bas, airDensity );
+    AddForceAndMoment(data_.r_ac_l_bas, vel_air_bas, omg_air_bas, rho);
+    AddForceAndMoment(data_.r_ac_r_bas, vel_air_bas, omg_air_bas, rho);
 
-    if ( !_for_bas.IsValid() || !_mom_bas.IsValid() )
+    if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
     {
         // TODO
     }
@@ -51,99 +51,101 @@ void TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
+void WingBody::Update(const Vector3 &vel_air_bas, const Vector3 &omg_air_bas)
 {
-    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas % _data.r_ac_l_bas );
-    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas % _data.r_ac_r_bas );
+    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas % data_.r_ac_l_bas );
+    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas % data_.r_ac_r_bas );
 
-    _aoa_l = GetAngleOfAttack( vel_l_bas );
-    _aoa_r = GetAngleOfAttack( vel_r_bas );
+    aoa_l_ = GetAngleOfAttack(vel_l_bas);
+    aoa_r_ = GetAngleOfAttack(vel_r_bas);
 
-    bool stall_l = ( _aoa_l < _aoa_critical_neg ) || ( _aoa_l > _aoa_critical_pos );
-    bool stall_r = ( _aoa_r < _aoa_critical_neg ) || ( _aoa_r > _aoa_critical_pos );
+    bool stall_l = ( aoa_l_ < aoa_critical_neg_ ) || ( aoa_l_ > aoa_critical_pos_ );
+    bool stall_r = ( aoa_r_ < aoa_critical_neg_ ) || ( aoa_r_ > aoa_critical_pos_ );
 
-    _stall = stall_l || stall_r;
+    stall_ = stall_l || stall_r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
+void WingBody::AddForceAndMoment(const Vector3 &r_ac_bas,
                                  const Vector3 &vel_air_bas,
                                  const Vector3 &omg_air_bas,
-                                 double airDensity )
+                                 double rho)
 {
     // wing velocity
     Vector3 vel_wing_bas = vel_air_bas + ( omg_air_bas % r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = GetAngleOfAttack( vel_wing_bas );
-    double sideslipAngle = GetSideslipAngle( vel_wing_bas );
+    double alpha = GetAngleOfAttack(vel_wing_bas);
+    double beta  = GetSideslipAngle(vel_wing_bas);
 
     // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_wing_bas.GetLength2();
+    double dynPress = 0.5 * rho * vel_wing_bas.GetLength2();
 
-    Vector3 for_aero( dynPress * getCx( angleOfAttack ) * _area_2,
-                      dynPress * getCy( sideslipAngle ) * _area_2,
-                      dynPress * getCz( angleOfAttack ) * _area_2 );
+    Vector3 f_aero( dynPress * GetCd( alpha ) * area_2_,
+                    dynPress * GetCy( beta  ) * area_2_,
+                    dynPress * GetCl( alpha ) * area_2_ );
 
-    Vector3 mom_stab( dynPress * getCl( sideslipAngle ) * _span_s_2,
-                      dynPress * getCm( angleOfAttack ) * _mac_s_2,
-                      dynPress * getCn( sideslipAngle ) * _span_s_2 );
+    Vector3 m_stab( dynPress * GetCml( beta  ) * span_s_2_,
+                    dynPress * GetCmm( alpha ) * mac_s_2_,
+                    dynPress * GetCmn( beta  ) * span_s_2_ );
 
 
-    double sinAlpha = sin( angleOfAttack );
-    double cosAlpha = cos( angleOfAttack );
-    double sinBeta  = sin( sideslipAngle );
-    double cosBeta  = cos( sideslipAngle );
+    double sin_alpha = sin(alpha);
+    double cos_alpha = cos(alpha);
+    double sin_beta  = sin(beta);
+    double cos_beta  = cos(beta);
 
-    Vector3 for_bas = GetAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
-    Vector3 mom_bas = GetStab2BAS( sinAlpha, cosAlpha ) * mom_stab
-                    + ( r_ac_bas % for_bas );
+    Matrix3x3 aero2bas = GetAero2BAS(sin_alpha, cos_alpha, sin_beta, cos_beta);
+    Matrix3x3 stab2bas = GetStab2BAS(sin_alpha, cos_alpha);
 
-    _for_bas += for_bas;
-    _mom_bas += mom_bas;
+    Vector3 f_bas = aero2bas * f_aero;
+    Vector3 m_bas = stab2bas * m_stab + ( r_ac_bas % f_bas );
+
+    f_bas_ += f_bas;
+    m_bas_ += m_bas;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailOff::getCx( double angleOfAttack ) const
+double WingBody::GetCd(double alpha) const
 {
-    return _data.cx.GetValue( angleOfAttack );
+    return data_.cd.GetValue(alpha);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailOff::getCy( double sideslipAngle ) const
+double WingBody::GetCy(double beta) const
 {
-    return _data.cy.GetValue( sideslipAngle );
+    return data_.cy.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailOff::getCz( double angleOfAttack ) const
+double WingBody::GetCl(double alpha) const
 {
-    return _data.cz.GetValue( angleOfAttack );
+    return data_.cl.GetValue(alpha);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailOff::getCl( double sideslipAngle ) const
+double WingBody::GetCml(double beta) const
 {
-    return _data.cl.GetValue( sideslipAngle );
+    return data_.cml.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailOff::getCm( double angleOfAttack ) const
+double WingBody::GetCmm(double alpha) const
 {
-    return _data.cm.GetValue( angleOfAttack );
+    return data_.cmm.GetValue(alpha);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailOff::getCn( double sideslipAngle ) const
+double WingBody::GetCmn(double beta) const
 {
-    return _data.cn.GetValue( sideslipAngle );
+    return data_.cmn.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

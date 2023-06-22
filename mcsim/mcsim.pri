@@ -10,12 +10,13 @@ SOURCES += \
 HEADERS += \
     $$PWD/aero/AeroAngles.h \
     $$PWD/aero/AeroBody.h \
+    $$PWD/aero/Fuselage.h \
     $$PWD/aero/MeanAeroChord.h \
     $$PWD/aero/RhoEffects.h \
     $$PWD/aero/SchrenkDist.h \
     $$PWD/aero/StabilizerHor.h \
     $$PWD/aero/StabilizerVer.h \
-    $$PWD/aero/TailOff.h
+    $$PWD/aero/WingBody.h
 
 SOURCES += \
     $$PWD/aero/AeroAngles.cpp \
@@ -25,7 +26,7 @@ SOURCES += \
     $$PWD/aero/SchrenkDist.cpp \
     $$PWD/aero/StabilizerHor.cpp \
     $$PWD/aero/StabilizerVer.cpp \
-    $$PWD/aero/TailOff.cpp
+    $$PWD/aero/WingBody.cpp
 
 ################################################################################
 

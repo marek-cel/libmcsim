@@ -5,12 +5,13 @@ set( TARGET_NAME aero )
 set( HEADERS
     AeroAngles.h
     AeroBody.h
+    Fuselage.h
     MeanAeroChord.h
     RhoEffects.h
     SchrenkDist.h
     StabilizerHor.h
     StabilizerVer.h
-    TailOff.h
+    WingBody.h
 )
 
 set( SOURCES
@@ -21,7 +22,7 @@ set( SOURCES
     SchrenkDist.cpp
     StabilizerHor.cpp
     StabilizerVer.cpp
-    TailOff.cpp
+    WingBody.cpp
 )
 
 ################################################################################

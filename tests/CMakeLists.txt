@@ -20,7 +20,7 @@ set( SOURCES
     aero/TestSchrenkDist.cpp
     aero/TestStabilizerHor.cpp
     aero/TestStabilizerVer.cpp
-    aero/TestTailOff.cpp
+    aero/TestWingBody.cpp
 
     ctrl/TestHingeMoment.cpp
 

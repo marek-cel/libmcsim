@@ -11,7 +11,7 @@ SOURCES += \
     $$PWD/aero/TestSchrenkDist.cpp \
     $$PWD/aero/TestStabilizerHor.cpp \
     $$PWD/aero/TestStabilizerVer.cpp \
-    $$PWD/aero/TestTailOff.cpp
+    $$PWD/aero/TestWingBody.cpp
 
 ################################################################################
 

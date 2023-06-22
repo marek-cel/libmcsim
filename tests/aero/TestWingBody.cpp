@@ -1,15 +1,15 @@
 #include <gtest/gtest.h>
 
-#include <mcsim/aero/TailOff.h>
+#include <mcsim/aero/WingBody.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class TestTailOff : public ::testing::Test
+class TestWingBody : public ::testing::Test
 {
 protected:
 
-    TestTailOff() {}
-    virtual ~TestTailOff() {}
+    TestWingBody() {}
+    virtual ~TestWingBody() {}
 
     void SetUp() override {}
     void TearDown() override {}
@@ -17,24 +17,24 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestTailOff, CanConstruct)
+TEST_F(TestWingBody, CanConstruct)
 {
-    mc::TailOff *tailOff = nullptr;
-    EXPECT_NO_THROW( tailOff = new mc::TailOff() );
-    delete tailOff;
+    mc::WingBody *wb = nullptr;
+    EXPECT_NO_THROW( wb = new mc::WingBody() );
+    delete wb;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestTailOff, CanDestruct)
+TEST_F(TestWingBody, CanDestruct)
 {
-    mc::TailOff *tailOff = new mc::TailOff();
-    EXPECT_NO_THROW( delete tailOff );
+    mc::WingBody *wb = new mc::WingBody();
+    EXPECT_NO_THROW( delete wb );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestTailOff, CanInstantiate)
+TEST_F(TestWingBody, CanInstantiate)
 {
-    mc::TailOff tailOff;
+    mc::WingBody wb;
 }
