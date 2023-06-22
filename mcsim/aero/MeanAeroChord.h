@@ -45,14 +45,14 @@ namespace mc
  * @param ct [m] chord at wing tip
  * @return [m] mean aerodynamic chord
  */
-double getMeanAerodynamicChord( double cr, double ct );
+double GetMeanAerodynamicChord(double cr, double ct);
 
 /**
  * @brief Returns mean aerodynamic chord.
  * @param chord [m] wing chord vs [m] spanwise coordinate
  * @return [m] mean aerodynamic chord
  */
-double getMeanAerodynamicChord( const Table& chord );
+double GetMeanAerodynamicChord(const Table& chord);
 
 } // namespace mc
 

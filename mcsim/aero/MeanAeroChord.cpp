@@ -29,7 +29,7 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getMeanAerodynamicChord( double cr, double ct )
+double GetMeanAerodynamicChord(double cr, double ct)
 {
     double tr = ct / cr; // taper ratio
     return ( 2.0 / 3.0 ) * cr * ( 1.0 + tr + tr*tr ) / ( 1.0 + tr );
@@ -37,7 +37,7 @@ double getMeanAerodynamicChord( double cr, double ct )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getMeanAerodynamicChord(const Table& chord)
+double GetMeanAerodynamicChord(const Table& chord)
 {
     double sum_mac = 0.0;
     double sum_area = 0.0;
