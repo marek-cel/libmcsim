@@ -34,36 +34,36 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void AeroBody::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                      const Vector3 &omg_air_bas,
-                                      double air_dens,
-                                      double vel_ind,
-                                      double skew_angle )
+void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
+                                     const Vector3 &omg_air_bas,
+                                     double air_dens,
+                                     double vel_ind,
+                                     double skew_angle)
 {
     // rotor downwash on the fuselage, NASA-TM-84281, p.33
     double dwi_dvi = 1.299 + 0.671 * skew_angle
-                   - 1.172 * Math::Pow2( skew_angle )
-                   + 0.351 * Math::Pow3( skew_angle );
+                   - 1.172 * Math::Pow2(skew_angle)
+                   + 0.351 * Math::Pow3(skew_angle);
     double wi = dwi_dvi * vel_ind;
 
     // fuselage velocity
     Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas % data_.r_ac_bas )
-                      - Vector3( 0.0, 0.0, -wi );
+                      - Vector3(0.0, 0.0, -wi);
 
     // angle of attack and sideslip angle
-    alpha_ = GetAngleOfAttack( vel_f_bas );
-    beta_  = GetSideslipAngle( vel_f_bas );
+    alpha_ = GetAngleOfAttack(vel_f_bas);
+    beta_  = GetSideslipAngle(vel_f_bas);
 
     // dynamic pressure
     double dyn_press = 0.5 * air_dens * vel_f_bas.GetLength2();
 
-    Vector3 for_aero( dyn_press * getCx( alpha_ ) * data_.area,
-                      dyn_press * getCy( beta_  ) * data_.area,
-                      dyn_press * getCz( alpha_ ) * data_.area );
+    Vector3 f_aero( dyn_press * GetCx( alpha_ ) * data_.area,
+                    dyn_press * GetCy( beta_  ) * data_.area,
+                    dyn_press * GetCz( alpha_ ) * data_.area );
 
-    Vector3 mom_stab( dyn_press * getCl( beta_  ) * sl_,
-                      dyn_press * getCm( alpha_ ) * sl_,
-                      dyn_press * getCn( beta_  ) * sl_ );
+    Vector3 m_stab( dyn_press * GetCl( beta_  ) * sl_,
+                    dyn_press * GetCm( alpha_ ) * sl_,
+                    dyn_press * GetCn( beta_  ) * sl_ );
 
 
     double sin_alpha = sin( alpha_ );
@@ -71,14 +71,14 @@ void AeroBody::computeForceAndMoment( const Vector3 &vel_air_bas,
     double sin_beta  = sin( beta_  );
     double cos_beta  = cos( beta_  );
 
-    Vector3 for_bas = GetAero2BAS( sin_alpha, cos_alpha, sin_beta, cos_beta ) * for_aero;
-    Vector3 mom_bas = GetStab2BAS( sin_alpha, cos_alpha ) * mom_stab
-                    + ( data_.r_ac_bas % for_bas );
+    Vector3 f_bas = GetAero2BAS(sin_alpha, cos_alpha, sin_beta, cos_beta) * f_aero;
+    Vector3 m_bas = GetStab2BAS(sin_alpha, cos_alpha) * m_stab
+                  + ( data_.r_ac_bas % f_bas );
 
-    for_bas_ = for_bas;
-    mom_bas_ = mom_bas;
+    f_bas_ = f_bas;
+    m_bas_ = m_bas;
 
-    if ( !for_bas_.IsValid() || !mom_bas_.IsValid() )
+    if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
     {
         // TODO
     }
@@ -86,42 +86,42 @@ void AeroBody::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AeroBody::getCx( double angleOfAttack ) const
+double AeroBody::GetCx( double angleOfAttack ) const
 {
     return data_.cx.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AeroBody::getCy( double sideslipAngle ) const
+double AeroBody::GetCy( double sideslipAngle ) const
 {
     return data_.cy.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AeroBody::getCz( double angleOfAttack ) const
+double AeroBody::GetCz( double angleOfAttack ) const
 {
     return data_.cz.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AeroBody::getCl( double sideslipAngle ) const
+double AeroBody::GetCl( double sideslipAngle ) const
 {
     return data_.cl.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AeroBody::getCm( double angleOfAttack ) const
+double AeroBody::GetCm( double angleOfAttack ) const
 {
     return data_.cm.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AeroBody::getCn( double sideslipAngle ) const
+double AeroBody::GetCn( double sideslipAngle ) const
 {
     return data_.cn.GetValue( sideslipAngle );
 }

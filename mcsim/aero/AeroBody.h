@@ -70,7 +70,14 @@ public:
         double area   = 0.0;    ///< [m^2] reference area
     };
 
+    // LCOV_EXCL_START
+    AeroBody() = default;
+    AeroBody(const AeroBody&) = delete;
+    AeroBody(AeroBody&&) = default;
+    AeroBody& operator=(const AeroBody&) = delete;
+    AeroBody& operator=(AeroBody&&) = default;
     virtual ~AeroBody() = default;
+    // LCOV_EXCL_STOP
 
     /**
      * @brief Computes force and moment.
@@ -80,21 +87,21 @@ public:
      * @param vel_ind [m/s] rotor induced velocity (for rotorcrafts)
      * @param skew_ang [rad] rotor wake skew angle (for rotorcrafts)
      */
-    virtual void computeForceAndMoment( const Vector3& vel_air_bas,
-                                        const Vector3& omg_air_bas,
-                                        double air_dens,
-                                        double vel_ind = 0.0,
-                                        double skew_ang = 0.0 );
+    virtual void ComputeForceAndMoment(const Vector3& vel_air_bas,
+                                       const Vector3& omg_air_bas,
+                                       double air_dens,
+                                       double vel_ind = 0.0,
+                                       double skew_ang = 0.0);
 
-    inline const Vector3& getForceBAS  () const { return for_bas_; }
-    inline const Vector3& getMomentBAS () const { return mom_bas_; }
+    inline const Vector3& f_bas() const { return f_bas_; }
+    inline const Vector3& m_bas() const { return m_bas_; }
 
 protected:
 
     Data data_;                 ///< fuselage data struct
 
-    Vector3 for_bas_;           ///< [N] total force vector expressed in BAS
-    Vector3 mom_bas_;           ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
 
     double sl_;                 ///< [m^3] S*l where S is reference area and l is reference length
 
@@ -106,42 +113,42 @@ protected:
      * @param alpha [rad] angle of attack
      * @return [-] drag coefficient
      */
-    virtual double getCx( double alpha ) const;
+    virtual double GetCx(double alpha) const;
 
     /**
      * @brief Computes side force coefficient.
      * @param beta [rad] angle of sideslip
      * @return [-] sideforce coefficient
      */
-    virtual double getCy( double beta ) const;
+    virtual double GetCy(double beta) const;
 
     /**
      * @brief Computes lift coefficient.
      * @param alpha [rad] angle of attack
      * @return [-] lift coefficient
      */
-    virtual double getCz( double alpha ) const;
+    virtual double GetCz(double alpha) const;
 
     /**
      * @brief Computes rolling moment coefficient.
      * @param beta [rad] angle of sideslip
      * @return [-] rolling moment coefficient
      */
-    virtual double getCl( double beta ) const;
+    virtual double GetCl(double beta) const;
 
     /**
      * @brief Computes pitching moment coefficient.
      * @param alpha [rad] angle of attack
      * @return [-] pitching moment coefficient
      */
-    virtual double getCm( double alpha ) const;
+    virtual double GetCm(double alpha) const;
 
     /**
      * @brief Computes yawing moment coefficient.
      * @param beta [rad] angle of sideslip
      * @return [-] yawing moment coefficient
      */
-    virtual double getCn( double beta ) const;
+    virtual double GetCn(double beta) const;
 };
 
 } // namespace mc
