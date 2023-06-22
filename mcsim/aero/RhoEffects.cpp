@@ -32,7 +32,7 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getPrandtlGlauertFactor(double mach, double max)
+double GetPrandtlGlauertFactor(double mach, double max)
 {
     double factor  = 1.0;
 
