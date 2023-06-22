@@ -97,17 +97,17 @@ protected:
 
     /**
      * @brief Computes drag coefficient.
-     * @param angle [rad] "angle of attack"
+     * @param alpha [rad] angle of attack
      * @return [-] drag coefficient
      */
-    virtual double GetCx(double angle) const;
+    virtual double GetCx(double alpha) const;
 
     /**
      * @brief Computes lift coefficient.
-     * @param angle [rad] "angle of attack"
+     * @param alpha [rad] angle of attack
      * @return [-] lift coefficient
      */
-    virtual double GetCz(double angle) const;
+    virtual double GetCz(double alpha) const;
 };
 
 } // namespace mc

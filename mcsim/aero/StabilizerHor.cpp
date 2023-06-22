@@ -71,16 +71,16 @@ double StabilizerHor::GetAngleOfAttack(const Vector3 &vel_air_bas, double aoa)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double StabilizerHor::GetCx(double angle) const
+double StabilizerHor::GetCx(double alpha) const
 {
-    return data_.cx.GetValue(angle);
+    return data_.cx.GetValue(alpha);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double StabilizerHor::GetCz(double angle) const
+double StabilizerHor::GetCz(double alpha) const
 {
-    return data_.cz.GetValue(angle);
+    return data_.cz.GetValue(alpha);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
