@@ -54,15 +54,12 @@ public:
         double incidence = 0.0;     ///< [rad] stabilizer incidence angle
     };
 
-    /**
-     * @brief Constructor.
-     * @param type stabilizer type
-     */
-    StabilizerHor() = default;
-
     // LCOV_EXCL_START
-    // excluded from coverage report due to deleting destructor calling issues
-    /** @brief Destructor. */
+    StabilizerHor() = default;
+    StabilizerHor(const StabilizerHor&) = delete;
+    StabilizerHor(StabilizerHor&&) = default;
+    StabilizerHor& operator=(const StabilizerHor&) = delete;
+    StabilizerHor& operator=(StabilizerHor&&) = default;
     virtual ~StabilizerHor() = default;
     // LCOV_EXCL_STOP
 
@@ -70,23 +67,22 @@ public:
      * @brief Computes force and moment.
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
-     * @param airDensity [kg/m^3] air density
-     * @param wingAngleOfAttack [rad] wing angle of attack
+     * @param rho [kg/m^3] air density
+     * @param aoa [rad] wing angle of attack
      */
-    virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
-                                        const Vector3 &omg_air_bas,
-                                        double airDensity,
-                                        double wingAngleOfAttack = 0.0 );
+    virtual void ComputeForceAndMoment(const Vector3 &vel_air_bas,
+                                       const Vector3 &omg_air_bas,
+                                       double rho, double aoa = 0.0);
 
-    inline const Vector3& getForce_BAS  () const { return _for_bas; }
-    inline const Vector3& getMoment_BAS () const { return _mom_bas; }
+    inline const Vector3& f_bas() const { return f_bas_; }
+    inline const Vector3& m_bas() const { return m_bas_; }
 
 protected:
 
-    Data _data;
+    Data data_;                 ///< horizontal stabilizer data struct
 
-    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
-    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
 
     /**
      * @brief Computes stabilizer angle of attack.
@@ -94,25 +90,24 @@ protected:
      * @see Raymer D.: Aircraft Design: A Conceptual Approach, 1992, p.426
      * @see Paturski Z.: Przewodnik po projektach z Mechaniki Lotu, Projekt nr 9: Rownowaga podluzna samolotu i sily na sterownicy wysokosci, p.IX-4. [in Polish]
      * @param vel_air_bas [m/s] stabilizer linear velocity relative to the air expressed in BAS
-     * @param wingAngleOfAttack [rad] wing angle of attack
+     * @param aoa [rad] wing angle of attack
      * @return [rad] stabilizer angle of attack
      */
-    virtual double getAngleOfAttack( const Vector3 &vel_air_bas,
-                                     double wingAngleOfAttack );
+    virtual double GetAngleOfAttack(const Vector3 &vel_air_bas, double aoa);
 
     /**
      * @brief Computes drag coefficient.
      * @param angle [rad] "angle of attack"
      * @return [-] drag coefficient
      */
-    virtual double getCx( double angle ) const;
+    virtual double GetCx(double angle) const;
 
     /**
      * @brief Computes lift coefficient.
      * @param angle [rad] "angle of attack"
      * @return [-] lift coefficient
      */
-    virtual double getCz( double angle ) const;
+    virtual double GetCz(double angle) const;
 };
 
 } // namespace mc
