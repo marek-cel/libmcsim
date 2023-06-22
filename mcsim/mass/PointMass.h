@@ -46,8 +46,18 @@ class MCSIMAPI PointMass
 {
 public:
 
+    /**
+     * @brief Point mass data struct.
+     */
+    struct Data
+    {
+        Vector3 r_cg_bas;
+
+        double mass_max = 0.0;        ///< [kg] maximum mass
+    };
+
     /** */
-    void update( double mass );
+    void Update(double mass);
 
     /**
      * @brief Modifies inertia tensor due to variable mass.
@@ -55,26 +65,23 @@ public:
      * of variable mass using Steiner’s theorem.
      * @param inertiaTensor [kg*m^2] inertia tensor to be modified expressed in BAS
      */
-    void addToInertiaTensor( Matrix3x3 *i_bas );
+    void AddToInertiaTensor(Matrix3x3* i_bas);
 
     /**
      * @brief Modifies first moment of mass due to current mass.
      * @param firstMomentOfMass [kg*m] first mass moment vector to be modified expressed in BAS
      */
-    void addToFirstMomentOfMass( Vector3 *s_bas );
+    void AddToFirstMomentOfMass(Vector3* s_bas);
 
-    /**
-     * @brief Returns current mass.
-     * @return [kg] current mass
-     */
-    inline double getMass() const { return _mass; }
+    inline const Data& data() const { return data_; }
+
+    inline double mass() const { return mass_; }
 
 private:
 
-    Vector3 _pos_bas;       ///< [m] position expressed in BAS
+    Data data_;         ///< wing runner data
 
-    double _mass_max;       ///< [kg] maximum mass
-    double _mass;           ///< [kg] current mass
+    double mass_;       ///< [kg] current mass
 };
 
 } // namespace mc

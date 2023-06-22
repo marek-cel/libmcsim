@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <memory>
+
 #include <mcutils/math/Table.h>
 #include <mcutils/math/Vector3.h>
 
@@ -96,22 +98,22 @@ public:
                                        double vel_ind = 0.0,
                                        double skew_ang = 0.0);
 
-    inline const Data& data() const { return data_; }
+    inline const std::weak_ptr<Data> data() const { return data_; }
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
 
 protected:
 
-    Data data_;                 ///< aero body data struct
+    std::shared_ptr<Data> data_;    ///< aero body data struct
 
-    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
-    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS
 
-    double sl_;                 ///< [m^3] S*l where S is reference area and l is reference length
+    double sl_;                     ///< [m^3] S*l where S is reference area and l is reference length
 
-    double alpha_;              ///< [rad] angle of attack
-    double beta_;               ///< [rad] angle of sideslip
+    double alpha_;                  ///< [rad] angle of attack
+    double beta_;                   ///< [rad] angle of sideslip
 
     /**
      * @brief Computes drag coefficient.

@@ -31,41 +31,41 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PointMass::update( double mass )
+void PointMass::Update( double mass )
 {
-    _mass = Math::Satur( 0.0, _mass_max, mass );
+    mass_ = Math::Satur( 0.0, data_.mass_max, mass );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PointMass::addToInertiaTensor( Matrix3x3 *i_bas )
+void PointMass::AddToInertiaTensor( Matrix3x3* i_bas )
 {
-    double r_x2 = _pos_bas.x() * _pos_bas.x();
-    double r_y2 = _pos_bas.y() * _pos_bas.y();
-    double r_z2 = _pos_bas.z() * _pos_bas.z();
+    double r_x2 = data_.r_cg_bas.x() * data_.r_cg_bas.x();
+    double r_y2 = data_.r_cg_bas.y() * data_.r_cg_bas.y();
+    double r_z2 = data_.r_cg_bas.z() * data_.r_cg_bas.z();
 
-    double d_it_xy = _mass * _pos_bas.x() * _pos_bas.y();
-    double d_it_xz = _mass * _pos_bas.x() * _pos_bas.z();
-    double d_it_yz = _mass * _pos_bas.y() * _pos_bas.z();
+    double d_it_xy = mass_ * data_.r_cg_bas.x() * data_.r_cg_bas.y();
+    double d_it_xz = mass_ * data_.r_cg_bas.x() * data_.r_cg_bas.z();
+    double d_it_yz = mass_ * data_.r_cg_bas.y() * data_.r_cg_bas.z();
 
-    (*i_bas).xx() += _mass * ( r_y2 + r_z2 );
+    (*i_bas).xx() += mass_ * ( r_y2 + r_z2 );
     (*i_bas).xy() -= d_it_xy;
     (*i_bas).xz() -= d_it_xz;
 
     (*i_bas).yx() -= d_it_xy;
-    (*i_bas).yy() += _mass * ( r_x2 + r_z2 );
+    (*i_bas).yy() += mass_ * ( r_x2 + r_z2 );
     (*i_bas).yz() -= d_it_yz;
 
     (*i_bas).zx() -= d_it_xz;
     (*i_bas).zy() -= d_it_yz;
-    (*i_bas).zz() += _mass * ( r_x2 + r_y2 );
+    (*i_bas).zz() += mass_ * ( r_x2 + r_y2 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PointMass::addToFirstMomentOfMass( Vector3 *s_bas )
+void PointMass::AddToFirstMomentOfMass( Vector3* s_bas )
 {
-    (*s_bas) += _mass * _pos_bas;
+    (*s_bas) += mass_ * data_.r_cg_bas;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
