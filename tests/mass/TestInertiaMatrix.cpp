@@ -20,12 +20,12 @@ protected:
 TEST_F(TestInertiaMatrix, CanGetInertiaMatrix)
 {
     const double mass = 100.0;
-    const mc::Vector3 s_bas( 1.0, 2.0, 3.0 );
-    const mc::Matrix3x3 i_bas( 11.0, 12.0, 13.0,
-                               12.0, 22.0, 23.0,
-                               13.0, 23.0, 33.0 );
+    const mc::Vector3 s_bas(1.0, 2.0, 3.0);
+    const mc::Matrix3x3 i_bas(11.0, 12.0, 13.0,
+                              12.0, 22.0, 23.0,
+                              13.0, 23.0, 33.0);
 
-    mc::Matrix6x6 im = mc::getInertiaMatrix( mass, s_bas, i_bas );
+    mc::Matrix6x6 im = mc::GetInertiaMatrix(mass, s_bas, i_bas);
 
     // Fossen T.: Handbook of Marine Craft Hydrodynamics and Motion Control. 2011, p.52
     // Maryniak J.: Ogolny model matematyczny sterowanego samolotu. in Mechanika w Lotnictwie, 1992, p.577

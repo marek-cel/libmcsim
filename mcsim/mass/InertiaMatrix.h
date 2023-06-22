@@ -42,7 +42,7 @@ namespace mc
  * @param i_bas kg*m^2] inertia tensor expressed in BAS
  * @return inertia tensor
  */
-Matrix6x6 getInertiaMatrix( double mass, Vector3 s_bas, Matrix3x3 i_bas );
+Matrix6x6 GetInertiaMatrix(double mass, Vector3 s_bas, Matrix3x3 i_bas);
 
 } // namespace mc
 

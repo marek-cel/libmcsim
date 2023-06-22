@@ -29,7 +29,7 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix6x6 getInertiaMatrix( double mass, Vector3 s_bas, Matrix3x3 i_bas )
+Matrix6x6 GetInertiaMatrix(double mass, Vector3 s_bas, Matrix3x3 i_bas)
 {
     Matrix6x6 mi_bas;
 
