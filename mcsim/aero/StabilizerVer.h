@@ -51,15 +51,12 @@ public:
         double area = 0.0;      ///< [m^2] stabilizer reference area
     };
 
-    /**
-     * @brief Constructor.
-     * @param type stabilizer type
-     */
-    StabilizerVer() = default;
-
     // LCOV_EXCL_START
-    // excluded from coverage report due to deleting destructor calling issues
-    /** @brief Destructor. */
+    StabilizerVer() = default;
+    StabilizerVer(const StabilizerVer&) = delete;
+    StabilizerVer(StabilizerVer&&) = default;
+    StabilizerVer& operator=(const StabilizerVer&) = delete;
+    StabilizerVer& operator=(StabilizerVer&&) = default;
     virtual ~StabilizerVer() = default;
     // LCOV_EXCL_STOP
 
@@ -67,35 +64,35 @@ public:
      * @brief Computes force and moment.
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
-     * @param airDensity [kg/m^3] air density
+     * @param rho [kg/m^3] air density
      */
-    virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
-                                        const Vector3 &omg_air_bas,
-                                        double airDensity );
+    virtual void ComputeForceAndMoment(const Vector3 &vel_air_bas,
+                                       const Vector3 &omg_air_bas,
+                                       double rho);
 
-    inline const Vector3& getForce_BAS  () const { return _for_bas; }
-    inline const Vector3& getMoment_BAS () const { return _mom_bas; }
+    inline const Vector3& f_bas() const { return f_bas_; }
+    inline const Vector3& m_bas() const { return m_bas_; }
 
 protected:
 
-    Data _data;
+    Data data_;                 ///< vertical stabilizer data struct
 
-    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
-    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
 
     /**
      * @brief Computes drag coefficient.
-     * @param angle [rad] "angle of attack"
+     * @param beta [rad] sideslip angle
      * @return [-] drag coefficient
      */
-    virtual double getCx( double angle ) const;
+    virtual double GetCx(double beta) const;
 
     /**
      * @brief Computes sideforce coefficient.
-     * @param angle [rad] "angle of attack"
+     * @param beta [rad] sideslip angle
      * @return [-] sideforce coefficient
      */
-    virtual double getCy( double angle ) const;
+    virtual double GetCy(double beta) const;
 };
 
 } // namespace mc

@@ -33,28 +33,30 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                           const Vector3 &omg_air_bas,
-                                           double airDensity )
+void StabilizerVer::ComputeForceAndMoment(const Vector3 &vel_air_bas,
+                                          const Vector3 &omg_air_bas,
+                                          double rho)
 {
     // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _data.r_ac_bas );
+    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % data_.r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = GetAngleOfAttack( vel_stab_bas );
-    double sideslipAngle = GetSideslipAngle( vel_stab_bas );
+    double alpha = GetAngleOfAttack(vel_stab_bas);
+    double beta  = GetSideslipAngle(vel_stab_bas);
 
     // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.GetLength2();
+    double dynPress = 0.5 * rho * vel_stab_bas.GetLength2();
 
-    Vector3 for_aero( dynPress * getCx( sideslipAngle ) * _data.area,
-                      dynPress * getCy( sideslipAngle ) * _data.area,
-                      0.0 );
+    Vector3 f_aero( dynPress * GetCx(beta) * data_.area,
+                    dynPress * GetCy(beta) * data_.area,
+                    0.0 );
 
-    _for_bas = GetAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
-    _mom_bas = _data.r_ac_bas % _for_bas;
+    Matrix3x3 aero2bas = GetAero2BAS(alpha, beta);
 
-    if ( !_for_bas.IsValid() || !_mom_bas.IsValid() )
+    f_bas_ = aero2bas * f_aero;
+    m_bas_ = data_.r_ac_bas % f_bas_;
+
+    if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
     {
         // TODO
     }
@@ -62,16 +64,16 @@ void StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double StabilizerVer::getCx( double angle ) const
+double StabilizerVer::GetCx(double beta) const
 {
-    return _data.cx.GetValue( angle );
+    return data_.cx.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double StabilizerVer::getCy( double angle ) const
+double StabilizerVer::GetCy(double beta) const
 {
-    return _data.cy.GetValue( angle );
+    return data_.cy.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
