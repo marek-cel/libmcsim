@@ -305,7 +305,11 @@ protected:
 
     unsigned int n_max = 100;       ///< maximum number of iteration loop steps
 
-    void UpdateDataDerivedVariables();
+    /**
+     * @brief Updates auxiliary variables that are directly derived from data.
+     * Examples of such variables: radius squared, disk area, solidity, etc.
+     */
+    virtual void UpdateDataDerivedVariables();
 
     /**
      * @brief Updates flapping angles and thrust coefficient.
