@@ -36,10 +36,10 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-MainRotor::MainRotor( IInGroundEffectSharedPtr  ige,
-                      IVortexRingStateSharedPtr vrs )
-    : _ige ( ige )
-    , _vrs ( vrs )
+MainRotor::MainRotor( std::shared_ptr<IInGroundEffect>  ige,
+                      std::shared_ptr<IVortexRingState> vrs )
+    : _ige(ige)
+    , _vrs(vrs)
 {}
 
 ////////////////////////////////////////////////////////////////////////////////

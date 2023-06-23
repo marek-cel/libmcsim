@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <cfloat>
+#include <memory>
 
 #include <mcutils/math/Matrix3x3.h>
 
@@ -140,8 +141,8 @@ public:
     // LCOV_EXCL_STOP
 
     /** @brief Constructor. */
-    MainRotor( IInGroundEffectSharedPtr  ige = IInGroundEffectSharedPtr(),
-               IVortexRingStateSharedPtr vrs = IVortexRingStateSharedPtr() );
+    MainRotor( std::shared_ptr<IInGroundEffect>  ige = std::shared_ptr<IInGroundEffect>(),
+               std::shared_ptr<IVortexRingState> vrs = std::shared_ptr<IVortexRingState>() );
 
     /**
      * @brief Computes force and moment.
@@ -223,8 +224,8 @@ public:
 
 protected:
 
-    IInGroundEffectSharedPtr  _ige; ///< in ground effect model
-    IVortexRingStateSharedPtr _vrs; ///< vortex ring state model
+    std::shared_ptr<IInGroundEffect>  _ige; ///< in ground effect model
+    std::shared_ptr<IVortexRingState> _vrs; ///< vortex ring state model
 
     Data _data;                     ///< main rotor data
 
