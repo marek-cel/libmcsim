@@ -264,7 +264,7 @@ void MainRotor::UpdateDataDerivedVariables()
     b4_ = data().b * b3_;
 
     ar_ = M_PI * r2_;
-    s_ = ( (double)data().nb ) * data().c * data().r / ar_;
+    s_ = ( static_cast<double>(data().nb) ) * data().c * data().r / ar_;
 
     sb_ = data().blade_mass * data().r  / 2.0;
     ib_ = data().blade_mass * r2_ / 3.0;

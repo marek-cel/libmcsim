@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_EXTERNAL_WINCHLAUNCHER_H_
-#define MCSIM_EXTERNAL_WINCHLAUNCHER_H_
+#ifndef MCSIM_EXTRA_WINCHLAUNCHER_H_
+#define MCSIM_EXTRA_WINCHLAUNCHER_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -114,4 +114,4 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_EXTERNAL_WINCHLAUNCHER_H_
+#endif // MCSIM_EXTRA_WINCHLAUNCHER_H_

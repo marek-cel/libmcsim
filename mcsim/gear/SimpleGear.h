@@ -81,7 +81,7 @@ public:
      * @brief Constructor.
      * @param stat_friction specifies if static friction model is enabled
      */
-    SimpleGear(bool stat_friction = true);
+    explicit SimpleGear(bool stat_friction = true);
 
     // LCOV_EXCL_START
     SimpleGear(const SimpleGear&) = delete;

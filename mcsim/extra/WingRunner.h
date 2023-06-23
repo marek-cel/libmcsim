@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MCSIM_EXTERNAL_WINGRUNNER_H_
-#define MCSIM_EXTERNAL_WINGRUNNER_H_
+#ifndef MCSIM_EXTRA_WINGRUNNER_H_
+#define MCSIM_EXTRA_WINGRUNNER_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -105,4 +105,4 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MCSIM_EXTERNAL_WINGRUNNER_H_
+#endif // MCSIM_EXTRA_WINGRUNNER_H_
