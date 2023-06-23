@@ -112,50 +112,11 @@ public:
 
     inline const std::shared_ptr<Data> data() const { return data_; }
 
-    /**
-     * @brief Returns propeller rpm.
-     * @return [rpm] propeller rpm
-     */
-    inline double rpm() const
-    {
-        return rpm_;
-    }
-
-    /**
-     * @brief Returns propeller angular velocity.
-     * @return [rad/s] propeller angular velocity
-     */
-    inline double omega() const
-    {
-        return omega_;
-    }
-
-    /**
-     * @brief Returns propeller thrust.
-     * @return [N] propeller thrust
-     */
-    inline double thrust() const
-    {
-        return thrust_;
-    }
-
-    /**
-     * @brief Returns induced velocity.
-     * @return [m/s] induced velocity
-     */
-    inline double vel_i() const
-    {
-        return vel_i_;
-    }
-
-    /**
-     * @brief Returns torque.
-     * @return [N*m] torque
-     */
-    inline double trq_n() const
-    {
-        return trq_n_;
-    }
+    inline double rpm()    const { return rpm_;    }
+    inline double omega()  const { return omega_;  }
+    inline double thrust() const { return thrust_; }
+    inline double vel_i()  const { return vel_i_;  }
+    inline double trq_n()  const { return trq_n_;  }
 
     void set_rpm(double rpm);
 
