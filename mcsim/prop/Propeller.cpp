@@ -37,75 +37,72 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Propeller::computeThrust( double airspeed, double airDensity )
+void Propeller::ComputeThrust(double airspeed, double rho)
 {
-    if ( _speed_rps > 0.0 )
+    if ( rps_ > 0.0 )
     {
-        double advance = airspeed / ( _data.diameter * _speed_rps );
-        double coefThrust = _data.coefThrust.GetValue( advance, _pitch );
+        double j = airspeed / ( data_->diameter * rps_ );
+        double c_t = data_->c_t.GetValue(j, pitch_);
 
-        _thrust = coefThrust * airDensity
-                * Math::Pow2( _speed_rps )
-                * Math::Pow4( _data.diameter );
+        thrust_ = c_t * rho * Math::Pow2(rps_) * Math::Pow4(data_->diameter);
     }
     else
     {
-        _thrust = 0.0;
+        thrust_ = 0.0;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Propeller::integrate( double dt, double engineInertia )
+void Propeller::Integrate(double dt, double i_eng)
 {
     // integrating propeller omega
-    _omega += ( ( _torqueAvailable - _torqueRequired ) / ( _data.inertia + engineInertia ) ) * dt;
+    omega_ += ( (trq_a_ - trq_r_) / (data_->inertia + i_eng) ) * dt;
 
-    _speed_rps = std::max( 0.0, _omega / ( 2.0 * M_PI ) );
+    rps_ = std::max(0.0, omega_ / (2.0 * M_PI));
 
     // engine friction stops propeller
-    if ( _torqueAvailable < _torqueRequired && _speed_rps < 1.0 )
+    if ( trq_a_ < trq_r_ && rps_ < 1.0 )
     {
-        _speed_rps = _speed_rps < 0.1 ? 0.0 : Physics::inertia( 0.0, _speed_rps, dt, 0.1 );
-        _omega = 2.0 * M_PI * _speed_rps;
+        rps_ = rps_ < 0.1 ? 0.0 : Physics::Inertia(0.0, rps_, dt, 0.1);
+        omega_ = 2.0 * M_PI * rps_;
     }
 
-    _speed_rpm = 60.0 * _speed_rps;
+    rpm_ = 60.0 * rps_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Propeller::update( double propellerLever,
-                        double engineTorque,
-                        double airspeed,
-                        double airDensity )
+void Propeller::Update(double prop_lever,
+                       double torque,
+                       double airspeed,
+                       double rho)
 {
-    _pitch = getPropellerPitch( propellerLever );
+    pitch_ = GetPropellerPitch(prop_lever);
 
-    double advance = airspeed / ( _data.diameter * ( _speed_rps > 0.1 ? _speed_rps : 0.1 ) );
-    double coefPower = _data.coefPower.GetValue( advance, _pitch );
-    double powerRequired = coefPower * airDensity
-            * Math::Pow3( _speed_rps )
-            * Math::Pow5( _data.diameter );
+    double j = airspeed / ( data_->diameter * ( rps_ > 0.1 ? rps_ : 0.1 ) );
+    double c_p = data_->c_p.GetValue(j, pitch_);
+    double p_r = c_p * rho * Math::Pow3(rps_) * Math::Pow5(data_->diameter);
 
-    _inducedVelocity = getInducedVelocity( airspeed, airDensity );
+    vel_i_ = GetInducedVelocity(airspeed, rho);
 
-    _torqueRequired  = powerRequired / ( _omega > 1.0 ? _omega : 1.0 );
-    _torqueAvailable = engineTorque / _data.gearRatio;
+    trq_r_ = p_r / ( omega_ > 1.0 ? omega_ : 1.0 );
+    trq_a_ = torque / data_->gear_ratio;
+    trq_n_ = std::min(trq_r_, trq_a_);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Propeller::setRPM( double rpm )
+void Propeller::set_rpm(double rpm)
 {
-    _speed_rpm = std::max( 0.0, rpm );
-    _speed_rps = _speed_rpm / 60.0;
-    _omega = 2.0 * M_PI * _speed_rps;
+    rpm_ = std::max(0.0, rpm);
+    rps_ = rpm_ / 60.0;
+    omega_ = 2.0 * M_PI * rps_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Propeller::getInducedVelocity( double airspeed, double airDensity )
+double Propeller::GetInducedVelocity(double airspeed, double rho)
 {
     double vi = 0.0;
 
@@ -113,16 +110,15 @@ double Propeller::getInducedVelocity( double airspeed, double airDensity )
     // a = 0.5*rho*A
     // b = rho*A*V
     // c = -T
-    double a = 0.5 * airDensity * _area;
-    double b = airDensity * _area * airspeed;
-    double c = -_thrust;
+    double a = 0.5 * rho * area_;
+    double b = rho * area_ * airspeed;
+    double c = -thrust_;
 
     double delta = b*b - 4.0*a*c;
-
     if ( delta >= 0.0 )
     {
         // the 2nd result has no physical meaning
-        vi = ( -b + sqrt( delta ) ) / ( 2.0 * a );
+        vi = ( -b + sqrt(delta) ) / ( 2.0 * a );
     }
 
     return vi;
@@ -130,9 +126,9 @@ double Propeller::getInducedVelocity( double airspeed, double airDensity )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Propeller::getPropellerPitch( double propellerLever )
+double Propeller::GetPropellerPitch(double prop_lever)
 {
-    return _data.propPitch.GetValue( propellerLever );
+    return data_->prop_pitch.GetValue(prop_lever);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <memory>
+
 #include <mcutils/math/Table.h>
 #include <mcutils/math/Table2.h>
 #include <mcutils/math/Vector3.h>
@@ -51,7 +53,7 @@ class MCSIMAPI Propeller
 public:
 
     /** Propeller direction. */
-    enum Direction
+    enum class Direction
     {
         CW  = 0,    ///< clockwise (looking from cockpit)
         CCW = 1     ///< counter-clockwise (looking from cockpit)
@@ -61,162 +63,132 @@ public:
     {
         Vector3 pos_bas;            ///< [m] propeller position expressed in BAS
 
-        Table propPitch;            ///< [rad] propeller pitch vs [-] normalized pitch
+        Table prop_pitch;           ///< [rad] propeller pitch vs [-] normalized pitch
 
-        Table2 coefThrust;          ///< [-] thrust coefficient
-        Table2 coefPower;           ///< [-] power coefficient
+        Table2 c_t;                 ///< [-] thrust coefficient
+        Table2 c_p;                 ///< [-] power coefficient
 
-        Direction direction { CW }; ///< propeller direction looking from cockpit
+        Direction direction = Direction::CW;    ///< propeller direction looking from cockpit
 
-        double gearRatio { 0.0 };   ///< [-] gear ratio (propeller rpm / engine rpm)
-        double diameter  { 0.0 };   ///< [m] diameter
-        double inertia   { 0.0 };   ///< [kg*m^2] polar moment of inertia
+        double gear_ratio = 0.0;    ///< [-] gear ratio (propeller rpm / engine rpm)
+        double diameter   = 0.0;    ///< [m] diameter
+        double inertia    = 0.0;    ///< [kg*m^2] polar moment of inertia
     };
 
-    /** @brief Constructor. */
+    // LCOV_EXCL_START
     Propeller() = default;
-
-    /** @brief Destructor. */
+    Propeller(const Propeller&) = delete;
+    Propeller(Propeller&&) = default;
+    Propeller& operator=(const Propeller&) = delete;
+    Propeller& operator=(Propeller&&) = default;
     virtual ~Propeller() = default;
+    // LCOV_EXCL_STOP
 
     /**
      * @brief Computes thrust.
-     * @param airspeed [m/s] airspeed
-     * @param airDensity [kg/m^3] air density
+     * @param airspeed [m/s]    airspeed
+     * @param rho      [kg/m^3] air density
      */
-    virtual void computeThrust( double airspeed, double airDensity );
+    virtual void ComputeThrust(double airspeed, double rho);
 
     /**
      * @brief Integrates model.
      * @param dt [s] time step
-     * @param engineInertia [kg*m^2] engine polar moment of inertia
+     * @param i_eng [kg*m^2] engine polar moment of inertia
      */
-    virtual void integrate( double dt, double engineInertia );
+    virtual void Integrate(double dt, double i_eng);
 
     /**
      * @brief Updates propeller.
-     * @param normPitch    <0.0;1.0> normalized propeller lever position
-     * @param engineTorque [N]       engine torque
-     * @param airspeed     [m/s]     airspeed
-     * @param airDensity   [kg/m^3]  air density
+     * @param prop_lever <0.0;1.0> normalized propeller lever position
+     * @param torque     [N]       engine torque
+     * @param airspeed   [m/s]     airspeed
+     * @param rho        [kg/m^3]  air density
      */
-    virtual void update( double propellerLever,
-                         double engineTorque,
-                         double airspeed,
-                         double airDensity );
+    virtual void Update(double prop_lever,
+                        double torque,
+                        double airspeed,
+                        double rho);
 
-    /**
-     * @brief Returns propeller direction.
-     * @return propeller direction
-     */
-    inline Direction getDirection() const
-    {
-        return _data.direction;
-    }
-
-    /**
-     * @brief Returns engine rpm.
-     * @return [rpm] engine rpm
-     */
-    inline double getEngineRPM() const
-    {
-        return _speed_rpm / _data.gearRatio;
-    }
+    inline const std::shared_ptr<Data> data() const { return data_; }
 
     /**
      * @brief Returns propeller rpm.
      * @return [rpm] propeller rpm
      */
-    inline double getRPM() const
+    inline double rpm() const
     {
-        return _speed_rpm;
-    }
-
-    /**
-     * @brief Returns propeller polar moment of inertia.
-     * @return [kg*m^2] propeller polar moment of inertia
-     */
-    inline double getInertia() const
-    {
-        return _data.inertia;
+        return rpm_;
     }
 
     /**
      * @brief Returns propeller angular velocity.
      * @return [rad/s] propeller angular velocity
      */
-    inline double getOmega() const
+    inline double omega() const
     {
-        return _omega;
-    }
-
-    /**
-     * @brief Returns propeller position expressed in BAS.
-     * @return [m] propeller position expressed in BAS
-     */
-    inline const Vector3& getPos_BAS() const
-    {
-        return _data.pos_bas;
+        return omega_;
     }
 
     /**
      * @brief Returns propeller thrust.
      * @return [N] propeller thrust
      */
-    inline double getThrust() const
+    inline double thrust() const
     {
-        return _thrust;
+        return thrust_;
     }
 
     /**
      * @brief Returns induced velocity.
      * @return [m/s] induced velocity
      */
-    inline double getInducedVelocity() const
+    inline double vel_i() const
     {
-        return _inducedVelocity;
+        return vel_i_;
     }
 
     /**
      * @brief Returns torque.
      * @return [N*m] torque
      */
-    inline double getTorque() const
+    inline double trq_n() const
     {
-        return ( _torqueRequired < _torqueAvailable ) ? _torqueRequired : _torqueAvailable;
+        return trq_n_;
     }
 
-    void setRPM( double rpm );
+    void set_rpm(double rpm);
 
 protected:
 
-    Data _data;                         ///<
+    std::shared_ptr<Data> data_;    ///< engine data struct
 
-    double _area { 0.0 };               ///< [m^2] propeller disc area
+    double area_ = 0.0;             ///< [m^2] propeller disc area
 
-    double _pitch     { 0.0 };          ///< [rad]   propeller pitch at 0.75 radius
-    double _omega     { 0.0 };          ///< [rad/s] propeller angular velocity
-    double _speed_rps { 0.0 };          ///< [rps]   propeller speed
-    double _speed_rpm { 0.0 };          ///< [rpm]   propeller speed
-    double _thrust    { 0.0 };          ///< [N] t   hrust
+    double pitch_  = 0.0;           ///< [rad]   propeller pitch at 0.75 radius
+    double omega_  = 0.0;           ///< [rad/s] propeller angular velocity
+    double rps_    = 0.0;           ///< [rps]   propeller speed
+    double rpm_    = 0.0;           ///< [rpm]   propeller speed
+    double thrust_ = 0.0;           ///< [N] t   hrust
 
-    double _inducedVelocity { 0.0 };    ///< [m/s] induced velocity
+    double vel_i_ = 0.0;            ///< [m/s] induced velocity
 
-    double _torqueAvailable { 0.0 };    ///< [N*m] available torque
-    double _torqueRequired  { 0.0 };    ///< [N*m] required torque
+    double trq_a_ = 0.0;            ///< [N*m] available torque
+    double trq_r_ = 0.0;            ///< [N*m] required torque
+    double trq_n_ = 0.0;            ///< [N*m]
 
     /**
      * @brief Computes induced velocity.
      * @param airspeed [m/s] airspeed
-     * @param airDensity [kg/m^3] air density
+     * @param rho [kg/m^3] air density
      */
-    virtual double getInducedVelocity( double airspeed, double airDensity );
+    virtual double GetInducedVelocity(double airspeed, double rho);
 
     /**
      * @brief Computes propeller pitch.
-     * @param propellerLever <0.0;1.0> normalized propeller lever position
+     * @param prop_lever <0.0;1.0> normalized propeller lever position
      */
-    virtual double getPropellerPitch( double propellerLever );
+    virtual double GetPropellerPitch(double prop_lever);
 };
 
 } // namespace mc
