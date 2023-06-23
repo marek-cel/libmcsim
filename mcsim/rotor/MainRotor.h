@@ -102,47 +102,49 @@ public:
     {
         Vector3 r_hub_bas;                  ///< [m] rotor hub coordinates expressed in BAS
 
-        double inclination { 0.0 };         ///< [rad] rotor axis inclination angle (positive rearwards)
+        double inclination = 0.0;           ///< [rad] rotor axis inclination angle (positive rearwards)
 
-        bool ccw { false };                 ///< specifies if rotor rotation direction is counter-clockwise
+        bool ccw = false;                   ///< specifies if rotor rotation direction is counter-clockwise
 
-        int nb { 0 };                       ///< number of rotor blades
+        int nb = 0;                         ///< number of rotor blades
 
-        double blade_mass { 0.0 };          ///< [kg] single blade mass
+        double blade_mass = 0.0;            ///< [kg] single blade mass
 
-        double r { 0.0 };                   ///< [m] rotor radius
-        double c { 0.0 };                   ///< [m] blades chord
-        double e { 0.0 };                   ///< [m] flapping hinge offset
+        double r = 0.0;                     ///< [m] rotor radius
+        double c = 0.0;                     ///< [m] blades chord
+        double e = 0.0;                     ///< [m] flapping hinge offset
 
-        double a { 0.0 };                   ///< [1/rad] blade section lift curve slope
-        double b { 0.0 };                   ///< [-] tip losses coefficient
+        double a = 0.0;                     ///< [1/rad] blade section lift curve slope
+        double b = 0.0;                     ///< [-] tip losses coefficient
 
-        double delta_0 { 0.0 };             ///< [-] drag coefficient constant component
-        double delta_2 { 0.0 };             ///< [-] drag coefficient quadratic component
+        double delta_0 = 0.0;               ///< [-] drag coefficient constant component
+        double delta_2 = 0.0;               ///< [-] drag coefficient quadratic component
 
-        double beta_max { 0.0 };            ///< [rad] maximum flapping angle
+        double beta_max = 0.0;              ///< [rad] maximum flapping angle
 
-        double ct_max { DBL_MAX };          ///< [-] maximum thrust coefficient
-        double ch_max { DBL_MAX };          ///< [-] maximum hforce coefficient
-        double cq_max { DBL_MAX };          ///< [-] maximum torque coefficient
+        double ct_max = DBL_MAX;            ///< [-] maximum thrust coefficient
+        double ch_max = DBL_MAX;            ///< [-] maximum hforce coefficient
+        double cq_max = DBL_MAX;            ///< [-] maximum torque coefficient
 
-        double thrust_factor { 1.0 };       ///< [-] thrust scaling factor
-        double hforce_factor { 1.0 };       ///< [-] hforce scaling factor
-        double torque_factor { 1.0 };       ///< [-] torque scaling factor
+        double thrust_factor = 1.0;         ///< [-] thrust tuning factor
+        double hforce_factor = 1.0;         ///< [-] hforce tuning factor
+        double torque_factor = 1.0;         ///< [-] torque tuning factor
 
-        double vrs_thrust_factor { 1.0 };   ///< [-] Vortex-Ring-State influence coefficient factor for thrust
-        double vrs_torque_factor { 1.0 };   ///< [-] Vortex-Ring-State influence coefficient factor for torque
+        double vrs_thrust_factor = 1.0;     ///< [-] Vortex-Ring-State influence coefficient tuning factor for thrust
+        double vrs_torque_factor = 1.0;     ///< [-] Vortex-Ring-State influence coefficient tuning factor for torque
     };
 
     // LCOV_EXCL_START
-    // excluded from coverage report due to deleting destructor calling issues
-    /** @brief Destructor. */
+    MainRotor(const MainRotor&) = delete;
+    MainRotor(MainRotor&&) = default;
+    MainRotor& operator=(const MainRotor&) = delete;
+    MainRotor& operator=(MainRotor&&) = default;
     virtual ~MainRotor() = default;
     // LCOV_EXCL_STOP
 
     /** @brief Constructor. */
-    MainRotor( std::shared_ptr<IInGroundEffect>  ige = std::shared_ptr<IInGroundEffect>(),
-               std::shared_ptr<IVortexRingState> vrs = std::shared_ptr<IVortexRingState>() );
+    MainRotor(std::shared_ptr<IInGroundEffect>  ige = std::shared_ptr<IInGroundEffect>(),
+              std::shared_ptr<IVortexRingState> vrs = std::shared_ptr<IVortexRingState>());
 
     /**
      * @brief Computes force and moment.
@@ -153,16 +155,16 @@ public:
      * @param vel_air_bas [m/s]     aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s]   aircraft angular velocity relative to the air expressed in BAS
      * @param grav_bas    [m/s^2]   gravity acceleration vector expressed in BAS
-     * @param airDensity  [kg/m^3]  air density
+     * @param rho         [kg/m^3]  air density
      */
-    virtual void computeForceAndMoment( const Vector3 &vel_bas,
-                                        const Vector3 &omg_bas,
-                                        const Vector3 &acc_bas,
-                                        const Vector3 &eps_bas,
-                                        const Vector3 &vel_air_bas,
-                                        const Vector3 &omg_air_bas,
-                                        const Vector3 &grav_bas,
-                                        double airDensity );
+    virtual void computeForceAndMoment(const Vector3 &vel_bas,
+                                       const Vector3 &omg_bas,
+                                       const Vector3 &acc_bas,
+                                       const Vector3 &eps_bas,
+                                       const Vector3 &vel_air_bas,
+                                       const Vector3 &omg_air_bas,
+                                       const Vector3 &grav_bas,
+                                       double rho);
 
     /**
      * @brief Updates main rotor model.
@@ -178,136 +180,132 @@ public:
                          double cyclicLat,
                          double cyclicLon );
 
-    inline Data getData() const { return _data; }
+    virtual const Data& data() const = 0;
 
-    inline const Vector3& getForce_BAS  () const { return _for_bas; }
-    inline const Vector3& getMoment_BAS () const { return _mom_bas; }
+    inline const Vector3& f_bas() const { return f_bas_; }
+    inline const Vector3& m_bas() const { return m_bas_; }
 
-    inline double getRotorInertia() const { return _ir; }
+    inline double ir() const { return ir_; }
 
-    inline double getBeta0()  const { return _beta_0;  }
-    inline double getBeta1c() const { return _beta_1c; }
-    inline double getBeta1s() const { return _beta_1s; }
+    inline double beta_0()  const { return beta_0_;  }
+    inline double beta_1c() const { return beta_1c_; }
+    inline double beta_1s() const { return beta_1s_; }
 
-    inline double getTheta0()  const { return _theta_0;  }
-    inline double getTheta1c() const { return _theta_1c; }
-    inline double getTheta1s() const { return _theta_1s; }
+    inline double theta_0()  const { return theta_0_;  }
+    inline double theta_1c() const { return theta_1c_; }
+    inline double theta_1s() const { return theta_1s_; }
 
-    inline double getConingAngle() const { return _coningAngle; }
-    inline double getDiskRoll()    const { return _diskRoll;    }
-    inline double getDiskPitch()   const { return _diskPitch;   }
+    inline double coning_angle() const { return coning_angle_; }
+    inline double disk_roll()    const { return disk_roll_;    }
+    inline double disk_pitch()   const { return disk_pitch_;   }
 
-    inline double getThrustCoef() const { return _ct; }
-    inline double getHForceCoef() const { return _ch; }
-    inline double getTorqueCoef() const { return _cq; }
+    inline double ct() const { return ct_; }
+    inline double ch() const { return ch_; }
+    inline double cq() const { return cq_; }
 
-    inline double getThrust() const { return _thrust; }
-    inline double getHForce() const { return _hforce; }
-    inline double getTorque() const { return _torque; }
+    inline double thrust() const { return thrust_; }
+    inline double hforce() const { return hforce_; }
+    inline double torque() const { return torque_; }
 
-    inline double getLambda()    const { return _lambda;    }
-    inline double getLambda_i()  const { return _lambda_i;  }
-    inline double getLambda_i0() const { return _lambda_i0; }
+    inline double lambda()    const { return lambda_;    }
+    inline double lambda_i()  const { return lambda_i_;  }
+    inline double lambda_i0() const { return lambda_i0_; }
 
-    inline double getVel_i()  const { return _vel_i;  }
-    inline double getVel_i0() const { return _vel_i0; }
+    inline double vel_i()  const { return vel_i_;  }
+    inline double vel_i0() const { return vel_i0_; }
 
-    inline double getWakeSkew() const { return _wakeSkew; }
+    inline double wake_skew() const { return wake_skew_; }
 
-    inline bool inInVRS() const { return _isInVRS; }
-
-    /**
-     * @brief setData
-     * @param data
-     */
-    virtual void setData( const Data &data );
+    inline bool in_vrs() const { return in_vrs_; }
 
 protected:
 
-    std::shared_ptr<IInGroundEffect>  _ige; ///< in ground effect model
-    std::shared_ptr<IVortexRingState> _vrs; ///< vortex ring state model
+    std::shared_ptr<IInGroundEffect>  ige_; ///< in ground effect model
+    std::shared_ptr<IVortexRingState> vrs_; ///< vortex ring state model
 
-    Data _data;                     ///< main rotor data
+    Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 _for_bas;               ///< [N] total force vector expressed in BAS
-    Vector3 _mom_bas;               ///< [N*m] total moment vector expressed in BAS
+    Matrix3x3 bas2ras_;             ///< matrix of rotation from BAS to RAS
+    Matrix3x3 ras2bas_;             ///< matrix of rotation from RAS to BAS
 
-    Matrix3x3 _bas2ras;             ///< matrix of rotation from BAS to RAS
-    Matrix3x3 _ras2bas;             ///< matrix of rotation from RAS to BAS
+    Matrix3x3 ras2cas_;             ///< matrix of rotation from RAS to CAS
+    Matrix3x3 cas2ras_;             ///< matrix of rotation from CAS to RAS
 
-    Matrix3x3 _ras2cas;             ///< matrix of rotation from RAS to CAS
-    Matrix3x3 _cas2ras;             ///< matrix of rotation from CAS to RAS
+    Matrix3x3 bas2cas_;             ///< matrix of rotation from BAS to CAS
 
-    Matrix3x3 _bas2cas;             ///< matrix of rotation from BAS to CAS
+    Matrix3x3 bas2das_;             ///< matrix of rotation from BAS to DAS
+    Matrix3x3 das2bas_;             ///< matrix of rotation from DAS to BAS
 
-    Matrix3x3 _bas2das;             ///< matrix of rotation from BAS to DAS
-    Matrix3x3 _das2bas;             ///< matrix of rotation from DAS to BAS
+    Matrix3x3 ras2rwas_;            ///< matrix of rotation from RAS to RWAS
+    Matrix3x3 rwas2ras_;            ///< matrix of rotation from RWAS to RAS
 
-    Matrix3x3 _ras2rwas;            ///< matrix of rotation from RAS to RWAS
-    Matrix3x3 _rwas2ras;            ///< matrix of rotation from RWAS to RAS
+    Matrix3x3 cas2cwas_;            ///< matrix of rotation from CAS to CWAS
+    Matrix3x3 cwas2cas_;            ///< matrix of rotation from CWAS to CAS
 
-    Matrix3x3 _cas2cwas;            ///< matrix of rotation from CAS to CWAS
-    Matrix3x3 _cwas2cas;            ///< matrix of rotation from CWAS to CAS
+    Matrix3x3 bas2cwas_;            ///< matrix of rotation from BAS to CWAS
+    Matrix3x3 cwas2bas_;            ///< matrix of rotation from CWAS to BAS
 
-    Matrix3x3 _bas2cwas;            ///< matrix of rotation from BAS to CWAS
-    Matrix3x3 _cwas2bas;            ///< matrix of rotation from CWAS to BAS
+    Matrix3x3 bas2rwas_;            ///< matrix of rotation from BAS to RWAS
+    Matrix3x3 rwas2bas_;            ///< matrix of rotation from RWAS to BAS
 
-    Matrix3x3 _bas2rwas;            ///< matrix of rotation from BAS to RWAS
-    Matrix3x3 _rwas2bas;            ///< matrix of rotation from RWAS to BAS
+    double r2_ = 0.0;               ///< [m^2] rotor radius squared
+    double r3_ = 0.0;               ///< [m^3] rotor radius cubed
+    double r4_ = 0.0;               ///< [m^3] rotor radius to the power of 4
+    double b2_ = 0.0;               ///< [-]   tip losses coefficient squared
+    double b3_ = 0.0;               ///< [-]   tip losses coefficient cubed
+    double b4_ = 0.0;               ///< [-]   tip losses coefficient to the power of 4
+    double ar_ = 0.0;               ///< [m^2] rotor disk area
+    double s_  = 0.0;               ///< [-]   rotor solidity
 
-    double _r2 { 0.0 };             ///< [m^2] rotor radius squared
-    double _r3 { 0.0 };             ///< [m^3] rotor radius cubed
-    double _r4 { 0.0 };             ///< [m^3] rotor radius to the power of 4
-    double _b2 { 0.0 };             ///< [-]   tip losses coefficient squared
-    double _b3 { 0.0 };             ///< [-]   tip losses coefficient cubed
-    double _b4 { 0.0 };             ///< [-]   tip losses coefficient to the power of 4
-    double _ar { 0.0 };             ///< [m^2] rotor disk area
-    double _s  { 0.0 };             ///< [-]   rotor solidity
+    double sb_ = 0.0;               ///< [kg*m]   single rotor blade first moment of mass about flapping hinge
+    double ib_ = 0.0;               ///< [kg*m^2] single rotor blade inertia about flapping hinge
+    double ir_ = 0.0;               ///< [kg*m^2] rotor total inertia about shaft axis
 
-    double _sb { 0.0 };             ///< [kg*m]   single rotor blade first moment of mass about flapping hinge
-    double _ib { 0.0 };             ///< [kg*m^2] single rotor blade inertia about flapping hinge
-    double _ir { 0.0 };             ///< [kg*m^2] rotor total inertia about shaft axis
+    double cdir_ = 0.0;             ///< [-] direction coefficient (equels 1 for CCW and -1 for CW)
 
-    double _cdir { 0.0 };           ///< [-] direction coefficient (equels 1 for CCW and -1 for CW)
+    double omega_  = 0.0;           ///< [rad/s]     rotor revolution speed
+    double omega2_ = 0.0;           ///< [rad^2/s^2] rotor revolution speed squared
+    double omegaR_ = 0.0;           ///< [m/s]       rotor tip velocity
 
-    double _omega  { 0.0 };         ///< [rad/s]     rotor revolution speed
-    double _omega2 { 0.0 };         ///< [rad^2/s^2] rotor revolution speed squared
-    double _omegaR { 0.0 };         ///< [m/s]       rotor tip velocity
+    double azimuth_ = 0.0;          ///< [rad] rotor azimuth position
 
-    double _azimuth { 0.0 };        ///< [rad] rotor azimuth position
+    double beta_0_       = 0.0;     ///< [rad] rotor coning angle
+    double beta_1c_      = 0.0;     ///< [rad] longitudinal flapping angle
+    double beta_1s_      = 0.0;     ///< [rad] lateral flapping angle
+    double beta_1c_cwas_ = 0.0;     ///< [rad] longitudinal flapping angle expressed in CWAS
+    double beta_1s_cwas_ = 0.0;     ///< [rad] lateral flapping angle expressed in CWAS
 
-    double _beta_0       { 0.0 };   ///< [rad] rotor coning angle
-    double _beta_1c      { 0.0 };   ///< [rad] longitudinal flapping angle
-    double _beta_1s      { 0.0 };   ///< [rad] lateral flapping angle
-    double _beta_1c_cwas { 0.0 };   ///< [rad] longitudinal flapping angle expressed in CWAS
-    double _beta_1s_cwas { 0.0 };   ///< [rad] lateral flapping angle expressed in CWAS
+    double theta_0_  = 0.0;         ///< [rad] collective feathering angle
+    double theta_1c_ = 0.0;         ///< [rad] cyclic longitudinal feathering angle
+    double theta_1s_ = 0.0;         ///< [rad] cyclic lateral feathering angle
 
-    double _theta_0  { 0.0 };       ///< [rad] collective feathering angle
-    double _theta_1c { 0.0 };       ///< [rad] cyclic longitudinal feathering angle
-    double _theta_1s { 0.0 };       ///< [rad] cyclic lateral feathering angle
+    double coning_angle_ = 0.0;     ///< [rad] rotor coning angle
+    double disk_roll_    = 0.0;     ///< [rad] rotor disk roll angle
+    double disk_pitch_   = 0.0;     ///< [rad] rotor disk pitch angle
 
-    double _coningAngle { 0.0 };    ///< [rad] rotor coning angle
-    double _diskRoll    { 0.0 };    ///< [rad] rotor disk roll angle
-    double _diskPitch   { 0.0 };    ///< [rad] rotor disk pitch angle
+    double ct_ = 0.0;               ///< [-] thrust coefficient
+    double ch_ = 0.0;               ///< [-] hforce coefficient
+    double cq_ = 0.0;               ///< [-] torque coefficient
 
-    double _ct { 0.0 };             ///< [-] thrust coefficient
-    double _ch { 0.0 };             ///< [-] hforce coefficient
-    double _cq { 0.0 };             ///< [-] torque coefficient
+    double thrust_ = 0.0;           ///< [N]   rotor thrust
+    double hforce_ = 0.0;           ///< [N]   rotor hforce
+    double torque_ = 0.0;           ///< [N*m] rotor torque
 
-    double _thrust { 0.0 };         ///< [N]   rotor thrust
-    double _hforce { 0.0 };         ///< [N]   rotor hforce
-    double _torque { 0.0 };         ///< [N*m] rotor torque
+    double lambda_    = 0.0;        ///< [-] normalized velocity at rotor disc
+    double lambda_i_  = 0.0;        ///< [-] normalized rotor induced velocity
+    double lambda_i0_ = 0.0;        ///< [-] normalized rotor induced velocity in hover
 
-    double _lambda    { 0.0 };      ///< [-] normalized velocity at rotor disc
-    double _lambda_i  { 0.0 };      ///< [-] normalized rotor induced velocity
-    double _lambda_i0 { 0.0 };      ///< [-] normalized rotor induced velocity in hover
+    double vel_i_  = 0.0;           ///< [m/s] rotor induced velocity
+    double vel_i0_ = 0.0;           ///< [m/s] rotor induced velocity in hover
 
-    double _vel_i  { 0.0 };         ///< [m/s] rotor induced velocity
-    double _vel_i0 { 0.0 };         ///< [m/s] rotor induced velocity in hover
+    double wake_skew_ = 0.0;        ///< [rad] rotor wake skew angle
 
-    double _wakeSkew { 0.0 };       ///< [rad] rotor wake skew angle
+    bool in_vrs_ = false;           ///< specifies if rotor is in a vortex ring state
 
-    bool _isInVRS { false };        ///< specifies if rotor is in a vortex ring state
+    unsigned int n_max = 100;       ///< maximum number of iteration loop steps
+
+    void UpdateDataDerivedVariables();
 
     /**
      * @brief Updates flapping angles and thrust coefficient.
