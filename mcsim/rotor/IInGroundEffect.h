@@ -54,7 +54,7 @@ public:
      * @param vx_vi0 [-] rotor disc plane tangent air velocity normalized by rotor induced velocity in hover
      * @param vz_vi0 [-] rotor disc plane normal air velocity normalized by rotor induced velocity in hover
      */
-    virtual void Update( double vx_vi0, double vz_vi0 ) = 0;
+    virtual void Update(double vx_vi0, double vz_vi0) = 0;
 
     virtual double GetThrustCoef() const = 0;
 
