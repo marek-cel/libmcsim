@@ -41,8 +41,11 @@ class MCSIMAPI IInGroundEffect
 public:
 
     // LCOV_EXCL_START
-    // excluded from coverage report due to deleting destructor calling issues
-    /** @brief Destructor. */
+    IInGroundEffect() = default;
+    IInGroundEffect(const IInGroundEffect&) = delete;
+    IInGroundEffect(IInGroundEffect&&) = default;
+    IInGroundEffect& operator=(const IInGroundEffect&) = delete;
+    IInGroundEffect& operator=(IInGroundEffect&&) = default;
     virtual ~IInGroundEffect() = default;
     // LCOV_EXCL_STOP
 
@@ -51,16 +54,12 @@ public:
      * @param vx_vi0 [-] rotor disc plane tangent air velocity normalized by rotor induced velocity in hover
      * @param vz_vi0 [-] rotor disc plane normal air velocity normalized by rotor induced velocity in hover
      */
-    virtual void update( double vx_vi0, double vz_vi0 ) = 0;
+    virtual void Update( double vx_vi0, double vz_vi0 ) = 0;
 
-    virtual double getThrustCoef() const = 0;
+    virtual double GetThrustCoef() const = 0;
 
-    virtual double getTorqueCoef() const = 0;
+    virtual double GetTorqueCoef() const = 0;
 };
-
-using IInGroundEffectSharedPtr = std::shared_ptr <IInGroundEffect>;
-using IInGroundEffectUniquePtr = std::unique_ptr <IInGroundEffect>;
-using IInGroundEffectWeakPtr   = std::weak_ptr   <IInGroundEffect>;
 
 } // namespace mc
 
