@@ -103,7 +103,7 @@ public:
     virtual void Update(const Vector3& vel_air_bas,
                         const Vector3& omg_air_bas);
 
-    inline const std::shared_ptr<Data> data() const { return data_; }
+    virtual const Data& data() const = 0;
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
@@ -111,8 +111,6 @@ public:
     inline bool stall() const { return stall_; }
 
 protected:
-
-    std::shared_ptr<Data> data_;    ///< wing-body data struct
 
     Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
     Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS

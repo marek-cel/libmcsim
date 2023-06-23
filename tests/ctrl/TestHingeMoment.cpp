@@ -8,6 +8,15 @@ class TestHingeMoment : public ::testing::Test
 {
 protected:
 
+    class HingeMoment : public mc::HingeMoment
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestHingeMoment() {}
     virtual ~TestHingeMoment() {}
 
@@ -19,8 +28,8 @@ protected:
 
 TEST_F(TestHingeMoment, CanConstruct)
 {
-    mc::HingeMoment *mom = nullptr;
-    EXPECT_NO_THROW( mom = new mc::HingeMoment() );
+    TestHingeMoment::HingeMoment *mom = nullptr;
+    EXPECT_NO_THROW( mom = new TestHingeMoment::HingeMoment() );
     delete mom;
 }
 
@@ -28,7 +37,7 @@ TEST_F(TestHingeMoment, CanConstruct)
 
 TEST_F(TestHingeMoment, CanDestruct)
 {
-    mc::HingeMoment *mom = new mc::HingeMoment();
+    TestHingeMoment::HingeMoment *mom = new TestHingeMoment::HingeMoment();
     EXPECT_NO_THROW( delete mom );
 }
 
@@ -36,5 +45,5 @@ TEST_F(TestHingeMoment, CanDestruct)
 
 TEST_F(TestHingeMoment, CanInstantiate)
 {
-    mc::HingeMoment mom;
+    TestHingeMoment::HingeMoment mom;
 }

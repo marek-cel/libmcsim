@@ -132,7 +132,7 @@ public:
      */
     virtual void Update(double position, double delta, double brake);
 
-    inline const std::shared_ptr<Data> data() const { return data_; }
+    virtual const Data& data() const = 0;
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
@@ -140,8 +140,6 @@ public:
     inline double position() const { return position_; }
 
 protected:
-
-    std::shared_ptr<Data> data_;    ///< gear data struct
 
     Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
     Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS

@@ -8,6 +8,15 @@ class TestPropellerGovernor : public ::testing::Test
 {
 protected:
 
+    class PropellerGovernor : public mc::PropellerGovernor
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestPropellerGovernor() {}
     virtual ~TestPropellerGovernor() {}
 
@@ -19,8 +28,8 @@ protected:
 
 TEST_F(TestPropellerGovernor, CanConstruct)
 {
-    mc::PropellerGovernor *gov = nullptr;
-    EXPECT_NO_THROW( gov = new mc::PropellerGovernor() );
+    TestPropellerGovernor::PropellerGovernor *gov = nullptr;
+    EXPECT_NO_THROW( gov = new TestPropellerGovernor::PropellerGovernor() );
     delete gov;
 }
 
@@ -28,7 +37,7 @@ TEST_F(TestPropellerGovernor, CanConstruct)
 
 TEST_F(TestPropellerGovernor, CanDestruct)
 {
-    mc::PropellerGovernor *gov = new mc::PropellerGovernor();
+    TestPropellerGovernor::PropellerGovernor *gov = new TestPropellerGovernor::PropellerGovernor();
     EXPECT_NO_THROW( delete gov );
 }
 
@@ -36,5 +45,5 @@ TEST_F(TestPropellerGovernor, CanDestruct)
 
 TEST_F(TestPropellerGovernor, CanInstantiate)
 {
-    mc::PropellerGovernor gov;
+    TestPropellerGovernor::PropellerGovernor gov;
 }

@@ -8,6 +8,15 @@ class TestWinchLauncher : public ::testing::Test
 {
 protected:
 
+    class WinchLauncher : public mc::WinchLauncher
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestWinchLauncher() {}
     virtual ~TestWinchLauncher() {}
 
@@ -19,22 +28,22 @@ protected:
 
 TEST_F(TestWinchLauncher, CanConstruct)
 {
-    mc::WinchLauncher *winchLauncher = nullptr;
-    EXPECT_NO_THROW( winchLauncher = new mc::WinchLauncher() );
-    delete winchLauncher;
+    TestWinchLauncher::WinchLauncher *wl = nullptr;
+    EXPECT_NO_THROW( wl = new TestWinchLauncher::WinchLauncher() );
+    delete wl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestWinchLauncher, CanDestruct)
 {
-    mc::WinchLauncher *winchLauncher = new mc::WinchLauncher();
-    EXPECT_NO_THROW( delete winchLauncher );
+    TestWinchLauncher::WinchLauncher *wl = new TestWinchLauncher::WinchLauncher();
+    EXPECT_NO_THROW( delete wl );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestWinchLauncher, CanInstantiate)
 {
-    mc::WinchLauncher winchLauncher;
+    TestWinchLauncher::WinchLauncher wl;
 }

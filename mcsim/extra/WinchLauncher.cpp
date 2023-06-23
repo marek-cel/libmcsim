@@ -47,8 +47,8 @@ void WinchLauncher::ComputeForceAndMoment( const Matrix3x3& wgs2bas,
 
         double x = std::max(0.0, pos_bas.GetLength() - l_);
 
-        f_bas_ = std::max(f_, fabs(x) * x * data_->stiffness) * pos_bas.GetNormalized();
-        m_bas_ = data_->r_a_bas % f_bas_;
+        f_bas_ = std::max(f_, fabs(x) * x * data().stiffness) * pos_bas.GetNormalized();
+        m_bas_ = data().r_a_bas % f_bas_;
 
         if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
         {
@@ -72,13 +72,13 @@ void WinchLauncher::Update(double timeStep,
     {
         if ( timeStep > 0.0 )
         {
-            f_ = Physics::Inertia(data_->f_max, f_, timeStep, data_->tc_f);
-            v_ = Physics::Inertia(data_->v_max, v_, timeStep, data_->tc_v);
+            f_ = Physics::Inertia(data().f_max, f_, timeStep, data().tc_f);
+            v_ = Physics::Inertia(data().v_max, v_, timeStep, data().tc_v);
             l_ = l_ - timeStep * v_;
 
             Vector3 pos_ned = wgs2ned * ( pos_wgs - pos_wgs_ );
 
-            if ( atan2( -pos_ned.z(), pos_ned.GetLengthXY() ) > data_->e_max )
+            if ( atan2( -pos_ned.z(), pos_ned.GetLengthXY() ) > data().e_max )
             {
                 active_ = false;
             }
@@ -87,8 +87,8 @@ void WinchLauncher::Update(double timeStep,
         {
             if ( altitude_agl < 0.0 )
             {
-                pos_wgs_ = pos_wgs + bas2wgs * Vector3(data_->l_max, 0.0, 0.0);
-                l_ = data_->l_max;
+                pos_wgs_ = pos_wgs + bas2wgs * Vector3(data().l_max, 0.0, 0.0);
+                l_ = data().l_max;
             }
         }
     }

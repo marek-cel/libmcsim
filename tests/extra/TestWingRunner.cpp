@@ -8,6 +8,15 @@ class TestWingRunner : public ::testing::Test
 {
 protected:
 
+    class WingRunner : public mc::WingRunner
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestWingRunner() {}
     virtual ~TestWingRunner() {}
 
@@ -19,8 +28,8 @@ protected:
 
 TEST_F(TestWingRunner, CanConstruct)
 {
-    mc::WingRunner *wingRunner = nullptr;
-    EXPECT_NO_THROW( wingRunner = new mc::WingRunner() );
+    TestWingRunner::WingRunner *wingRunner = nullptr;
+    EXPECT_NO_THROW( wingRunner = new TestWingRunner::WingRunner() );
     delete wingRunner;
 }
 
@@ -28,7 +37,7 @@ TEST_F(TestWingRunner, CanConstruct)
 
 TEST_F(TestWingRunner, CanDestruct)
 {
-    mc::WingRunner *wingRunner = new mc::WingRunner();
+    TestWingRunner::WingRunner *wingRunner = new TestWingRunner::WingRunner();
     EXPECT_NO_THROW( delete wingRunner );
 }
 
@@ -36,5 +45,5 @@ TEST_F(TestWingRunner, CanDestruct)
 
 TEST_F(TestWingRunner, CanInstantiate)
 {
-    mc::WingRunner wingRunner;
+    TestWingRunner::WingRunner wingRunner;
 }

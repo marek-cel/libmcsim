@@ -38,7 +38,7 @@ void StabilizerVer::ComputeForceAndMoment(const Vector3 &vel_air_bas,
                                           double rho)
 {
     // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % data_->r_ac_bas );
+    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % data().r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
     double alpha = GetAngleOfAttack(vel_stab_bas);
@@ -47,14 +47,14 @@ void StabilizerVer::ComputeForceAndMoment(const Vector3 &vel_air_bas,
     // dynamic pressure
     double dynPress = 0.5 * rho * vel_stab_bas.GetLength2();
 
-    Vector3 f_aero( dynPress * GetCd(beta) * data_->area,
-                    dynPress * GetCy(beta) * data_->area,
+    Vector3 f_aero( dynPress * GetCd(beta) * data().area,
+                    dynPress * GetCy(beta) * data().area,
                     0.0 );
 
     Matrix3x3 aero2bas = GetAero2BAS(alpha, beta);
 
     f_bas_ = aero2bas * f_aero;
-    m_bas_ = data_->r_ac_bas % f_bas_;
+    m_bas_ = data().r_ac_bas % f_bas_;
 
     if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
     {
@@ -69,14 +69,14 @@ void StabilizerVer::ComputeForceAndMoment(const Vector3 &vel_air_bas,
 
 double StabilizerVer::GetCd(double beta) const
 {
-    return data_->cd.GetValue(beta);
+    return data().cd.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double StabilizerVer::GetCy(double beta) const
 {
-    return data_->cy.GetValue(beta);
+    return data().cy.GetValue(beta);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

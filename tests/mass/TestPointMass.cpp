@@ -8,6 +8,15 @@ class TestPointMass : public ::testing::Test
 {
 protected:
 
+    class PointMass : public mc::PointMass
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestPointMass() {}
     virtual ~TestPointMass() {}
 
@@ -19,8 +28,8 @@ protected:
 
 TEST_F(TestPointMass, CanConstruct)
 {
-    mc::PointMass *mass = nullptr;
-    EXPECT_NO_THROW( mass = new mc::PointMass() );
+    TestPointMass::PointMass *mass = nullptr;
+    EXPECT_NO_THROW( mass = new TestPointMass::PointMass() );
     delete mass;
 }
 
@@ -28,7 +37,7 @@ TEST_F(TestPointMass, CanConstruct)
 
 TEST_F(TestPointMass, CanDestruct)
 {
-    mc::PointMass *mass = new mc::PointMass();
+    TestPointMass::PointMass *mass = new TestPointMass::PointMass();
     EXPECT_NO_THROW( delete mass );
 }
 
@@ -36,5 +45,5 @@ TEST_F(TestPointMass, CanDestruct)
 
 TEST_F(TestPointMass, CanInstantiate)
 {
-    mc::PointMass mass;
+    TestPointMass::PointMass mass;
 }

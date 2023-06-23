@@ -106,7 +106,7 @@ public:
                         double airspeed,
                         double rho);
 
-    inline const std::shared_ptr<Data> data() const { return data_; }
+    virtual const Data& data() const = 0;
 
     inline double rpm()    const { return rpm_;    }
     inline double omega()  const { return omega_;  }
@@ -117,8 +117,6 @@ public:
     void set_rpm(double rpm);
 
 protected:
-
-    std::shared_ptr<Data> data_;    ///< engine data struct
 
     double area_ = 0.0;             ///< [m^2] propeller disc area
 

@@ -8,6 +8,15 @@ class TestStabilizerHor : public ::testing::Test
 {
 protected:
 
+    class StabilizerHor : public mc::StabilizerHor
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestStabilizerHor() {}
     virtual ~TestStabilizerHor() {}
 
@@ -19,8 +28,8 @@ protected:
 
 TEST_F(TestStabilizerHor, CanConstruct)
 {
-    mc::StabilizerHor *stabHor = nullptr;
-    EXPECT_NO_THROW( stabHor = new mc::StabilizerHor() );
+    TestStabilizerHor::StabilizerHor *stabHor = nullptr;
+    EXPECT_NO_THROW( stabHor = new TestStabilizerHor::StabilizerHor() );
     delete stabHor;
 }
 
@@ -28,7 +37,7 @@ TEST_F(TestStabilizerHor, CanConstruct)
 
 TEST_F(TestStabilizerHor, CanDestruct)
 {
-    mc::StabilizerHor *stabHor = new mc::StabilizerHor();
+    TestStabilizerHor::StabilizerHor *stabHor = new TestStabilizerHor::StabilizerHor();
     EXPECT_NO_THROW( delete stabHor );
 }
 
@@ -36,5 +45,5 @@ TEST_F(TestStabilizerHor, CanDestruct)
 
 TEST_F(TestStabilizerHor, CanInstantiate)
 {
-    mc::StabilizerHor stabHor;
+    TestStabilizerHor::StabilizerHor stabHor;
 }

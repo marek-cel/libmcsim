@@ -8,6 +8,15 @@ class TestSimpleGear : public ::testing::Test
 {
 protected:
 
+    class SimpleGear : public mc::SimpleGear
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestSimpleGear() {}
     virtual ~TestSimpleGear() {}
 
@@ -19,8 +28,8 @@ protected:
 
 TEST_F(TestSimpleGear, CanConstruct)
 {
-    mc::SimpleGear *sg = nullptr;
-    EXPECT_NO_THROW( sg = new mc::SimpleGear() );
+    TestSimpleGear::SimpleGear *sg = nullptr;
+    EXPECT_NO_THROW( sg = new TestSimpleGear::SimpleGear() );
     delete sg;
 }
 
@@ -28,7 +37,7 @@ TEST_F(TestSimpleGear, CanConstruct)
 
 TEST_F(TestSimpleGear, CanDestruct)
 {
-    mc::SimpleGear *sg = new mc::SimpleGear();
+    TestSimpleGear::SimpleGear *sg = new TestSimpleGear::SimpleGear();
     EXPECT_NO_THROW( delete sg );
 }
 
@@ -36,5 +45,5 @@ TEST_F(TestSimpleGear, CanDestruct)
 
 TEST_F(TestSimpleGear, CanInstantiate)
 {
-    mc::SimpleGear sg;
+    TestSimpleGear::SimpleGear sg;
 }

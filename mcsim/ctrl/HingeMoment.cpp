@@ -33,11 +33,11 @@ double HingeMoment::GetHingeMoment(double dynPress, double alpha, double delta,
                                    double delta_t) const
 {
     // control surface hinge moment coefficient
-    double ch = data_->dch_dalpha   * alpha
-              + data_->dch_ddelta   * delta
-              + data_->dch_ddelta_t * delta_t;
+    double ch = data().dch_dalpha   * alpha
+              + data().dch_ddelta   * delta
+              + data().dch_ddelta_t * delta_t;
 
-    return dynPress * data_->area * data_->chord * ch;
+    return dynPress * data().area * data().chord * ch;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

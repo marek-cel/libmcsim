@@ -78,11 +78,7 @@ public:
     virtual double GetHingeMoment(double dynPress, double alpha, double delta,
                                   double delta_t = 0.0) const;
 
-    inline const std::shared_ptr<Data> data() const { return data_; }
-
-protected:
-
-        std::shared_ptr<Data> data_;    ///< hinge moment data struct
+    virtual const Data& data() const = 0;
 };
 
 } // namespace mc

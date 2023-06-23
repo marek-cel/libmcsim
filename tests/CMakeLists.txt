@@ -15,6 +15,7 @@ set( SOURCES
 
     aero/TestAeroAngles.cpp
     aero/TestAeroBody.cpp
+    aero/TestFuselage.cpp
     aero/TestMeanAeroChord.cpp
     aero/TestRhoEffects.cpp
     aero/TestSchrenkDist.cpp

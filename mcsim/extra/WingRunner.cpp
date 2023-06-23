@@ -41,14 +41,14 @@ void WingRunner::ComputeForceAndMoment(const Vector3& vel_bas,
 
     if ( active_ )
     {
-        double delta = n_c_bas * ( r_c_bas - data_->r_wt_bas ) - data_->h_wt;
+        double delta = n_c_bas * ( r_c_bas - data().r_wt_bas ) - data().h_wt;
 
         // wing tip velocities components
-        Vector3 v_c_bas = vel_bas + ( omg_bas % data_->r_wt_bas );
+        Vector3 v_c_bas = vel_bas + ( omg_bas % data().r_wt_bas );
         double v_norm = n_c_bas * v_c_bas;
 
         // normal force
-        double for_norm = data_->k * delta - data_->c * v_norm;
+        double for_norm = data().k * delta - data().c * v_norm;
 
         // resulting forces
         f_bas_ = for_norm * n_c_bas;
@@ -72,7 +72,7 @@ void WingRunner::Update(double dt, const Vector3 &vel_bas, bool on_ground)
     {
         if ( dt > 0.0 )
         {
-            if ( vel_bas.GetLength() > data_->v_max || ( !on_ground ) )
+            if ( vel_bas.GetLength() > data().v_max || ( !on_ground ) )
             {
                 active_ = false;
             }

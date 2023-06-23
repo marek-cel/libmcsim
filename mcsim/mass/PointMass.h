@@ -75,13 +75,11 @@ public:
      */
     void AddToFirstMomentOfMass(Vector3* s_bas);
 
-    inline const std::shared_ptr<Data> data() const { return data_; }
+    virtual const Data& data() const = 0;
 
     inline double mass() const { return mass_; }
 
 private:
-
-    std::shared_ptr<Data> data_;    ///< point mass data struct
 
     double mass_;                   ///< [kg] current mass
 };

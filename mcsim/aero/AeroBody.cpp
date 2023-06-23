@@ -50,7 +50,7 @@ void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
     double wi = dwi_dvi * vel_ind;
 
     // fuselage velocity
-    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas % data_->r_ac_bas )
+    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas % data().r_ac_bas )
                       - Vector3(0.0, 0.0, -wi);
 
     // angle of attack and sideslip angle
@@ -60,9 +60,9 @@ void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
     // dynamic pressure
     double dyn_press = 0.5 * rho * vel_f_bas.GetLength2();
 
-    Vector3 f_aero( dyn_press * GetCd( alpha_ ) * data_->area,
-                    dyn_press * GetCy( beta_  ) * data_->area,
-                    dyn_press * GetCl( alpha_ ) * data_->area );
+    Vector3 f_aero( dyn_press * GetCd( alpha_ ) * data().area,
+                    dyn_press * GetCy( beta_  ) * data().area,
+                    dyn_press * GetCl( alpha_ ) * data().area );
 
     Vector3 m_stab( dyn_press * GetCml( beta_  ) * sl_,
                     dyn_press * GetCmm( alpha_ ) * sl_,
@@ -78,7 +78,7 @@ void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
     Matrix3x3 stab2bas = GetStab2BAS(sin_alpha, cos_alpha);
 
     f_bas_ = aero2bas * f_aero;
-    m_bas_ = stab2bas * m_stab + ( data_->r_ac_bas % f_bas_ );
+    m_bas_ = stab2bas * m_stab + ( data().r_ac_bas % f_bas_ );
 
     if ( f_bas_.IsValid() || m_bas_.IsValid() )
     {
@@ -93,42 +93,42 @@ void AeroBody::ComputeForceAndMoment(const Vector3 &vel_air_bas,
 
 double AeroBody::GetCd( double angleOfAttack ) const
 {
-    return data_->cd.GetValue( angleOfAttack );
+    return data().cd.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::GetCy( double sideslipAngle ) const
 {
-    return data_->cy.GetValue( sideslipAngle );
+    return data().cy.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::GetCl( double angleOfAttack ) const
 {
-    return data_->cl.GetValue( angleOfAttack );
+    return data().cl.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::GetCml( double sideslipAngle ) const
 {
-    return data_->cml.GetValue( sideslipAngle );
+    return data().cml.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::GetCmm( double angleOfAttack ) const
 {
-    return data_->cmm.GetValue( angleOfAttack );
+    return data().cmm.GetValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double AeroBody::GetCmn( double sideslipAngle ) const
 {
-    return data_->cmn.GetValue( sideslipAngle );
+    return data().cmn.GetValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

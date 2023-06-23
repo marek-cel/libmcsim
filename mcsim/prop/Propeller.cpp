@@ -41,10 +41,10 @@ void Propeller::ComputeThrust(double airspeed, double rho)
 {
     if ( rps_ > 0.0 )
     {
-        double j = airspeed / ( data_->diameter * rps_ );
-        double c_t = data_->c_t.GetValue(j, pitch_);
+        double j = airspeed / ( data().diameter * rps_ );
+        double c_t = data().c_t.GetValue(j, pitch_);
 
-        thrust_ = c_t * rho * Math::Pow2(rps_) * Math::Pow4(data_->diameter);
+        thrust_ = c_t * rho * Math::Pow2(rps_) * Math::Pow4(data().diameter);
     }
     else
     {
@@ -57,7 +57,7 @@ void Propeller::ComputeThrust(double airspeed, double rho)
 void Propeller::Integrate(double dt, double i_eng)
 {
     // integrating propeller omega
-    omega_ += ( (trq_a_ - trq_r_) / (data_->inertia + i_eng) ) * dt;
+    omega_ += ( (trq_a_ - trq_r_) / (data().inertia + i_eng) ) * dt;
 
     rps_ = std::max(0.0, omega_ / (2.0 * M_PI));
 
@@ -80,14 +80,14 @@ void Propeller::Update(double prop_lever,
 {
     pitch_ = GetPropellerPitch(prop_lever);
 
-    double j = airspeed / ( data_->diameter * ( rps_ > 0.1 ? rps_ : 0.1 ) );
-    double c_p = data_->c_p.GetValue(j, pitch_);
-    double p_r = c_p * rho * Math::Pow3(rps_) * Math::Pow5(data_->diameter);
+    double j = airspeed / ( data().diameter * ( rps_ > 0.1 ? rps_ : 0.1 ) );
+    double c_p = data().c_p.GetValue(j, pitch_);
+    double p_r = c_p * rho * Math::Pow3(rps_) * Math::Pow5(data().diameter);
 
     vel_i_ = GetInducedVelocity(airspeed, rho);
 
     trq_r_ = p_r / ( omega_ > 1.0 ? omega_ : 1.0 );
-    trq_a_ = torque / data_->gear_ratio;
+    trq_a_ = torque / data().gear_ratio;
     trq_n_ = std::min(trq_r_, trq_a_);
 }
 
@@ -128,7 +128,7 @@ double Propeller::GetInducedVelocity(double airspeed, double rho)
 
 double Propeller::GetPropellerPitch(double prop_lever)
 {
-    return data_->prop_pitch.GetValue(prop_lever);
+    return data().prop_pitch.GetValue(prop_lever);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

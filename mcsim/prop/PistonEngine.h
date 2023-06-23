@@ -109,7 +109,7 @@ public:
                         bool magneto_l = true,
                         bool magneto_r = true);
 
-    inline const std::shared_ptr<Data> data() const { return data_; }
+    virtual const Data& data() const = 0;
 
     inline State state() const { return state_; }
 
@@ -123,8 +123,6 @@ public:
     void set_rpm(double rpm);
 
 protected:
-
-    std::shared_ptr<Data> data_;    ///< engine data struct
 
     State state_ = State::Stopped;  ///< engine state
 

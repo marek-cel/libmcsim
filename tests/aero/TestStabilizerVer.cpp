@@ -8,6 +8,15 @@ class TestStabilizerVer : public ::testing::Test
 {
 protected:
 
+    class StabilizerVer : public mc::StabilizerVer
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestStabilizerVer() {}
     virtual ~TestStabilizerVer() {}
 
@@ -19,8 +28,8 @@ protected:
 
 TEST_F(TestStabilizerVer, CanConstruct)
 {
-    mc::StabilizerVer *stabVer = nullptr;
-    EXPECT_NO_THROW( stabVer = new mc::StabilizerVer() );
+    TestStabilizerVer::StabilizerVer *stabVer = nullptr;
+    EXPECT_NO_THROW( stabVer = new TestStabilizerVer::StabilizerVer() );
     delete stabVer;
 }
 
@@ -28,7 +37,7 @@ TEST_F(TestStabilizerVer, CanConstruct)
 
 TEST_F(TestStabilizerVer, CanDestruct)
 {
-    mc::StabilizerVer *stabVer = new mc::StabilizerVer();
+    TestStabilizerVer::StabilizerVer *stabVer = new TestStabilizerVer::StabilizerVer();
     EXPECT_NO_THROW( delete stabVer );
 }
 
@@ -36,5 +45,5 @@ TEST_F(TestStabilizerVer, CanDestruct)
 
 TEST_F(TestStabilizerVer, CanInstantiate)
 {
-    mc::StabilizerVer stabVer;
+    TestStabilizerVer::StabilizerVer stabVer;
 }

@@ -48,7 +48,7 @@ void SimpleGear::ComputeForceAndMoment(const Vector3& vel_bas,
     f_bas_.Zeroize();
     m_bas_.Zeroize();
 
-    double deflection_norm = n_c_bas * ( r_c_bas - data_->r_u_bas );
+    double deflection_norm = n_c_bas * ( r_c_bas - data().r_u_bas );
 
     if ( deflection_norm > 1.0e-6 )
     {
@@ -67,21 +67,21 @@ void SimpleGear::ComputeForceAndMoment(const Vector3& vel_bas,
                            &cosDelta, &sinDelta, &v_norm, &v_roll, &v_slip);
 
         // normal force
-        double for_norm = data_->k * deflection_norm - data_->c * v_norm;
+        double for_norm = data().k * deflection_norm - data().c * v_norm;
 
         // friction coefs
-        double mu_surf_s = data_->mu_s * surf_coef;
-        double mu_surf_k = data_->mu_k * surf_coef;
+        double mu_surf_s = data().mu_s * surf_coef;
+        double mu_surf_k = data().mu_k * surf_coef;
 
-        double mu_roll_t = data_->mu_r;
+        double mu_roll_t = data().mu_r;
 
         double coef_roll = 0.0;
         double coef_slip = 0.0;
 
-        if ( data_->v_max > 0.0 )
+        if ( data().v_max > 0.0 )
         {
-            coef_roll = Math::Satur(0.0, 1.0, fabs(v_roll) / data_->v_max) * Math::Sign(v_roll);
-            coef_slip = Math::Satur(0.0, 1.0, fabs(v_slip) / data_->v_max) * Math::Sign(v_slip);
+            coef_roll = Math::Satur(0.0, 1.0, fabs(v_roll) / data().v_max) * Math::Sign(v_roll);
+            coef_slip = Math::Satur(0.0, 1.0, fabs(v_slip) / data().v_max) * Math::Sign(v_slip);
         }
         else
         {
@@ -91,11 +91,11 @@ void SimpleGear::ComputeForceAndMoment(const Vector3& vel_bas,
 
         if ( stat_friction_ )
         {
-            if ( fabs(d_roll_) < data_->d_max && fabs(d_slip_) < data_->d_max )
+            if ( fabs(d_roll_) < data().d_max && fabs(d_slip_) < data().d_max )
             {
                 // spring-like model of static friction as a logistic function
-                double cr = ( 2.0 / ( 1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_roll_) / data_->d_max)) ) - 1.0 ) * Math::Sign(d_roll_);
-                double cs = ( 2.0 / ( 1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_slip_) / data_->d_max)) ) - 1.0 ) * Math::Sign(d_slip_);
+                double cr = ( 2.0 / ( 1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_roll_) / data().d_max)) ) - 1.0 ) * Math::Sign(d_roll_);
+                double cs = ( 2.0 / ( 1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_slip_) / data().d_max)) ) - 1.0 ) * Math::Sign(d_slip_);
 
                 if      ( coef_roll < 0.0 && cr < 0.0 ) { if ( cr < coef_roll ) coef_roll = cr; }
                 else if ( coef_roll > 0.0 && cr > 0.0 ) { if ( cr > coef_roll ) coef_roll = cr; }
@@ -178,7 +178,7 @@ void SimpleGear::Integrate(double dt,
 {
     if ( stat_friction_ )
     {
-        double deflection_norm = n_c_bas * ( r_c_bas - data_->r_u_bas );
+        double deflection_norm = n_c_bas * ( r_c_bas - data().r_u_bas );
 
         if ( deflection_norm > 1.0e-6 )
         {
@@ -199,14 +199,14 @@ void SimpleGear::Integrate(double dt,
             d_roll_ += v_roll * dt;
             d_slip_ += v_slip * dt;
 
-            if ( fabs(v_roll) > data_->v_max || fabs(v_slip) > data_->v_max )
+            if ( fabs(v_roll) > data().v_max || fabs(v_slip) > data().v_max )
             {
                 d_roll_ = 0.0;
                 d_slip_ = 0.0;
             }
 
-            if ( fabs(d_roll_) > data_->d_max ) d_roll_ = 0.0;
-            if ( fabs(d_slip_) > data_->d_max ) d_slip_ = 0.0;
+            if ( fabs(d_roll_) > data().d_max ) d_roll_ = 0.0;
+            if ( fabs(d_slip_) > data().d_max ) d_slip_ = 0.0;
         }
     }
 }
@@ -259,14 +259,14 @@ void SimpleGear::CalculateVariables(const Vector3& vel_bas,
     *cos_delta = 1.0;
     *sin_delta = 0.0;
 
-    if ( data_->steerable && steering )
+    if ( data().steerable && steering )
     {
-        delta = Math::Satur(-data_->delta_max, data_->delta_max, delta_);
+        delta = Math::Satur(-data().delta_max, data().delta_max, delta_);
 
         *cos_delta = cos(delta);
         *sin_delta = sin(delta);
     }
-    else if ( data_->caster && v_tang > data_->v_max )
+    else if ( data().caster && v_tang > data().v_max )
     {
         *cos_delta =  vel_lon / v_tang;
         *sin_delta = -vel_lat / v_tang;

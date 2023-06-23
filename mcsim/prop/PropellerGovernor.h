@@ -40,29 +40,33 @@ class MCSIMAPI PropellerGovernor
 {
 public:
 
+    /** Governor data struct. */
     struct Data
     {
         Table prop_rpm;         ///< [rpm] propeller setpoint RPM vs [-] propeller RPM lever position
 
-        double gain_1 { 0.0 };  ///< first order gain
-        double gain_2 { 0.0 };  ///< second order gain
+        double gain_1 = 0.0;    ///< first order gain
+        double gain_2 = 0.0;    ///< second order gain
     };
 
-    /** @brief Constructor. */
+    // LCOV_EXCL_START
     PropellerGovernor() = default;
-
-    /** @brief Destructor. */
+    PropellerGovernor(const PropellerGovernor&) = delete;
+    PropellerGovernor(PropellerGovernor&&) = default;
+    PropellerGovernor& operator=(const PropellerGovernor&) = delete;
+    PropellerGovernor& operator=(PropellerGovernor&&) = default;
     virtual ~PropellerGovernor() = default;
+    // LCOV_EXCL_STOP
 
-    virtual void update( double propellerLever, double rpm );
+    virtual void Update(double prop_lever, double rpm);
 
-    inline double getPitch() const { return _pitch; }
+    virtual const Data& data() const = 0;
+
+    inline double pitch() const { return pitch_; }
 
 protected:
 
-    Data _data;             ///<
-
-    double _pitch { 0.0 };  ///< <0.0;1.0> normalized propeller pitch
+    double pitch_ = 0.0;    ///< <0.0;1.0> normalized propeller pitch
 };
 
 } // namespace mc

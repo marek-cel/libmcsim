@@ -8,6 +8,15 @@ class TestPistonEngine : public ::testing::Test
 {
 protected:
 
+    class PistonEngine : public mc::PistonEngine
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestPistonEngine() {}
     virtual ~TestPistonEngine() {}
 
@@ -19,8 +28,8 @@ protected:
 
 TEST_F(TestPistonEngine, CanConstruct)
 {
-    mc::PistonEngine *engine = nullptr;
-    EXPECT_NO_THROW( engine = new mc::PistonEngine() );
+    TestPistonEngine::PistonEngine *engine = nullptr;
+    EXPECT_NO_THROW( engine = new TestPistonEngine::PistonEngine() );
     delete engine;
 }
 
@@ -28,7 +37,7 @@ TEST_F(TestPistonEngine, CanConstruct)
 
 TEST_F(TestPistonEngine, CanDestruct)
 {
-    mc::PistonEngine *engine = new mc::PistonEngine();
+    TestPistonEngine::PistonEngine *engine = new TestPistonEngine::PistonEngine();
     EXPECT_NO_THROW( delete engine );
 }
 
@@ -36,5 +45,5 @@ TEST_F(TestPistonEngine, CanDestruct)
 
 TEST_F(TestPistonEngine, CanInstantiate)
 {
-    mc::PistonEngine engine;
+    TestPistonEngine::PistonEngine engine;
 }

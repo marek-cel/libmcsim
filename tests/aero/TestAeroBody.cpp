@@ -8,6 +8,15 @@ class TestAeroBody : public ::testing::Test
 {
 protected:
 
+    class AeroBody : public mc::AeroBody
+    {
+    public:
+        const Data& data() const override { return data_; }
+
+    private:
+        Data data_;
+    };
+
     TestAeroBody() {}
     virtual ~TestAeroBody() {}
 
@@ -19,22 +28,22 @@ protected:
 
 TEST_F(TestAeroBody, CanConstruct)
 {
-    mc::AeroBody* fuselage = nullptr;
-    EXPECT_NO_THROW( fuselage = new mc::AeroBody );
-    delete fuselage;
+    TestAeroBody::AeroBody* ab = nullptr;
+    EXPECT_NO_THROW( ab = new TestAeroBody::AeroBody );
+    delete ab;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestAeroBody, CanDestruct)
 {
-    mc::AeroBody* fuselage = new mc::AeroBody();
-    EXPECT_NO_THROW( delete fuselage );
+    TestAeroBody::AeroBody* ab = new TestAeroBody::AeroBody();
+    EXPECT_NO_THROW( delete ab );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestAeroBody, CanInstantiate)
 {
-    mc::AeroBody fuselage;
+    TestAeroBody::AeroBody ab;
 }

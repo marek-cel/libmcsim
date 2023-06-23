@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 
-#include <mcsim/prop/Propeller.h>
+#include <mcsim/aero/Fuselage.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class TestPropeller : public ::testing::Test
+class TestFuselage : public ::testing::Test
 {
 protected:
 
-    class Propeller : public mc::Propeller
+    class Fuselage : public mc::Fuselage
     {
     public:
         const Data& data() const override { return data_; }
@@ -17,8 +17,8 @@ protected:
         Data data_;
     };
 
-    TestPropeller() {}
-    virtual ~TestPropeller() {}
+    TestFuselage() {}
+    virtual ~TestFuselage() {}
 
     void SetUp() override {}
     void TearDown() override {}
@@ -26,24 +26,24 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestPropeller, CanConstruct)
+TEST_F(TestFuselage, CanConstruct)
 {
-    TestPropeller::Propeller *prop = nullptr;
-    EXPECT_NO_THROW( prop = new TestPropeller::Propeller() );
-    delete prop;
+    TestFuselage::Fuselage* fuselage = nullptr;
+    EXPECT_NO_THROW( fuselage = new TestFuselage::Fuselage );
+    delete fuselage;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestPropeller, CanDestruct)
+TEST_F(TestFuselage, CanDestruct)
 {
-    TestPropeller::Propeller *prop = new TestPropeller::Propeller();
-    EXPECT_NO_THROW( delete prop );
+    TestFuselage::Fuselage* fuselage = new TestFuselage::Fuselage();
+    EXPECT_NO_THROW( delete fuselage );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestPropeller, CanInstantiate)
+TEST_F(TestFuselage, CanInstantiate)
 {
-    TestPropeller::Propeller prop;
+    TestFuselage::Fuselage fuselage;
 }

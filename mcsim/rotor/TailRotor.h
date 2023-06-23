@@ -77,11 +77,14 @@ public:
         double torque_factor { 1.0 };   ///< [-] torque scaling factor
     };
 
-    /** @brief Constructor. */
+    // LCOV_EXCL_START
     TailRotor() = default;
-
-    /** @brief Destructor. */
+    TailRotor(const TailRotor&) = delete;
+    TailRotor(TailRotor&&) = default;
+    TailRotor& operator=(const TailRotor&) = delete;
+    TailRotor& operator=(TailRotor&&) = default;
     virtual ~TailRotor() = default;
+    // LCOV_EXCL_STOP
 
     /**
      * @brief Computes force and moment.
