@@ -52,13 +52,9 @@ class MCSIMAPI Propeller
 {
 public:
 
-    /** Propeller direction. */
-    enum class Direction
-    {
-        CW  = 0,    ///< clockwise (looking from cockpit)
-        CCW = 1     ///< counter-clockwise (looking from cockpit)
-    };
-
+    /**
+     * @brief Propeller data struct.
+     */
     struct Data
     {
         Vector3 pos_bas;            ///< [m] propeller position expressed in BAS
@@ -68,11 +64,11 @@ public:
         Table2 c_t;                 ///< [-] thrust coefficient
         Table2 c_p;                 ///< [-] power coefficient
 
-        Direction direction = Direction::CW;    ///< propeller direction looking from cockpit
-
         double gear_ratio = 0.0;    ///< [-] gear ratio (propeller rpm / engine rpm)
         double diameter   = 0.0;    ///< [m] diameter
         double inertia    = 0.0;    ///< [kg*m^2] polar moment of inertia
+
+        bool ccw = false;           ///< specifies if rotation direction is counter-clockwise (looking from cockpit)
     };
 
     // LCOV_EXCL_START
