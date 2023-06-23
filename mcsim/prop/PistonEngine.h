@@ -109,7 +109,7 @@ public:
                         bool magneto_l = true,
                         bool magneto_r = true);
 
-    inline const std::weak_ptr<Data> data() const { return data_; }
+    inline const std::shared_ptr<Data> data() const { return data_; }
 
     inline State state() const { return state_; }
 
@@ -124,7 +124,7 @@ public:
 
 protected:
 
-    std::shared_ptr<Data> data_;    ///< aero body data struct
+    std::shared_ptr<Data> data_;    ///< engine data struct
 
     State state_ = State::Stopped;  ///< engine state
 

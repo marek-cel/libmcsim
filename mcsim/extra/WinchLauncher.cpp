@@ -72,8 +72,8 @@ void WinchLauncher::Update(double timeStep,
     {
         if ( timeStep > 0.0 )
         {
-            f_ = Physics::inertia(data_->f_max, f_, timeStep, data_->tc_f);
-            v_ = Physics::inertia(data_->v_max, v_, timeStep, data_->tc_v);
+            f_ = Physics::Inertia(data_->f_max, f_, timeStep, data_->tc_f);
+            v_ = Physics::Inertia(data_->v_max, v_, timeStep, data_->tc_v);
             l_ = l_ - timeStep * v_;
 
             Vector3 pos_ned = wgs2ned * ( pos_wgs - pos_wgs_ );

@@ -75,7 +75,7 @@ public:
      */
     void AddToFirstMomentOfMass(Vector3* s_bas);
 
-    inline const std::weak_ptr<Data> data() const { return data_; }
+    inline const std::shared_ptr<Data> data() const { return data_; }
 
     inline double mass() const { return mass_; }
 

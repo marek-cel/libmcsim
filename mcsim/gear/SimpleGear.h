@@ -132,7 +132,7 @@ public:
      */
     virtual void Update(double position, double delta, double brake);
 
-    inline const std::weak_ptr<Data> data() const { return data_; }
+    inline const std::shared_ptr<Data> data() const { return data_; }
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
