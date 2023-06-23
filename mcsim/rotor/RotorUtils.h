@@ -43,9 +43,9 @@ namespace mc
  * @param vz_norm [-] velcoity perpendiculat to the rotor disc normalized by induced velocity in hover
  * @return Vortex-Ring-State influence coefficient
  */
-MCSIMAPI double getVortexRingInfluenceCoef( double vx_norm, double vz_norm );
+MCSIMAPI double GetVortexRingInfluenceCoef(double vx_norm, double vz_norm);
 
-MCSIMAPI double getInGroundEffectThrustCoef( double h_agl, double v, double vi, double r2 );
+MCSIMAPI double GetInGroundEffectThrustCoef(double h_agl, double v, double vi, double r2);
 
 } // namespace mc
 

@@ -157,7 +157,7 @@ public:
      * @param grav_bas    [m/s^2]   gravity acceleration vector expressed in BAS
      * @param rho         [kg/m^3]  air density
      */
-    virtual void computeForceAndMoment(const Vector3 &vel_bas,
+    virtual void ComputeForceAndMoment(const Vector3 &vel_bas,
                                        const Vector3 &omg_bas,
                                        const Vector3 &acc_bas,
                                        const Vector3 &eps_bas,
@@ -174,11 +174,11 @@ public:
      * @param cyclicLat  [rad]   cyclic lateral pitch angle
      * @param cyclicLon  [rad]   cyclic longitudinal pitch angle
      */
-    virtual void update( double omega,
-                         double azimuth,
-                         double collective,
-                         double cyclicLat,
-                         double cyclicLon );
+    virtual void Update(double omega,
+                        double azimuth,
+                        double collective,
+                        double cyclicLat,
+                        double cyclicLon);
 
     virtual const Data& data() const = 0;
 
@@ -321,9 +321,9 @@ protected:
      * @param a_z [m/s^2] rotor hub acceleration z-compoent expressed in CWAS
      * @param gamma [-] Lock number
      */
-    virtual void updateFlappingAnglesAndThrustCoef( double mu_x, double mu_x2, double mu_z,
-                                                    double p, double q, double a_z,
-                                                    double gamma );
+    virtual void UpdateFlappingAnglesAndThrustCoef(double mu_x, double mu_x2, double mu_z,
+                                                   double p, double q, double a_z,
+                                                   double gamma);
 
     /**
      * @brief Updates flapping angles, thrust coefficient and induced velocity.
@@ -335,11 +335,11 @@ protected:
      * @param a_z [m/s^2] rotor hub acceleration z-compoent expressed in CWAS
      * @param gamma [-] Lock number
      */
-    virtual void updateFlappingAnglesThrustCoefsAndVelocity( double mu_x, double mu_x2, double mu_z,
-                                                             double p, double q, double a_z,
-                                                             double gamma );
+    virtual void UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double mu_x2, double mu_z,
+                                                            double p, double q, double a_z,
+                                                            double gamma);
 
-    virtual double getInGroundEffectThrustCoef( double h_agl );
+    virtual double GetInGroundEffectThrustCoef(double h_agl);
 
     /**
      * @brief Gets Vortex-Ring-State influence coefficient.
@@ -347,7 +347,7 @@ protected:
      * @param vz_norm [-] velcoity perpendiculat to the rotor disc normalized by induced velocity in hover
      * @return Vortex-Ring-State influence coefficient
      */
-    virtual double getVortexRingInfluenceCoef( double vx_norm, double vz_norm );
+    virtual double GetVortexRingInfluenceCoef(double vx_norm, double vz_norm);
 };
 
 } // namespace mc

@@ -44,7 +44,7 @@ MainRotor::MainRotor( std::shared_ptr<IInGroundEffect>  ige,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainRotor::computeForceAndMoment(const Vector3 & /*vel_bas*/,
+void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
                                       const Vector3 &omg_bas,
                                       const Vector3 &acc_bas,
                                       const Vector3 &eps_bas,
@@ -124,7 +124,7 @@ void MainRotor::computeForceAndMoment(const Vector3 & /*vel_bas*/,
     const double a_z = -acc_hub_cwas.z();
 
     // hover and climb
-    updateFlappingAnglesThrustCoefsAndVelocity(mu_x, mu_x2, mu_z, p, q, a_z, gamma);
+    UpdateFlappingAnglesThrustCoefsAndVelocity(mu_x, mu_x2, mu_z, p, q, a_z, gamma);
 
     double mu_z_norm =  mu_z / lambda_i0_;
     double mu_c_norm = -mu_z_norm;
@@ -153,7 +153,7 @@ void MainRotor::computeForceAndMoment(const Vector3 & /*vel_bas*/,
                     * ( 0.373*Math::Pow2(mu_c_norm) - 1.991 + 0.598*Math::Pow2(mu_x_norm) );
         }
 
-        updateFlappingAnglesAndThrustCoef(mu_x, mu_x2, mu_z, p, q, a_z, gamma);
+        UpdateFlappingAnglesAndThrustCoef(mu_x, mu_x2, mu_z, p, q, a_z, gamma);
 
         if ( ct_ > ct_max ) ct_ = ct_max;
     }
@@ -201,7 +201,7 @@ void MainRotor::computeForceAndMoment(const Vector3 & /*vel_bas*/,
     if ( vrs_ )
     {
         // Vortex-Ring-State influence
-        double kvr = getVortexRingInfluenceCoef(mu_x_norm, mu_z_norm);
+        double kvr = GetVortexRingInfluenceCoef(mu_x_norm, mu_z_norm);
         in_vrs_ = kvr > 0.0;
         ct_ = ct_ * ( 1.0 - kvr*data().vrs_thrust_factor );
         cq_ = cq_ * ( 1.0 + kvr*data().vrs_torque_factor );
@@ -231,11 +231,11 @@ void MainRotor::computeForceAndMoment(const Vector3 & /*vel_bas*/,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainRotor::update( double omega,
-                        double azimuth,
-                        double collective,
-                        double cyclicLat,
-                        double cyclicLon )
+void MainRotor::Update(double omega,
+                       double azimuth,
+                       double collective,
+                       double cyclicLat,
+                       double cyclicLon)
 {
     omega_  = omega;
     omega2_ = omega * omega;
@@ -275,7 +275,7 @@ void MainRotor::UpdateDataDerivedVariables()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainRotor::updateFlappingAnglesAndThrustCoef(double mu_x, double mu_x2, double mu_z,
+void MainRotor::UpdateFlappingAnglesAndThrustCoef(double mu_x, double mu_x2, double mu_z,
                                                   double p, double q, double a_z,
                                                   double gamma)
 {
@@ -306,7 +306,7 @@ void MainRotor::updateFlappingAnglesAndThrustCoef(double mu_x, double mu_x2, dou
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainRotor::updateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double mu_x2, double mu_z,
+void MainRotor::UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double mu_x2, double mu_z,
                                                            double p, double q, double a_z,
                                                            double gamma)
 {
@@ -315,7 +315,7 @@ void MainRotor::updateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double m
     // iteration loop
     for ( unsigned int i = 0; i < n_max; ++i )
     {
-        updateFlappingAnglesAndThrustCoef(mu_x, mu_x2, mu_z, p, q, a_z, gamma);
+        UpdateFlappingAnglesAndThrustCoef(mu_x, mu_x2, mu_z, p, q, a_z, gamma);
 
         double lambda_i0_new = sqrt(0.5 * ct_);
 
@@ -347,16 +347,16 @@ void MainRotor::updateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double m
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double MainRotor::getInGroundEffectThrustCoef(double h_agl)
+double MainRotor::GetInGroundEffectThrustCoef(double h_agl)
 {
     return 0.0;//mc::getInGroundEffectThrustCoef(h_agl);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double MainRotor::getVortexRingInfluenceCoef(double vx_norm, double vz_norm)
+double MainRotor::GetVortexRingInfluenceCoef(double vx_norm, double vz_norm)
 {
-    return mc::getVortexRingInfluenceCoef(vx_norm, vz_norm);
+    return mc::GetVortexRingInfluenceCoef(vx_norm, vz_norm);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -57,11 +57,11 @@ protected:
             return data_;
         }
 
-        void updateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double mu_x2, double mu_z,
+        void UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double mu_x2, double mu_z,
                                                         double p, double q, double a_z,
                                                         double gamma)
         {
-            mc::MainRotor::updateFlappingAnglesThrustCoefsAndVelocity(mu_x, mu_x2, mu_z,
+            mc::MainRotor::UpdateFlappingAnglesThrustCoefsAndVelocity(mu_x, mu_x2, mu_z,
                                                                       p, q, a_z,
                                                                       gamma);
         }
@@ -128,7 +128,7 @@ TEST_F(TestMainRotor, SaveResultsToFile1)
         mr.InitData();
 
         double collective = mc::Units::deg2rad(6.0);
-        mr.update(rotor_omega, 0.0, collective, 0.0, 0.0);
+        mr.Update(rotor_omega, 0.0, collective, 0.0, 0.0);
 
         const double climbRate_min  = -30.0;
         const double climbRate_max  =  10.0;
@@ -140,7 +140,7 @@ TEST_F(TestMainRotor, SaveResultsToFile1)
         {
             // main rotor
             mc::Vector3 vel_bas(0.0, 0.0, -climbRate);
-            mr.computeForceAndMoment(vel_bas,
+            mr.ComputeForceAndMoment(vel_bas,
                                      mc::Vector3(),
                                      mc::Vector3(),
                                      mc::Vector3(),
@@ -262,7 +262,7 @@ TEST_F(TestMainRotor, SaveResultsToFile2)
         mr.InitData();
 
         double collective = mc::Units::deg2rad(6.0);
-        mr.update(rotor_omega, 0.0, collective, 0.0, 0.0);
+        mr.Update(rotor_omega, 0.0, collective, 0.0, 0.0);
 
         const double climbRate_min  = -30.0;
         const double climbRate_max  =  10.0;
@@ -280,9 +280,9 @@ TEST_F(TestMainRotor, SaveResultsToFile2)
             double r4 = pow(r2, 2.0);
             double ib = mr.data().blade_mass * r2 / 3.0;
             double gamma = airDensity * mr.data().a * mr.data().c * r4 / ib;
-            mr.updateFlappingAnglesThrustCoefsAndVelocity( 0.0, 0.0, mu_d,
-                                                           0.0, 0.0, gravAcc,
-                                                           gamma );
+            mr.UpdateFlappingAnglesThrustCoefsAndVelocity(0.0, 0.0, mu_d,
+                                                          0.0, 0.0, gravAcc,
+                                                          gamma);
 
             double vi0 = mr.lambda_i0() * rotor_omegaR;
 
@@ -389,7 +389,7 @@ TEST_F(TestMainRotor, CanSimulateComparedToMomentumTheory)
     mr.InitData();
 
     double collective = mc::Units::deg2rad(6.0);
-    mr.update(rotor_omega, 0.0, collective, 0.0, 0.0);
+    mr.Update(rotor_omega, 0.0, collective, 0.0, 0.0);
 
     const double climbRate_min  = -30.0;
     const double climbRate_max  =  10.0;
@@ -401,7 +401,7 @@ TEST_F(TestMainRotor, CanSimulateComparedToMomentumTheory)
     {
         mc::Vector3 vel_bas(0.0, 0.0, -climbRate);
 
-        mr.computeForceAndMoment(vel_bas,
+        mr.ComputeForceAndMoment(vel_bas,
                                  mc::Vector3(),
                                  mc::Vector3(),
                                  mc::Vector3(),

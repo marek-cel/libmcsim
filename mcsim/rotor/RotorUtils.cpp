@@ -31,7 +31,7 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double getVortexRingInfluenceCoef( double vx_norm, double vz_norm )
+double GetVortexRingInfluenceCoef(double vx_norm, double vz_norm)
 {
     double k0 = 0.0;
     if ( vz_norm > 0.0 && vz_norm < 2.0 )
