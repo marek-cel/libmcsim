@@ -36,11 +36,9 @@ namespace mc
 /**
  * @brief Flight control hinge moment model class.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Etkin B. Dynamics of Atmosferic Flight, 1972, p.222</li>
- *   <li>Paturski Z. Przewodnik po projektach z Mechaniki Lotu, Projekt nr 9: Rownowaga podluzna samolotu i sily na sterownicy wysokosci, p.IX-3. [in Polish]</li>
- * </ul>
+ * ### Refernces:
+ * - Etkin B. Dynamics of Atmosferic Flight, 1972, p.222
+ * - Paturski Z. Przewodnik po projektach z Mechaniki Lotu, Projekt nr 9: Rownowaga podluzna samolotu i sily na sterownicy wysokosci, p.IX-3. [in Polish]
  */
 class MCSIMAPI HingeMoment
 {

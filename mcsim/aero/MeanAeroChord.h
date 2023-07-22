@@ -36,10 +36,8 @@ namespace mc
 /**
  * @brief Returns mean aerodynamic chord.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Raymer D.: Aircraft Design: A Conceptual Approach, 1992, p.49</li>
- * </ul>
+ * ### Refernces:
+ * - Raymer D.: Aircraft Design: A Conceptual Approach, 1992, p.49
  *
  * @param cr [m] chord at wing root
  * @param ct [m] chord at wing tip

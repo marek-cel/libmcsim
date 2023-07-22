@@ -34,10 +34,8 @@ namespace mc
 /**
  * @brief Returns pressure coefficient factor based on Prandtl-Glauert rule.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li><a href="https://en.wikipedia.org/wiki/Prandtl%E2%80%93Glauert_singularity">Prandtl–Glauert singularity - Wikipedia</a></li>
- * </ul>
+ * ### Refernces:
+ * - [Prandtl–Glauert singularity - Wikipedia](https://en.wikipedia.org/wiki/Prandtl%E2%80%93Glauert_singularity)
  *
  * @param mach Mach number
  * @param max maximum value

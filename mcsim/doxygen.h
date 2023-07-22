@@ -31,6 +31,10 @@
  *
  * <tt>libmcsim</tt> is a vehicle dynamics simulation library..
  *
+* @section Licensing
+ *
+ * <tt>libmcsim</tt> is distributed under the terms of the
+ * [MIT License](https://opensource.org/license/mit/).
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the "Software"),

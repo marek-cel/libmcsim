@@ -34,10 +34,8 @@ namespace mc
 /**
  * @brief Gets Vortex-Ring-State influence coefficient.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Toropov M., Stepanov S.: Modeling of Helicopter Flight Imitation in the Vortex Ring State. 2016</li>
- * </ul>
+ * ### Refernces:
+ * - Toropov M., Stepanov S.: Modeling of Helicopter Flight Imitation in the Vortex Ring State. 2016
  *
  * @param vx_norm [-] velcoity tangent to the rotor disc normalized by induced velocity in hover
  * @param vz_norm [-] velcoity perpendiculat to the rotor disc normalized by induced velocity in hover

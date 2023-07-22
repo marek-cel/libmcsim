@@ -37,7 +37,8 @@ namespace mc
 
 /**
  * @brief Sailplane wing runner model class.
- * This class is intended to model forces applied to a sailplane by a wingrunner
+ *
+ * \par This class is intended to model forces applied to a sailplane by a wingrunner
  * (a person that holds sailplane wing in the initial phase of take-off).
  */
 class MCSIMAPI WingRunner

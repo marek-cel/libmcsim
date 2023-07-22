@@ -40,13 +40,11 @@ namespace mc
 /**
  * @brief Propeller class.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Allerton D. Principles of Flight Simulation, 2009, p.131</li>
- *   <li>Raymer D. Aircraft Design: A Conceptual Approach, 1992, p.327</li>
- *   <li>Torenbeek E. Synthesis of Subsonic Airplane Design, 1982, p.191</li>
- *   <li>Paturski Z. Przewodnik po projektach z Mechaniki Lotu, Projekt nr 5: Charakterystyki zespolu napedowego. [in Polish]</li>
- * </ul>
+ * ### Refernces:
+ * - Allerton D. Principles of Flight Simulation, 2009, p.131
+ * - Raymer D. Aircraft Design: A Conceptual Approach, 1992, p.327
+ * - Torenbeek E. Synthesis of Subsonic Airplane Design, 1982, p.191
+ * - Paturski Z. Przewodnik po projektach z Mechaniki Lotu, Projekt nr 5: Charakterystyki zespolu napedowego. [in Polish]
  */
 class MCSIMAPI Propeller
 {

@@ -39,18 +39,16 @@ namespace mc
 /**
  * @brief Body aerodynamics model class.
  *
- * Very simple aerodynamic forces and moments model. It can be used to represent
+ * \par Very simple aerodynamic forces and moments model. It can be used to represent
  * bodies that have a relatively small impact on overall aerodynamic forces and
  * moments, such as the fuselage, nacelles, pods, and fairings.
  *
- * In addition to the basic functionality, the model could take into account
+ * \par In addition to the basic functionality, the model could take into account
  * effects due to rotorcraft lift rotor downwash.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Fiszdon W.: Mechanika Lotu, Czesc I, 1961, p. 44-52. [in Polish]</li>
- *   <li><a href="https://ntrs.nasa.gov/citations/19830001781">A Mathematical Model of a Single Main Rototr Helicopter for Piloted Simulation. NASA-TM-84281</a></li>
- * </ul>
+ * ### Refernces:
+ * - Fiszdon W.: Mechanika Lotu, Czesc I, 1961, p. 44-52. [in Polish]
+ * - [A Mathematical Model of a Single Main Rototr Helicopter for Piloted Simulation. NASA-TM-84281](https://ntrs.nasa.gov/citations/19830001781)
  */
 class MCSIMAPI AeroBody
 {

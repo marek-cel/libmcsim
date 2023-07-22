@@ -42,54 +42,52 @@ namespace mc
 /**
  * @brief Helicopter main rotor model class.
  *
- * This model combines induced velocity calculated using momentum theory and
- * flapping equations developed analytically using blade element theory.
+ * \par This model combines induced velocity calculated using momentum theory
+ * and flapping equations developed analytically using blade element theory.
  *
- * Flapping angle is positive upwards.
+ * \par Flapping angle is positive upwards.
  *
- * Coordinate Systems Used for Rotor Calculations
+ * \par Coordinate Systems Used for Rotor Calculations
  *
- * Rotor Axis System (RAS)
+ * \par Rotor Axis System (RAS)
  * Origin of the Rotor Axis System is coincident with the rotor hub center,
  * the x-axis is positive forwards, the y-axis is positive right and z-axis
  * is positive downwards and coincident with the rotor shaft axis.
  *
- * Rotor-Wind Axis System (RWAS)
+ * \par Rotor-Wind Axis System (RWAS)
  * Rotor-Wind Axis System is very much like Rotor Axis System, the only
  * difference is that it is rotated about z-axis in such a manner that x-axis
  * points directly into relative wind, so there is no lateral airspeed
  * component.
  *
- * Control Axis System (CAS)
+ * \par Control Axis System (CAS)
  * For most purposes, using the Rotor Axis System causes unnecessary
  * complications. It is convenient to use no cyclic feathering axis system.
  * Origin of the Control Axis System is coincident with the origin of the Rotor
  * Axis System, but it is rotated by angles of the swashplate roll and pitch so
  * there is no cyclic feathering in this coordinate system.
  *
- * Disc Axis System (DAS)
+ * \par Disc Axis System (DAS)
  * Origin of the Disc Axis System is coincident with the origin of the Rotor
  * Axis System, but it is rotated by angles of the rotor cone roll and pitch
  * in such a manner that z?axis is perpendicular to the tip path plane so there
  * is no cyclic flapping in this coordinate system.
  *
- * Control-Wind Axis System (CWAS)
+ * \par Control-Wind Axis System (CWAS)
  * Control-Wind Axis System is very much like Control Axis System, the only
  * difference is that it is rotated about z-axis in such a manner that x-axis
  * points directly into relative wind, so there is no lateral airspeed
  * component.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Mil M. Vertolety: Raschet i proyektirovanye. Tom 1 Aerodinamika, 1966 [in Russian]</li>
- *   <li>Helicopters: Calculation and Design. Volume 1: Aerodynamics, NASA-TT-F-494</li>
- *   <li>Gessow A. Myers G.: Aerodynamics of the Helicopter, 1985</li>
- *   <li>Bramwell A. Bramwells Helicopter Dynamics, 2001</li>
- *   <li>Padfield G. Helicopter Flight Dynamics, 2007</li>
- *   <li><a href="https://ntrs.nasa.gov/citations/19790013868">Rotary-Wing Aerodynamics. Volume I: Basic Theories of Rotor Aerodynamics, NASA-CR-3082</a></li>
- *   <li>Johnson W. Helicopter Theory, 1980</li>
- *   <li><a href="https://ntrs.nasa.gov/citations/20060024029">Model for Vortex Ring State Influence on Rotorcraft Flight Dynamics, NASA-TP-2005-213477</a></li>
- * </ul>
+ * ### Refernces:
+ * - Mil M. Vertolety: Raschet i proyektirovanye. Tom 1 Aerodinamika, 1966 [in Russian]
+ * - Helicopters: Calculation and Design. Volume 1: Aerodynamics, NASA-TT-F-494
+ * - Gessow A. Myers G.: Aerodynamics of the Helicopter, 1985
+ * - Bramwell A. Bramwells Helicopter Dynamics, 2001
+ * - Padfield G. Helicopter Flight Dynamics, 2007
+ * - [Rotary-Wing Aerodynamics. Volume I: Basic Theories of Rotor Aerodynamics, NASA-CR-3082](https://ntrs.nasa.gov/citations/19790013868)
+ * - Johnson W. Helicopter Theory, 1980
+ * - [Model for Vortex Ring State Influence on Rotorcraft Flight Dynamics, NASA-TP-2005-213477](https://ntrs.nasa.gov/citations/20060024029)
  */
 class MCSIMAPI MainRotor
 {

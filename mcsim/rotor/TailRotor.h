@@ -38,15 +38,13 @@ namespace mc
 /**
  * @brief Helicopter tail rotor model class.
  *
- * This model is based on the momentum theory.
+ * \par This model is based on the momentum theory.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Gessow A Myers G. Aerodynamics of the Helicopter, 1985</li>
- *   <li>Bramwell A. Bramwells Helicopter Dynamics, 2001</li>
- *   <li>Padfield G. Helicopter Flight Dynamics, 2007</li>
- *   <li>Johnson W. Helicopter Theory, 1980</li>
- * </ul>
+ * ### Refernces:
+ * - Gessow A Myers G. Aerodynamics of the Helicopter, 1985
+ * - Bramwell A. Bramwells Helicopter Dynamics, 2001
+ * - Padfield G. Helicopter Flight Dynamics, 2007
+ * - Johnson W. Helicopter Theory, 1980
  */
 class MCSIMAPI TailRotor
 {

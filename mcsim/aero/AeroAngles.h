@@ -36,11 +36,9 @@ namespace mc
 /**
  * @brief Returns angle of attack.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988</li>
- *   <li>Drela M.: Flight Vehicle Aerodynamics. 2014. p.203</li>
- * </ul>
+ * ### Refernces:
+ * - International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988
+ * - Drela M.: Flight Vehicle Aerodynamics. 2014. p.203
  *
  * @param u [m/s] airspeed along aircraft x-axis
  * @param w [m/s] airspeed along aircraft z-axis
@@ -64,14 +62,13 @@ MCSIMAPI inline double GetAngleOfAttack(const Vector3& vel_bas,
 
 /**
  * @brief Returns sideslip angle.
- * It is positive when the aircraft velocity component along the transverse
+ *
+ * \par It is positive when the aircraft velocity component along the transverse
  * axis is positive.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988</li>
- *   <li>Drela M.: Flight Vehicle Aerodynamics. 2014. p.203</li>
- * </ul>
+ * ### Refernces:
+ * - International Standard: Flight dynamics - Concepts, quantities and symbols - Part 1: Aircraft motion relative to the air. ISO 1151-1:1988
+ * - Drela M.: Flight Vehicle Aerodynamics. 2014. p.203
  *
  * @param v [m/s] airspeed along aircraft y-axis
  * @param uw [m/s] airspeed projected on the x-z plane

@@ -34,17 +34,15 @@ namespace mc
 /**
  * @brief US76 Standard Atmosphere model class.
  *
- * This class is used to compute altitude depend atmospheric data. It is
+ * \par This class is used to compute altitude depend atmospheric data. It is
  * based on U.S. Standard Atmosphere 1976 extended by user defined sea level
  * conditions. User defined sea level conditions affect only the lowest layer
  * up to 11,000 m above mean sea level.
  *
- * Model is valid up to 84,852 meters above mean sea level.
+ * \par Model is valid up to 84,852 meters above mean sea level.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li><a href="https://ntrs.nasa.gov/citations/19770009539">US Standard Atmosphere 1976, NASA-TM-X-74335</a></li>
- * </ul>
+ * ### Refernces:
+ * - [US Standard Atmosphere 1976, NASA-TM-X-74335](https://ntrs.nasa.gov/citations/19770009539)
  */
 class MCSIMAPI AtmosphereUS76
 {

@@ -38,10 +38,8 @@ namespace mc
 /**
  * @brief Piston engine model class.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Allerton D. Principles of Flight Simulation, 2009, p.128</li>
- * </ul>
+ * ### Refernces:
+ * - Allerton D. Principles of Flight Simulation, 2009, p.128
  */
 class MCSIMAPI PistonEngine
 {

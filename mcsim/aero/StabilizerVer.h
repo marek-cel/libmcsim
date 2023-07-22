@@ -38,7 +38,9 @@ namespace mc
 
 /**
  * @brief Vertical stabilizer aerodynamics model class.
- * This class is intended to be used in tail-off approach.
+ *
+ * \par This class is intended to be used in tail-off approach.
+ *
  * @see Fuselage
  * @see WingBody
  */

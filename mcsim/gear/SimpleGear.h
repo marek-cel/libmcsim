@@ -39,13 +39,11 @@ namespace mc
 /**
  * @brief Simple landing gear model class.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>O’Rourke J. Computational Geometry in C, 1998</li>
- *   <li>Studzinski K. Samochod. Teoria, konstrukcja i obliczenia, 1980 [in Polish]</li>
- *   <li><a href="https://apps.dtic.mil/sti/citations/ADA041920">A Solid Friction Model, ADA041920</a></li>
- *   <li>van Geffen V. A study of friction models and friction compensation, 2009</li>
- * </ul>
+ * ### Refernces:
+ * - O’Rourke J. Computational Geometry in C, 1998
+ * - Studzinski K. Samochod. Teoria, konstrukcja i obliczenia, 1980 [in Polish]
+ * - [A Solid Friction Model, ADA041920](https://apps.dtic.mil/sti/citations/ADA041920)
+ * - van Geffen V. A study of friction models and friction compensation, 2009
  */
 class MCSIMAPI SimpleGear
 {

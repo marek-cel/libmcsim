@@ -36,11 +36,9 @@ namespace mc
 /**
  * @brief Wing Schrenk approximation class.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li><a href="https://ntrs.nasa.gov/citations/19930094469">A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA-TM-948</a></li>
- *   <li>Galinski C. Wybrane zagadnienia projektowania samolotow, 2016, p.118. [in Polish]</li>
- * </ul>
+ * ### Refernces:
+ * - [A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA-TM-948](https://ntrs.nasa.gov/citations/19930094469)
+ * - Galinski C.: Wybrane zagadnienia projektowania samolotow, 2016, p.118. [in Polish]
  */
 class MCSIMAPI SchrenkDist
 {
@@ -48,8 +46,10 @@ public:
 
     /**
      * @brief Computes approximation of drag coefficient.
-     * Computes simple approximation of normalized spanwise drag coefficient
+     *
+     * \par Computes simple approximation of normalized spanwise drag coefficient
      * distribution.
+     *
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
      * @return [-] spanwise drag coefficient
      */
@@ -57,8 +57,10 @@ public:
 
     /**
      * @brief Computes approximation of lift coefficient.
-     * Computes Schrenk approximation of normalized spanwise lift coefficient
+     *
+     * \par Computes Schrenk approximation of normalized spanwise lift coefficient
      * distribution.
+     *
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
      * @return [-] spanwise lift coefficient
      */

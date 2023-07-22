@@ -39,10 +39,8 @@ namespace mc
 /**
  * @brief Point mass component data.
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Taylor J. Classical Mechanics, 2005, p.411</li>
- * </ul>
+ * ### Refernces:
+ * - Taylor J. Classical Mechanics, 2005, p.411
  */
 class MCSIMAPI PointMass
 {

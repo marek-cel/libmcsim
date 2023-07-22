@@ -39,7 +39,7 @@ namespace mc
 /**
  * @brief Wing-body (tail-off, split-wings) aircraft aerodynamics model class.
  *
- * Forces and moments are calculated, considering different airflow
+ * \par Forces and moments are calculated, considering different airflow
  * conditions, separately for left and right half wings. Half wing aerodynamic
  * center is considered datum point for computing airflow conditions (airspeed,
  * angle of attack, etc.).
@@ -47,10 +47,8 @@ namespace mc
  * @see StabilizerHor
  * @see StabilizerVer
  *
- * <h3>Refernces:</h3>
- * <ul>
- *   <li>Drela M.: Flight Vehicle Aerodynamics. 2014. p.203</li>
- * </ul>
+ * ### Refernces:
+ * - Drela M.: Flight Vehicle Aerodynamics. 2014. p.203
  */
 class MCSIMAPI WingBody
 {
