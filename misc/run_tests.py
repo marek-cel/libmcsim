@@ -24,6 +24,7 @@ def runTestsOnWindows():
 def setLibraryPathOnLinux():
     ld_library_path = str(os.environ.get("LD_LIBRARY_PATH"))
     ld_library_path = ld_library_path + ":" + str(os.path.join(os.getcwd(), "lib"))
+    ld_library_path = ld_library_path + ":/usr/local/lib"
     os.environ["LD_LIBRARY_PATH"] = ld_library_path
 
 
