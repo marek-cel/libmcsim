@@ -1,0 +1,10 @@
+FROM ubuntu:22.04
+
+RUN apt update
+RUN apt install -y build-essential cmake git googletest googletest-tools lcov libgmock-dev libgtest-dev python3-all
+
+RUN mkdir /src
+RUN git clone https://github.com/marek-cel/libmcutils.git /src
+RUN cd /src/misc; ./build.py
+RUN cd /src/build; make install
+RUN rm -r /src
