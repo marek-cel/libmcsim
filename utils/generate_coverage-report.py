@@ -38,7 +38,7 @@ def captureCoverage():
 
 
 def getExclusions():
-    file_path = 'misc/lcov_exclude.txt'
+    file_path = 'utils/lcov_exclude.txt'
     with open(file_path, 'r') as file:
         exclusions = file.readlines()
     exclusions = [line.strip() for line in exclusions]

@@ -5,7 +5,6 @@
 import os
 import platform
 import subprocess
-import sys
 
 ################################################################################
 
@@ -19,7 +18,6 @@ def build():
 
 
 def install():
-    os.chdir(build_dir)
     print("Installing...")
     os_name = platform.system()
     if os_name == "Linux":
@@ -30,11 +28,11 @@ def install():
 
 
 def installForLinux():
-    subprocess.run("sudo make install", shell=True)
+    subprocess.run("sudo cmake --build " + build_dir + " --config Release --target install", shell=True)
 
 
 def installForWindows():
-    subprocess.run("cmake --build . --config Release --target INSTALL", shell=True)
+    subprocess.run("cmake --build " + build_dir + " --config Release --target INSTALL", shell=True)
 
 
 ################################################################################

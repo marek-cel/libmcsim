@@ -53,10 +53,10 @@ def removePyCache():
 
 if __name__ == "__main__":
     print("Cleaning...")
+    removePyCache()
     os.chdir("..")
     removeBuildDirs()
     removeCoverageReport()
     removeCheckOutputs()
     removeDocumentation()
-    removePyCache()
     print("Cleaning done.")
