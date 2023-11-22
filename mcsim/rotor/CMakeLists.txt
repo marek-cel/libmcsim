@@ -1,8 +1,8 @@
-set( TARGET_NAME rotor )
+set(TARGET_NAME rotor)
 
 ################################################################################
 
-set( HEADERS
+set(HEADERS
     IInGroundEffect.h
     IVortexRingState.h
     MainRotor.h
@@ -10,7 +10,7 @@ set( HEADERS
     TailRotor.h
 )
 
-set( SOURCES
+set(SOURCES
     MainRotor.cpp
     RotorUtils.cpp
     TailRotor.cpp
@@ -18,17 +18,17 @@ set( SOURCES
 
 ################################################################################
 
-add_library( ${TARGET_NAME} OBJECT ${SOURCES} )
+add_library(${TARGET_NAME} OBJECT ${SOURCES})
 
 ################################################################################
 
-include( GNUInstallDirs )
+include(GNUInstallDirs)
 
-set_target_properties( ${TARGET_NAME} PROPERTIES 
+set_target_properties(${TARGET_NAME} PROPERTIES 
     PUBLIC_HEADER "${HEADERS}"
 )
 
-install( TARGETS ${TARGET_NAME}
+install(TARGETS ${TARGET_NAME}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcsim/rotor
 )
 
