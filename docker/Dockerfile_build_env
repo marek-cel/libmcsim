@@ -5,6 +5,6 @@ RUN apt install -y build-essential cmake git googletest googletest-tools lcov li
 
 RUN mkdir /src
 RUN git clone https://github.com/marek-cel/libmcutils.git /src
-RUN cd /src/misc; ./build.py
+RUN cd /src/utils; ./build.py
 RUN cd /src/build; make install
 RUN rm -r /src
