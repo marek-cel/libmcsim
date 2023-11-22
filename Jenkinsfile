@@ -21,19 +21,20 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'cd misc; python3 ./build.py --with-tests'
+                sh 'cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O0 -fno-elide-constructors -fno-default-inline -fprofile-arcs -ftest-coverage" -B build'
+                sh 'cmake --build build -j 4'
             }
         }
         stage('Test') {
             steps {
-                sh 'cd misc; python3 ./run_tests.py'
+                sh 'cd build && ctest'
             }
         }
         stage('Generate coverage report') {
             steps {
-                sh 'cd misc; python3 ./generate_coverage-report.py'
+                sh 'cd utils && python3 ./generate_coverage-report.py'
                 sh "mkdir -p /var/www/html/jenkins/coverage-reports/${env.JOB_NAME}"
-                sh "cp -r coverage-report /var/www/html/jenkins/coverage-reports/${env.JOB_NAME}/build-${env.BUILD_NUMBER}"
+                sh "cp -r coverage-report /var/www/html/jenkins/coverage-reports/${env.JOB_NAME}/\$(date +%Y-%m-%d)_build-${env.BUILD_NUMBER}"
             }
         }
     }
@@ -49,7 +50,7 @@ pipeline {
                 subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                 body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
                 <p>Check console output at <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a></p>
-                <p>Check coverage report at <a href='http://192.168.100.102/jenkins/coverage-reports/${env.JOB_NAME}/build-${env.BUILD_NUMBER}'>http://192.168.100.102/jenkins/coverage-reports/${env.JOB_NAME}/build-${env.BUILD_NUMBER}</a></p>""",
+                <p>Check coverage report at <a href='http://192.168.100.102/jenkins/coverage-reports/${env.JOB_NAME}/${env.BUILD_DATE}_build-${env.BUILD_NUMBER}'>http://192.168.100.102/jenkins/coverage-reports/${env.JOB_NAME}/${env.BUILD_DATE}_build-${env.BUILD_NUMBER}</a></p>""",
                 mimeType: 'text/html'
             )
         }
@@ -59,8 +60,7 @@ pipeline {
                 to: "${env.RECIPIENT_LIST}",
                 subject: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                 body: """<p>FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                <p>Check console output at <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a></p>
-                <p>Check coverage report at <a href='http://192.168.100.102/jenkins/coverage-reports/${env.JOB_NAME}/build-${env.BUILD_NUMBER}'>http://192.168.100.102/jenkins/coverage-reports/${env.JOB_NAME}/build-${env.BUILD_NUMBER}</a></p>""",
+                <p>Check console output at <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a></p>""",
                 mimeType: 'text/html'
             )
         }
