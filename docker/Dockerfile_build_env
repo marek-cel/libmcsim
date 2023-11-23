@@ -5,6 +5,7 @@ RUN apt install -y build-essential cmake git googletest googletest-tools lcov li
 
 RUN mkdir /src
 RUN git clone https://github.com/marek-cel/libmcutils.git /src
-RUN cd /src/utils; ./build.py
-RUN cd /src/build; make install
+RUN cd /src; cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_TESTING=Off -B build
+RUN cd /src; cmake --build build --config Release -j 4
+RUN cd /src; cmake --build build --config Release --target install
 RUN rm -r /src
