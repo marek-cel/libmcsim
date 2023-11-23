@@ -27,7 +27,6 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib'
                 sh 'cd build && ctest'
             }
         }
