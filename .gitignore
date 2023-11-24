@@ -10,7 +10,7 @@ out_cpplint.txt
 coverage.info
 coverage_full.info
 coverage-report
-coverage_sumary.txt
+coverage_summary.txt
 
 *.csv
 
