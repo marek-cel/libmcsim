@@ -75,7 +75,11 @@ endif()
 
 ################################################################################
 
-include_directories( . )
+find_library(MCUTILS_LIBRARY NAMES mcutils)
+
+################################################################################
+
+include_directories(.)
 
 if(WIN32)
     include_directories(${MCUTILS_INCLUDE_DIR})

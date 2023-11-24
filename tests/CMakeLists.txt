@@ -63,7 +63,7 @@ target_link_libraries(${TARGET_NAME}
     prop
     rotor
 
-    mcutils
+    ${MCUTILS_LIBRARY}
 
     GTest::gtest
     GTest::gtest_main
