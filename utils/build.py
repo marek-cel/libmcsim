@@ -55,7 +55,7 @@ def buildForWindows():
     cmake_cmd = [
         'cmake', '.',
         '-DCMAKE_BUILD_TYPE=Release',
-        '-DCMAKE_INSTALL_PREFIX=%LIBMCUTILS_DIR%',
+        '-DCMAKE_INSTALL_PREFIX=%LIBMCSIM_DIR%',
         '-DBUILD_TESTING=Off',
         '-B', build_dir
     ]
