@@ -1,0 +1,70 @@
+pipeline {
+    agent {
+        docker { 
+            image 'libmcsim-build-env:1' 
+            args '-v /var/www/html/jenkins/:/var/www/html/jenkins/'
+        }
+    }
+
+    environment {
+        RECIPIENT_LIST = 'dev@marekcel.pl'
+    }
+
+    triggers {
+        pollSCM('0 3 * * 1-5')
+    }
+
+    options {
+        skipStagesAfterUnstable()
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O0 -fno-elide-constructors -fno-default-inline -fprofile-arcs -ftest-coverage" -B build'
+                sh 'cmake --build build -j 4'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'cd build && ctest'
+            }
+        }
+        stage('Generate coverage report') {
+            steps {
+                sh 'cd utils && python3 ./generate_coverage-report.py'
+                sh "mkdir -p /var/www/html/jenkins/coverage-reports/${env.JOB_NAME}"
+                sh "cp -r coverage-report /var/www/html/jenkins/coverage-reports/${env.JOB_NAME}/\$(date +%Y-%m-%d)_build-${env.BUILD_NUMBER}"
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                def buildDate = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd")
+                env.BUILD_DATE = buildDate
+                def jenkinsBaseUrl = env.BUILD_URL.split('/')[2].split(':')[0]
+                env.JENKINS_BASE_URL = jenkinsBaseUrl
+            }
+            emailext (
+                to: "${env.RECIPIENT_LIST}",
+                subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                <p>Check console output at <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a></p>
+                <p>Check coverage report at <a href='http://${env.JENKINS_BASE_URL}/jenkins/coverage-reports/${env.JOB_NAME}/${env.BUILD_DATE}_build-${env.BUILD_NUMBER}'>http://${env.JENKINS_BASE_URL}/jenkins/coverage-reports/${env.JOB_NAME}/${env.BUILD_DATE}_build-${env.BUILD_NUMBER}</a></p>""",
+                mimeType: 'text/html'
+            )
+        }
+
+        failure {
+            emailext (
+                to: "${env.RECIPIENT_LIST}",
+                subject: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                <p>Check console output at <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a></p>""",
+                mimeType: 'text/html'
+            )
+        }
+    }
+}
