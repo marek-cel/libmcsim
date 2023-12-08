@@ -14,14 +14,9 @@ set(SOURCES
     main.cpp
 
     aero/TestAeroAngles.cpp
-    aero/TestAeroBody.cpp
-    aero/TestFuselage.cpp
     aero/TestMeanAeroChord.cpp
     aero/TestRhoEffects.cpp
     aero/TestSchrenkDist.cpp
-    aero/TestStabilizerHor.cpp
-    aero/TestStabilizerVer.cpp
-    aero/TestWingBody.cpp
 
     ctrl/TestHingeMoment.cpp
 
