@@ -34,12 +34,12 @@ namespace mc
 /**
  * @brief US76 Standard Atmosphere model class.
  *
- * \par This class is used to compute altitude depend atmospheric data. It is
+ * @par This class is used to compute altitude depend atmospheric data. It is
  * based on U.S. Standard Atmosphere 1976 extended by user defined sea level
  * conditions. User defined sea level conditions affect only the lowest layer
  * up to 11,000 m above mean sea level.
  *
- * \par Model is valid up to 84,852 meters above mean sea level.
+ * @par Model is valid up to 84,852 meters above mean sea level.
  *
  * ### Refernces:
  * - [US Standard Atmosphere 1976, NASA-TM-X-74335](https://ntrs.nasa.gov/citations/19770009539)
@@ -100,6 +100,12 @@ public:
     static const double kStdSlMu;       ///< [Pa*s]   standard sea level dynamic viscosity (1.79118e-05 Pa*s)
     static const double kStdSlNu;       ///< [m^2/s]  standard sea level kinematic viscosity (1.46218e-05 m^2/s)
 
+    static const double kSlTempMax;     ///< [K] sea level max temperature (343.15 K or  70 deg C)
+    static const double kSlTempMin;     ///< [K] sea level min temperature (203.15 K or -70 deg C)
+
+    static const double kSlPressMax;    ///< [Pa] sea level max pressure (1100 hPa)
+    static const double kSlPressMin;    ///< [Pa] sea level min pressure (900 hPa)
+
     /**
      * @brief Computes density altitude.
      * @param pressure [Pa] outside pressure
@@ -147,17 +153,71 @@ private:
     double dyn_viscosity_  = kStdSlMu;     ///< [Pa*s]   dynamic viscosity
     double kin_viscosity_  = kStdSlNu;     ///< [m^2/s]  kinematic viscosity
 
+    /**
+     * @brief Gets index of altitude dependent constants tables.
+     * @param altitude [m] altitude
+     * @return table index
+     */
     int GetAltitudeIndex(double altitude);
 
+    /**
+     * @brief Gets altitude dependent constants values.
+     * @param altitude [m] altitude
+     * @return altitude dependent constants values struct
+     */
     AltConstants GetAltitudeConstants(double altitude);
 
-    double ComputeTemperature(double delta_h, double Lb, double Tb);
-    double ComputePressure(double delta_h, double Lb, double Tb, double Pb,
+    /**
+     * @brief Computes air temperature.
+     * @param delta_h [m] difference between given altitude and reference altitude
+     * @param Tb [K] temperature at reference altitude
+     * @param Lb [K/m] temperature gradient at reference altitude
+     * @return [K] temperature
+     */
+    double ComputeTemperature(double delta_h, double Tb, double Lb);
+
+    /**
+     * @brief Computes air pressure.
+     * @param delta_h [m] difference between given altitude and reference altitude
+     * @param Tb [K] temperature at reference altitude
+     * @param Lb [K/m] temperature gradient at reference altitude
+     * @param Pb [Pa] pressure at reference altitude
+     * @param altitude [m] altitude
+     * @param temperature [K] temperature
+     * @return [Pa] pressure
+     */
+    double ComputePressure(double delta_h, double Tb, double Lb, double Pb,
                            double altitude, double temperature);
+
+    /**
+     * @brief Computes air density.
+     * @param pressure [Pa] pressure
+     * @param temperature [K] temperature
+     * @return [kg/m^3] pressure
+     */
     double ComputeDensity(double pressure, double temperature);
+
+    /**
+     * @brief Computes speed of sound.
+     * @param temperature [K] temperature
+     * @return [m/s] speed of sound
+     */
     double ComputeSpeedOfSound(double temperature);
+
+    /**
+     * @brief Computes dynamic viscosity.
+     * @param temperature [K] temperature
+     * @return [Pa*s] dynamic viscosity
+     */
     double ComputeDynamicViscosity(double temperature);
-    double ComputeKineticViscosity(double dyn_viscosity, double density);
+
+    /**
+     * @brief Computes kinematic viscosity.
+     * @param dyn_viscosity [Pa*s] dynamic viscosity
+     * @param density [kg/m^3] density
+     * @return [m^2/s] kinematic viscosity
+     */
+    double ComputeKinematicViscosity(double dyn_viscosity, double density);
 };
 
 } // namespace mc
