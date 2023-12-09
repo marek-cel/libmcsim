@@ -139,6 +139,8 @@ const double AtmosphereUS76::kS     = 110.0;            // US Standard Atmospher
 const double AtmosphereUS76::kBeta  = 1.458e-6;         // US Standard Atmosphere 1976, Table 2, p.2
 const double AtmosphereUS76::kGamma = 1.4;              // US Standard Atmosphere 1976, Table 2, p.2
 
+const double AtmosphereUS76::kAltMax = 86000.0;
+
 const double AtmosphereUS76::kStdSlPress = 101325.0;   // US Standard Atmosphere 1976, Table 2, p.2
 const double AtmosphereUS76::kStdSlTemp  = 288.15;     // US Standard Atmosphere 1976, Table 2, p.2
 const double AtmosphereUS76::kStdSlRho   = 1.225;
@@ -172,8 +174,10 @@ double AtmosphereUS76::GetDensityAltitude(double pressure, double temperature,
 
 void AtmosphereUS76::Update(double altitude)
 {
-    AltConstants ac = GetAltitudeConstants(altitude);
-    double delta_h = altitude - ac.Hb;
+    double alt_limited = std::min(altitude, kAltMax);
+    AltConstants ac = GetAltitudeConstants(alt_limited);
+    double delta_h = alt_limited - ac.Hb;
+    
     temperature_    = ComputeTemperature(delta_h, ac.Tb, ac.Lb);
     pressure_       = ComputePressure(delta_h, ac.Tb, ac.Lb, ac.Pb, altitude, temperature_);
     density_        = ComputeDensity(temperature_, pressure_);
@@ -291,7 +295,7 @@ double AtmosphereUS76::ComputePressure(double delta_h, double Tb, double Lb, dou
     }
     else
     {
-        double pressure = Pb * pow(Tb / temperature, (kG * kM) / (kR * Lb));
+        pressure = Pb * pow(Tb / temperature, (kG * kM) / (kR * Lb));
 
         if (altitude < kHb[0])
         {
@@ -306,7 +310,7 @@ double AtmosphereUS76::ComputePressure(double delta_h, double Tb, double Lb, dou
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AtmosphereUS76::ComputeDensity(double pressure, double temperature)
+double AtmosphereUS76::ComputeDensity(double temperature, double pressure)
 {
     // [kg/m^3] density, US Standard Atmosphere 1976, p.15
     return (pressure * kM) / (kR * temperature);

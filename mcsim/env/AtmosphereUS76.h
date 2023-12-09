@@ -93,6 +93,8 @@ public:
     static const double kBeta;          ///< [kg/(s*m*K^0.5)] a constant used in computing dynamic viscosity
     static const double kGamma;         ///< [-]              a constant taken to represent the ratio of specific heat at constant pressure to the specific heat at constant volume (cp/cv)
 
+    static const double kAltMax;        ///< [m] maximum valid altitude
+
     static const double kStdSlTemp;     ///< [K]      standard sea level temperature (288.15 K or 15 deg C)
     static const double kStdSlPress;    ///< [Pa]     standard sea level pressure (1013.25 hPa)
     static const double kStdSlRho;      ///< [kg/m^3] standard sea level density (1.225 kg/m^3)
@@ -122,12 +124,15 @@ public:
      */
     void Update(double altitude);
 
-    inline double temperature() const { return temperature_; }
-    inline double pressure() const { return pressure_; }
-    inline double density() const { return density_; }
+    inline double temperature()    const { return temperature_;    }
+    inline double pressure()       const { return pressure_;       }
+    inline double density()        const { return density_;        }
     inline double speed_of_sound() const { return speed_of_sound_; }
-    inline double dyn_viscosity() const { return dyn_viscosity_; }
-    inline double kin_viscosity() const { return kin_viscosity_; }
+    inline double dyn_viscosity()  const { return dyn_viscosity_;  }
+    inline double kin_viscosity()  const { return kin_viscosity_;  }
+
+    inline double sl_temperature() const { return sl_temperature_; }
+    inline double sl_pressure()    const { return sl_pressure_;    }
 
     /**
      * @brief Sets sea level air pressure value.
@@ -191,11 +196,11 @@ private:
 
     /**
      * @brief Computes air density.
-     * @param pressure [Pa] pressure
      * @param temperature [K] temperature
+     * @param pressure [Pa] pressure
      * @return [kg/m^3] pressure
      */
-    double ComputeDensity(double pressure, double temperature);
+    double ComputeDensity(double temperature, double pressure);
 
     /**
      * @brief Computes speed of sound.
