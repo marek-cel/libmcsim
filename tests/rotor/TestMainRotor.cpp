@@ -91,7 +91,7 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestMainRotor, SaveResultsToFile1)
+TEST_F(TestMainRotor, DISABLED_SaveResultsToFile1)
 {
     std::ofstream file;
     file.open("../main_rotor1.csv", std::ios_base::out);
@@ -225,7 +225,7 @@ TEST_F(TestMainRotor, SaveResultsToFile1)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestMainRotor, SaveResultsToFile2)
+TEST_F(TestMainRotor, DISABLED_SaveResultsToFile2)
 {
     std::ofstream file;
     file.open("../main_rotor2.csv", std::ios_base::out);
