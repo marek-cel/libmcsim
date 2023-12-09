@@ -12,7 +12,7 @@ coverage_full.info
 coverage-report
 coverage_summary.txt
 
-*.csv
+/*.csv
 
 ################################################################################
 
