@@ -38,6 +38,7 @@ namespace mc
  *
  * ### Refernces:
  * - [A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA-TM-948](https://ntrs.nasa.gov/citations/19930094469)
+ * - Corke TC.: Design of Aircraft, 2003, p.215 
  * - Galinski C.: Wybrane zagadnienia projektowania samolotow, 2016, p.118. [in Polish]
  */
 class MCSIMAPI SchrenkDist
@@ -45,15 +46,11 @@ class MCSIMAPI SchrenkDist
 public:
 
     /**
-     * @brief Computes approximation of drag coefficient.
-     *
-     * @par Computes simple approximation of normalized spanwise drag coefficient
-     * distribution.
-     *
+     * @brief Computes equivalent elliptic wing chord at the given spanwise coordinate. 
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
-     * @return [-] spanwise drag coefficient
+     * @return [m] equivalent elliptic wing chord
      */
-    double GetDragCoefDist(double y) const;
+    double GetEllipticWingChord(double y) const;
 
     /**
      * @brief Computes approximation of lift coefficient.
@@ -65,8 +62,6 @@ public:
      * @return [-] spanwise lift coefficient
      */
     double GetLiftCoefDist(double y) const;
-
-    double GetEllipsoidWingChord(double y) const;
 
     /**
      * @brief Sets wing area.

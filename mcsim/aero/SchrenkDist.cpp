@@ -33,23 +33,16 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double SchrenkDist::GetDragCoefDist(double y) const
+double SchrenkDist::GetEllipticWingChord(double y) const
 {
-    return ( y < 0.4 * span_ ) ? 0.95 : 1.2;
+    return (4.0 * area_) / (span_ * M_PI) * sqrt(1.0 - std::min(Math::Pow2(2.0 * y / span_), 1.0));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double SchrenkDist::GetLiftCoefDist(double y) const
 {
-    return 0.5 * (1.0 + GetEllipsoidWingChord(y) / chord_.GetValue(y));
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double SchrenkDist::GetEllipsoidWingChord(double y) const
-{
-    return (4.0 * area_) / (span_ * M_PI) * sqrt(1.0 - Math::Pow2(2.0 * y / span_));
+    return (GetEllipticWingChord(y) + chord_.GetValue(y)) / area_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

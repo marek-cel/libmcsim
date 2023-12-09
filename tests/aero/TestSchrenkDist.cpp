@@ -43,55 +43,13 @@ TEST_F(TestSchrenkDist, CanInstantiate)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestSchrenkDist, DISABLED_CanCalculateEllipsoidWing1)
-{
-    mc::SchrenkDist dist;
-    std::vector span {0.0, 1.0};
-    std::vector chord {1.0, 1.0};
-
-    dist.set_area(2.0);
-    dist.set_span(2.0);
-    dist.set_chord(mc::Table(span, chord));
-
-    double y = 0.0;
-    while ( y < 1.0 )
-    {
-        double c = dist.GetEllipsoidWingChord(y);
-        std::cout << y << " " << c << std::endl;
-        y += 0.1;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-TEST_F(TestSchrenkDist, CanCalculateEllipsoidWing)
-{
-    mc::SchrenkDist dist;
-    std::vector span {0.0, 1.0};
-    std::vector chord {1.0, 0.5};
-
-    dist.set_area(1.5);
-    dist.set_span(2.0);
-    dist.set_chord(mc::Table(span, chord));
-
-    double y = 0.0;
-    while ( y < 1.0 )
-    {
-        double c = dist.GetEllipsoidWingChord(y);
-        std::cout << y << " " << c << std::endl;
-        y += 0.1;
-    }
-    exit(0);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-TEST_F(TestSchrenkDist, DISABLED_CanCalculateRectangularWing)
+TEST_F(TestSchrenkDist, CanCalculateRectangularWing)
 {
     std::vector<double> y_ref;
     std::vector<double> cl_ref;
 
-    // expected values Raymer DP. Aircraft Design: A Conceptual Approach, 6th Edition, 2018, p.84
+    // expected values 
+    // Raymer DP. Aircraft Design: A Conceptual Approach, 6th Edition, 2018, p.84
     CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_rect.csv", &y_ref, &cl_ref);
 
     EXPECT_GT(y_ref.size(), 0) << "No reference data.";
@@ -110,22 +68,20 @@ TEST_F(TestSchrenkDist, DISABLED_CanCalculateRectangularWing)
     {
         double y = y_ref.at(i);
         double cl = dist.GetLiftCoefDist(y);
-        double tol = 0.01;
-        if ( y > 0.3 ) tol = 0.05;
-        if ( y > 0.7 ) tol = 0.1;
-        std::cout << y << " " << cl << " " << cl_ref.at(i) << std::endl;
+        double tol = 0.05;
         EXPECT_NEAR(cl, cl_ref.at(i), tol) << "Mismatch at span= " << y;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_F(TestSchrenkDist, DISABLED_CanCalculateTrapezoidalWing)
+TEST_F(TestSchrenkDist, CanCalculateTrapezoidalWing)
 {
     std::vector<double> y_ref;
     std::vector<double> cl_ref;
 
-    // expected values Raymer DP. Aircraft Design: A Conceptual Approach, 6th Edition, 2018, p.84
+    // expected values 
+    // Schrenk O.: A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA TM-948, Figure 6
     CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_taper.csv", &y_ref, &cl_ref);
 
     EXPECT_GT(y_ref.size(), 0) << "No reference data.";
@@ -137,7 +93,7 @@ TEST_F(TestSchrenkDist, DISABLED_CanCalculateTrapezoidalWing)
     std::vector chord {1.0, 0.5};
     mc::Table xxx(span, chord);
 
-    dist.set_area(2.0);
+    dist.set_area(1.5);
     dist.set_span(2.0);
     dist.set_chord(xxx);
 
@@ -145,12 +101,41 @@ TEST_F(TestSchrenkDist, DISABLED_CanCalculateTrapezoidalWing)
     {
         double y = y_ref.at(i);
         double cl = dist.GetLiftCoefDist(y);
-        double tol = 0.01;
-        if ( y > 0.3 ) tol = 0.05;
-        if ( y > 0.7 ) tol = 0.1;
-        //std::cout << y << " " << xxx.GetValue(y) << std::endl;
-        std::cout << y << " " << cl << " " << cl_ref.at(i) << std::endl;
-        //EXPECT_NEAR(cl, cl_ref.at(i), tol) << "Mismatch at span= " << y;
+        double tol = 0.05 * cl_ref.at(i);
+        EXPECT_NEAR(cl, cl_ref.at(i), tol) << "Mismatch at span= " << y;
     }
-    exit(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_F(TestSchrenkDist, CanCalculateDeltaWing)
+{
+    std::vector<double> y_ref;
+    std::vector<double> l_ref;
+
+    // expected values 
+    // Corke TC.: Design of Aircraft, 2003, p.240
+    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_delta.csv", &y_ref, &l_ref);
+
+    EXPECT_GT(y_ref.size(), 0) << "No reference data.";
+    EXPECT_GT(l_ref.size(), 0) << "No reference data.";
+    EXPECT_EQ(y_ref.size(), l_ref.size()) << "Reference data corrupted.";
+
+    double luf = 88817.0 / 2.0;
+
+    mc::SchrenkDist dist;
+    std::vector span {0.0, 16.1};
+    std::vector chord {32.2, 0.0};
+
+    dist.set_area(519.0);
+    dist.set_span(32.2);
+    dist.set_chord(mc::Table(span, chord));
+
+    for ( unsigned int i = 0; i < y_ref.size(); i++ )
+    {
+        double y = y_ref.at(i);
+        double l = luf * dist.GetLiftCoefDist(y);
+        double tol = 0.05 * l_ref.at(i);
+        EXPECT_NEAR(l, l_ref.at(i), tol) << "Mismatch at span= " << y;
+    }
 }
