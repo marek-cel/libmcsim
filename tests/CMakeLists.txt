@@ -11,6 +11,7 @@ include_directories(.)
 ################################################################################
 
 set(SOURCES
+    CsvFileReader.cpp
     main.cpp
 
     aero/TestAeroAngles.cpp

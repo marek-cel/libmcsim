@@ -53,7 +53,7 @@ public:
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
      * @return [-] spanwise drag coefficient
      */
-    double GetDragCoefDist(double y) const;
+    virtual double GetDragCoefDist(double y) const;
 
     /**
      * @brief Computes approximation of lift coefficient.
@@ -64,9 +64,7 @@ public:
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
      * @return [-] spanwise lift coefficient
      */
-    double GetLiftCoefDist(double y) const;
-
-    double GetEllipsoidWingChord(double y) const;
+    virtual double GetLiftCoefDist(double y) const;
 
     /**
      * @brief Sets wing area.
@@ -92,6 +90,12 @@ protected:
     double span_ = 0.0;     ///< [m] wing span
 
     Table chord_;           ///< [m] wing chord vs [m] spanwise coordinate
+
+    double _4S_bpi_ = 0.0;  ///< [m]   4*S/(b*pi) where S is wing area and b is wing span
+    double _2_b_    = 0.0;  ///< [1/m] 2/b        where b is wing span
+
+    /** */
+    void UpdateAxiliaryParameters();
 };
 
 } // namespace mc
