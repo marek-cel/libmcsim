@@ -21,7 +21,7 @@ protected:
 
 TEST_F(TestSchrenkDist, CanConstruct)
 {
-    mc::SchrenkDist *dist = nullptr;
+    mc::SchrenkDist* dist = nullptr;
     EXPECT_NO_THROW( dist = new mc::SchrenkDist() );
     delete dist;
 }
@@ -30,7 +30,7 @@ TEST_F(TestSchrenkDist, CanConstruct)
 
 TEST_F(TestSchrenkDist, CanDestruct)
 {
-    mc::SchrenkDist *dist = new mc::SchrenkDist();
+    mc::SchrenkDist* dist = new mc::SchrenkDist();
     EXPECT_NO_THROW( delete dist );
 }
 
@@ -48,9 +48,13 @@ TEST_F(TestSchrenkDist, CanCalculateRectangularWing)
     std::vector<double> y_ref;
     std::vector<double> cl_ref;
 
-    // expected values 
+    std::vector<std::vector<double>*> data;
+    data.push_back(&y_ref);
+    data.push_back(&cl_ref);
+
+    // expected values from
     // Raymer DP. Aircraft Design: A Conceptual Approach, 6th Edition, 2018, p.84
-    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_rect.csv", &y_ref, &cl_ref);
+    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_rect.csv", data);
 
     EXPECT_GT(y_ref.size(), 0) << "No reference data.";
     EXPECT_GT(cl_ref.size(), 0) << "No reference data.";
@@ -80,9 +84,13 @@ TEST_F(TestSchrenkDist, CanCalculateTrapezoidalWing)
     std::vector<double> y_ref;
     std::vector<double> cl_ref;
 
-    // expected values 
+    std::vector<std::vector<double>*> data;
+    data.push_back(&y_ref);
+    data.push_back(&cl_ref);
+
+    // expected values from
     // Schrenk O.: A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA TM-948, Figure 6
-    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_taper.csv", &y_ref, &cl_ref);
+    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_taper.csv", data);
 
     EXPECT_GT(y_ref.size(), 0) << "No reference data.";
     EXPECT_GT(cl_ref.size(), 0) << "No reference data.";
@@ -113,9 +121,13 @@ TEST_F(TestSchrenkDist, CanCalculateDeltaWing)
     std::vector<double> y_ref;
     std::vector<double> l_ref;
 
-    // expected values 
+    std::vector<std::vector<double>*> data;
+    data.push_back(&y_ref);
+    data.push_back(&l_ref);
+
+    // expected values from
     // Corke TC.: Design of Aircraft, 2003, p.240
-    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_delta.csv", &y_ref, &l_ref);
+    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_delta.csv", data);
 
     EXPECT_GT(y_ref.size(), 0) << "No reference data.";
     EXPECT_GT(l_ref.size(), 0) << "No reference data.";
