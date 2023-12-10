@@ -42,38 +42,38 @@ namespace mc
 /**
  * @brief Helicopter main rotor model class.
  *
- * \par This model combines induced velocity calculated using momentum theory
+ * @par This model combines induced velocity calculated using momentum theory
  * and flapping equations developed analytically using blade element theory.
  *
- * \par Flapping angle is positive upwards.
+ * @par Flapping angle is positive upwards.
  *
- * \par Coordinate Systems Used for Rotor Calculations
+ * @par Coordinate Systems Used for Rotor Calculations
  *
- * \par Rotor Axis System (RAS)
+ * @par Rotor Axis System (RAS)
  * Origin of the Rotor Axis System is coincident with the rotor hub center,
  * the x-axis is positive forwards, the y-axis is positive right and z-axis
  * is positive downwards and coincident with the rotor shaft axis.
  *
- * \par Rotor-Wind Axis System (RWAS)
+ * @par Rotor-Wind Axis System (RWAS)
  * Rotor-Wind Axis System is very much like Rotor Axis System, the only
  * difference is that it is rotated about z-axis in such a manner that x-axis
  * points directly into relative wind, so there is no lateral airspeed
  * component.
  *
- * \par Control Axis System (CAS)
+ * @par Control Axis System (CAS)
  * For most purposes, using the Rotor Axis System causes unnecessary
  * complications. It is convenient to use no cyclic feathering axis system.
  * Origin of the Control Axis System is coincident with the origin of the Rotor
  * Axis System, but it is rotated by angles of the swashplate roll and pitch so
  * there is no cyclic feathering in this coordinate system.
  *
- * \par Disc Axis System (DAS)
+ * @par Disc Axis System (DAS)
  * Origin of the Disc Axis System is coincident with the origin of the Rotor
  * Axis System, but it is rotated by angles of the rotor cone roll and pitch
  * in such a manner that z?axis is perpendicular to the tip path plane so there
  * is no cyclic flapping in this coordinate system.
  *
- * \par Control-Wind Axis System (CWAS)
+ * @par Control-Wind Axis System (CWAS)
  * Control-Wind Axis System is very much like Control Axis System, the only
  * difference is that it is rotated about z-axis in such a manner that x-axis
  * points directly into relative wind, so there is no lateral airspeed

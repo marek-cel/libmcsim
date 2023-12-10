@@ -35,6 +35,7 @@ set(SOURCES
     prop/TestPropeller.cpp
     prop/TestPropellerGovernor.cpp
 
+    rotor/MomentumTheory.cpp
     rotor/TestMainRotor.cpp
     rotor/TestRotorUtils.cpp
     rotor/TestTailRotor.cpp
