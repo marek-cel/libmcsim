@@ -5,9 +5,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool CsvFileReader::ReadData(const char* file_path, std::vector<std::vector<double>*> data)
+bool CsvFileReader::ReadData(const char* path, std::vector<std::vector<double>*> data)
 {
-    std::ifstream ifs(file_path, std::ifstream::in);
+    std::ifstream ifs(path, std::ifstream::in);
 
     if ( ifs.is_open() )
     {

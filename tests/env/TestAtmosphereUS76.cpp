@@ -65,16 +65,9 @@ TEST_F(TestAtmosphereUS76, CanCalculate)
     std::vector<double> cs_ref;
     std::vector<double> mu_ref;
 
-    std::vector<std::vector<double>*> data;
-    data.push_back(&h_ref);
-    data.push_back(&t_ref);
-    data.push_back(&p_ref);
-    data.push_back(&rho_ref);
-    data.push_back(&cs_ref);
-    data.push_back(&mu_ref);
-
     // expected values from https://www.digitaldutch.com/atmoscalc/table.htm
-    CsvFileReader::ReadData("../tests/env/data/test_env_ussa1976.csv", data);
+    CsvFileReader::ReadData("../tests/env/data/test_env_ussa1976.csv",
+                            &h_ref, &t_ref, &p_ref, &rho_ref, &cs_ref, &mu_ref);
 
     EXPECT_GT(h_ref   .size(), 0) << "No reference data.";
     EXPECT_GT(t_ref   .size(), 0) << "No reference data.";
