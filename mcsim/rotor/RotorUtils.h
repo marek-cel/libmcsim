@@ -32,6 +32,28 @@ namespace mc
 {
 
 /**
+ * @brief Gets Vortex-Ring-State intensity for the axial flow.
+ *
+ * ### Refernces:
+ * - Toropov M., Stepanov S.: Modeling of Helicopter Flight Imitation in the Vortex Ring State. 2016
+ *
+ * @param vz_norm [-] velcoity perpendiculat to the rotor disc normalized by induced velocity in hover
+ * @return Vortex-Ring-State intensity for the axial flow
+ */
+MCSIMAPI double GetVortexRingK0(double vz_norm);
+
+/**
+ * @brief Gets Vortex-Ring-State horizontal speed effect coefficient.
+ *
+ * ### Refernces:
+ * - Toropov M., Stepanov S.: Modeling of Helicopter Flight Imitation in the Vortex Ring State. 2016
+ *
+ * @param vx_norm [-] velcoity tangent to the rotor disc normalized by induced velocity in hover
+ * @return Vortex-Ring-State horizontal speed effect coefficient
+ */
+MCSIMAPI double GetVortexRingKv(double vx_norm);
+
+/**
  * @brief Gets Vortex-Ring-State influence coefficient.
  *
  * ### Refernces:
@@ -41,8 +63,23 @@ namespace mc
  * @param vz_norm [-] velcoity perpendiculat to the rotor disc normalized by induced velocity in hover
  * @return Vortex-Ring-State influence coefficient
  */
-MCSIMAPI double GetVortexRingInfluenceCoef(double vx_norm, double vz_norm);
+MCSIMAPI inline double GetVortexRingInfluenceCoef(double vx_norm, double vz_norm)
+{
+    return GetVortexRingK0(vz_norm)*GetVortexRingKv(vx_norm);
+}
 
+/**
+ * @brief Gets In-Ground-Effect thrust coefficient.
+ * 
+ * ### References:
+ * - Padfield G.: Helicopter Flight Dynamics, 2007
+ * 
+ * @param h_agl [m]   altitude above ground level
+ * @param v     [m/s] rotor hub airspeed
+ * @param vi    [m/s] rotor induced velocity
+ * @param r2    [m^2] rotor radius squared
+ * @return In-Ground-Effect thrust coefficient
+ */
 MCSIMAPI double GetInGroundEffectThrustCoef(double h_agl, double v, double vi, double r2);
 
 } // namespace mc
