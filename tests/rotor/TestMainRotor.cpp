@@ -11,6 +11,7 @@
 
 #define AIR_DENSITY 1.225
 #define GRAV_ACC 9.80665
+#define ALT_OUTSIDE_IGE 1000.0
 
 #define ROTOR_RADIUS 8.18
 #define ROTOR_OMEGA (2 * M_PI *  258.0 / 60.0)
@@ -155,7 +156,8 @@ TEST_F(TestMainRotor, CanSimulateComparedToMomentumTheory)
                                  vel_bas,
                                  mc::Vector3(),
                                  mc::Vector3(0.0, 0.0, GRAV_ACC),
-                                 AIR_DENSITY);
+                                 AIR_DENSITY,
+                                 ALT_OUTSIDE_IGE);
 
         mt.Update(climb_rate, mr.vel_i0(), AIR_DENSITY);
 

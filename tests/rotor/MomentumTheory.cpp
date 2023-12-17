@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include <mcsim/rotor/RotorUtils.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void MomentumTheory::Update(double climb_rate, double vi0, double rho)
@@ -43,6 +45,10 @@ void MomentumTheory::Update(double climb_rate, double vi0, double rho)
     {
         thrust_ = 2.0 * rho * area_ * ( fabs( climb_rate ) - vel_i ) * vel_i;
     }
+
+    // Vortex-Ring-State influence
+    double kvr = mc::GetVortexRingInfluenceCoef(0.0, mu_d / lambda_i0);
+    thrust_ = thrust_ * (1.0 - kvr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

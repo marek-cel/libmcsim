@@ -31,9 +31,6 @@
 
 #include <mcsim/defs.h>
 
-#include <mcsim/rotor/IInGroundEffect.h>
-#include <mcsim/rotor/IVortexRingState.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
@@ -47,7 +44,7 @@ namespace mc
  *
  * @par Flapping angle is positive upwards.
  *
- * @par Coordinate Systems Used for Rotor Calculations
+ * ### Coordinate Systems Used for Rotor Calculations
  *
  * @par Rotor Axis System (RAS)
  * Origin of the Rotor Axis System is coincident with the rotor hub center,
@@ -80,13 +77,13 @@ namespace mc
  * component.
  *
  * ### Refernces:
- * - Mil M. Vertolety: Raschet i proyektirovanye. Tom 1 Aerodinamika, 1966 [in Russian]
+ * - Mil M.: Vertolety Raschet i proyektirovanye. Tom 1 Aerodinamika, 1966 [in Russian]
  * - Helicopters: Calculation and Design. Volume 1: Aerodynamics, NASA-TT-F-494
  * - Gessow A. Myers G.: Aerodynamics of the Helicopter, 1985
- * - Bramwell A. Bramwells Helicopter Dynamics, 2001
- * - Padfield G. Helicopter Flight Dynamics, 2007
- * - [Rotary-Wing Aerodynamics. Volume I: Basic Theories of Rotor Aerodynamics, NASA-CR-3082](https://ntrs.nasa.gov/citations/19790013868)
- * - Johnson W. Helicopter Theory, 1980
+ * - Bramwell A.: Bramwells Helicopter Dynamics, 2001
+ * - Padfield G.: Helicopter Flight Dynamics, 2007
+ * - [Rotary-Wing Aerodynamics. Volume I, Basic Theories of Rotor Aerodynamics, NASA-CR-3082](https://ntrs.nasa.gov/citations/19790013868)
+ * - Johnson W.: Helicopter Theory, 1980
  * - [Model for Vortex Ring State Influence on Rotorcraft Flight Dynamics, NASA-TP-2005-213477](https://ntrs.nasa.gov/citations/20060024029)
  */
 class MCSIMAPI MainRotor
@@ -94,7 +91,7 @@ class MCSIMAPI MainRotor
 public:
 
     /**
-     * @brief Main rotor data struct.
+     * @brief Main rotor data.
      */
     struct Data
     {
@@ -128,21 +125,14 @@ public:
         double hforce_factor = 1.0;         ///< [-] hforce tuning factor
         double torque_factor = 1.0;         ///< [-] torque tuning factor
 
+        double c_ige_max = DBL_MAX;         ///< [-] maximum In-Ground-Effect influence coefficient
+
+        double ige_thrust_factor = 1.0;     ///< [-] In-Ground-Effect influence coefficient tuning factor for thrust
+        double ige_torque_factor = 1.0;     ///< [-] In-Ground-Effect influence coefficient tuning factor for torque
+
         double vrs_thrust_factor = 1.0;     ///< [-] Vortex-Ring-State influence coefficient tuning factor for thrust
         double vrs_torque_factor = 1.0;     ///< [-] Vortex-Ring-State influence coefficient tuning factor for torque
     };
-
-    // LCOV_EXCL_START
-    MainRotor(const MainRotor&) = delete;
-    MainRotor(MainRotor&&) = default;
-    MainRotor& operator=(const MainRotor&) = delete;
-    MainRotor& operator=(MainRotor&&) = default;
-    virtual ~MainRotor() = default;
-    // LCOV_EXCL_STOP
-
-    /** @brief Constructor. */
-    MainRotor(std::shared_ptr<IInGroundEffect>  ige = std::shared_ptr<IInGroundEffect>(),
-              std::shared_ptr<IVortexRingState> vrs = std::shared_ptr<IVortexRingState>());
 
     /**
      * @brief Computes force and moment.
@@ -154,6 +144,7 @@ public:
      * @param omg_air_bas [rad/s]   aircraft angular velocity relative to the air expressed in BAS
      * @param grav_bas    [m/s^2]   gravity acceleration vector expressed in BAS
      * @param rho         [kg/m^3]  air density
+     * @param h_agl       [m]       altitude above ground level
      */
     virtual void ComputeForceAndMoment(const Vector3 &vel_bas,
                                        const Vector3 &omg_bas,
@@ -162,7 +153,8 @@ public:
                                        const Vector3 &vel_air_bas,
                                        const Vector3 &omg_air_bas,
                                        const Vector3 &grav_bas,
-                                       double rho);
+                                       double rho,
+                                       double h_agl);
 
     /**
      * @brief Updates main rotor model.
@@ -205,6 +197,8 @@ public:
     inline double hforce() const { return hforce_; }
     inline double torque() const { return torque_; }
 
+    inline double airspeed() const { return airspeed_; }
+
     inline double lambda()    const { return lambda_;    }
     inline double lambda_i()  const { return lambda_i_;  }
     inline double lambda_i0() const { return lambda_i0_; }
@@ -217,9 +211,6 @@ public:
     inline bool in_vrs() const { return in_vrs_; }
 
 protected:
-
-    std::shared_ptr<IInGroundEffect>  ige_; ///< in ground effect model
-    std::shared_ptr<IVortexRingState> vrs_; ///< vortex ring state model
 
     Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
     Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS
@@ -290,6 +281,8 @@ protected:
     double hforce_ = 0.0;           ///< [N]   rotor hforce
     double torque_ = 0.0;           ///< [N*m] rotor torque
 
+    double airspeed_ = 0.0;         ///< [m/s] rotor hub airspeed
+
     double lambda_    = 0.0;        ///< [-] normalized velocity at rotor disc
     double lambda_i_  = 0.0;        ///< [-] normalized rotor induced velocity
     double lambda_i0_ = 0.0;        ///< [-] normalized rotor induced velocity in hover
@@ -311,13 +304,13 @@ protected:
 
     /**
      * @brief Updates flapping angles and thrust coefficient.
-     * @param mu_x [-] normalized velocity at rotor hub x-component
-     * @param mu_x2 [-] normalized velocity at rotor hub x-component squared
-     * @param mu_z [-] normalized velocity at rotor hub z-component
-     * @param p [rad/s] rotor hub roll rate expressed in CWAS
-     * @param q [rad/s] rotor hub pitch rate expressed in CWAS
-     * @param a_z [m/s^2] rotor hub acceleration z-compoent expressed in CWAS
-     * @param gamma [-] Lock number
+     * @param mu_x  [-]     normalized velocity at rotor hub x-component
+     * @param mu_x2 [-]     normalized velocity at rotor hub x-component squared
+     * @param mu_z  [-]     normalized velocity at rotor hub z-component
+     * @param p     [rad/s] rotor hub roll rate expressed in CWAS
+     * @param q     [rad/s] rotor hub pitch rate expressed in CWAS
+     * @param a_z   [m/s^2] rotor hub acceleration z-compoent expressed in CWAS
+     * @param gamma [-]     Lock number
      */
     virtual void UpdateFlappingAnglesAndThrustCoef(double mu_x, double mu_x2, double mu_z,
                                                    double p, double q, double a_z,
@@ -325,19 +318,25 @@ protected:
 
     /**
      * @brief Updates flapping angles, thrust coefficient and induced velocity.
-     * @param mu_x [-] normalized velocity at rotor hub x-component
-     * @param mu_x2 [-] normalized velocity at rotor hub x-component squared
-     * @param mu_z [-] normalized velocity at rotor hub z-component
-     * @param p [rad/s] rotor hub roll rate expressed in CWAS
-     * @param q [rad/s] rotor hub pitch rate expressed in CWAS
-     * @param a_z [m/s^2] rotor hub acceleration z-compoent expressed in CWAS
-     * @param gamma [-] Lock number
+     * @param mu_x  [-]     normalized velocity at rotor hub x-component
+     * @param mu_x2 [-]     normalized velocity at rotor hub x-component squared
+     * @param mu_z  [-]     normalized velocity at rotor hub z-component
+     * @param p     [rad/s] rotor hub roll rate expressed in CWAS
+     * @param q     [rad/s] rotor hub pitch rate expressed in CWAS
+     * @param a_z   [m/s^2] rotor hub acceleration z-compoent expressed in CWAS
+     * @param gamma [-]     Lock number
      */
     virtual void UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double mu_x2, double mu_z,
                                                             double p, double q, double a_z,
                                                             double gamma);
 
-    virtual double GetInGroundEffectThrustCoef(double h_agl);
+    /**
+     * @brief Gets In-Ground-Effect influence coefficient.
+     * @param h_agl [m]   altitude above ground level
+     * @param v     [m/s] rotor hub airspeed
+     * @param vi    [m/s] rotor induced velocity
+     */
+    virtual double GetInGroundEffectThrustCoef(double h_agl, double v, double vi);
 
     /**
      * @brief Gets Vortex-Ring-State influence coefficient.

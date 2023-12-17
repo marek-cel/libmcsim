@@ -36,14 +36,6 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-MainRotor::MainRotor(std::shared_ptr<IInGroundEffect>  ige,
-                     std::shared_ptr<IVortexRingState> vrs)
-    : ige_(ige)
-    , vrs_(vrs)
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
                                       const Vector3 &omg_bas,
                                       const Vector3 &acc_bas,
@@ -51,7 +43,8 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
                                       const Vector3 &vel_air_bas,
                                       const Vector3 &omg_air_bas,
                                       const Vector3 &grav_bas,
-                                      double rho)
+                                      double rho,
+                                      double h_agl)
 {
     // Lock number
     double gamma = rho * data().a * data().c * r4_ / ib_;
@@ -67,6 +60,9 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
     // velocity transformations
     Vector3 vel_air_ras = bas2ras_ * (vel_air_bas + (omg_air_bas % data().r_hub_bas));
     Vector3 vel_air_cas = ras2cas_ * vel_air_ras;
+
+    // rotor hub airspeed
+    airspeed_ = vel_air_ras.GetLength();
 
     // sideslip angle
     double beta_cas = GetSideslipAngle(vel_air_cas);
@@ -198,14 +194,15 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
     if ( cq_ > data().cq_max ) cq_ = data().cq_max;
 
     // Vortex-Ring-State
-    if ( vrs_ )
-    {
-        // Vortex-Ring-State influence
-        double kvr = GetVortexRingInfluenceCoef(mu_x_norm, mu_z_norm);
-        in_vrs_ = kvr > 0.0;
-        ct_ = ct_ * (1.0 - kvr*data().vrs_thrust_factor);
-        cq_ = cq_ * (1.0 + kvr*data().vrs_torque_factor);
-    }
+    double c_vsr = GetVortexRingInfluenceCoef(mu_x_norm, mu_z_norm);
+    in_vrs_ = c_vsr > 0.0;
+    ct_ = ct_ * (1.0 - c_vsr*data().vrs_thrust_factor);
+    cq_ = cq_ * (1.0 + c_vsr*data().vrs_torque_factor);
+
+    // In-Ground-Effect
+    double c_ige = GetInGroundEffectThrustCoef(h_agl, airspeed_, vel_i_);
+    c_ige = Math::Satur(1.0, data().c_ige_max, c_ige);
+    ct_ = ct_ * c_ige*data().ige_thrust_factor;
 
     // rotor wake skew angle (Padfield p.121)
     wake_skew_ = atan2(mu_x, lambda_i_ - mu_z);
@@ -347,9 +344,9 @@ void MainRotor::UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double m
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double MainRotor::GetInGroundEffectThrustCoef(double h_agl)
+double MainRotor::GetInGroundEffectThrustCoef(double h_agl, double v, double vi)
 {
-    return 0.0;//mc::getInGroundEffectThrustCoef(h_agl);
+    return mc::GetInGroundEffectThrustCoef(h_agl, v, vi, r2_);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
