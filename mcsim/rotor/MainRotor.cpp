@@ -23,7 +23,6 @@
 #include <mcsim/rotor/MainRotor.h>
 
 #include <mcutils/math/Math.h>
-#include <mcutils/misc/String.h>
 #include <mcutils/misc/Units.h>
 
 #include <mcsim/aero/AeroAngles.h>

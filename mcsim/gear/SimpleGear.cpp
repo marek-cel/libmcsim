@@ -23,7 +23,6 @@
 #include <mcsim/gear/SimpleGear.h>
 
 #include <mcutils/math/Math.h>
-#include <mcutils/misc/String.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
