@@ -25,8 +25,7 @@
 #include <algorithm>
 #include <cmath>
 
-#include <mcutils/misc/String.h>
-#include <mcutils/physics/Physics.h>
+#include <mcutils/physics/Inertia.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -72,8 +71,8 @@ void WinchLauncher::Update(double timeStep,
     {
         if ( timeStep > 0.0 )
         {
-            f_ = Physics::Inertia(data().f_max, f_, timeStep, data().tc_f);
-            v_ = Physics::Inertia(data().v_max, v_, timeStep, data().tc_v);
+            f_ = Inertia(data().f_max, f_, timeStep, data().tc_f);
+            v_ = Inertia(data().v_max, v_, timeStep, data().tc_v);
             l_ = l_ - timeStep * v_;
 
             Vector3 pos_ned = wgs2ned * ( pos_wgs - pos_wgs_ );

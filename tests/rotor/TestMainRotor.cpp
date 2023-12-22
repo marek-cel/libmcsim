@@ -107,7 +107,7 @@ protected:
 
 TEST_F(TestMainRotor, CanConstruct)
 {
-    MainRotorAdapter *mr = nullptr;
+    MainRotorAdapter* mr = nullptr;
     EXPECT_NO_THROW(mr = new MainRotorAdapter());
     delete mr;
 }
@@ -116,7 +116,7 @@ TEST_F(TestMainRotor, CanConstruct)
 
 TEST_F(TestMainRotor, CanDestruct)
 {
-    MainRotorAdapter *mr = new MainRotorAdapter();
+    MainRotorAdapter* mr = new MainRotorAdapter();
     EXPECT_NO_THROW(delete mr);
 }
 

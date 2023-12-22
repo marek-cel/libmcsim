@@ -25,7 +25,7 @@
 #include <cmath>
 
 #include <mcutils/misc/Log.h>
-#include <mcutils/physics/Physics.h>
+#include <mcutils/physics/Constants.h>
 #include "AtmosphereUS76.h"
 
 ////////////////////////////////////////////////////////////////////////////////
