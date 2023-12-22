@@ -5,7 +5,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool CsvFileReader::ReadData(const char* path, std::vector<std::vector<double>*> data)
+bool ReadCsvColumnsDataFromFile(const char* path, std::vector<std::vector<double>*> cols)
 {
     std::ifstream ifs(path, std::ifstream::in);
 
@@ -17,11 +17,11 @@ bool CsvFileReader::ReadData(const char* path, std::vector<std::vector<double>*>
         {
             std::stringstream ss(line);
 
-            for ( auto col : data )
+            for ( auto col : cols )
             {
-                float c;
-                ss >> c;
-                col->push_back(c);
+                float val;
+                ss >> val;
+                col->push_back(val);
             }
         }
 

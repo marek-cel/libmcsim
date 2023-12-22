@@ -30,7 +30,7 @@ TEST_F(TestRotorUtils, CanGetVortexRingK0)
 
     // expected values from
     // Toropov, Stepanov: Modeling of Helicopter Flight Imitation in the Vortex Ring State
-    CsvFileReader::ReadData("../tests/rotor/data/k0.csv", &vz_norm, &k0_ref);
+    ReadCsvDataFromFile("../tests/rotor/data/k0.csv", &vz_norm, &k0_ref);
 
     for ( unsigned int i = 0; i < vz_norm.size(); i++ )
     {
@@ -49,7 +49,7 @@ TEST_F(TestRotorUtils, CanGetVortexRingKv)
 
     // expected values from
     // Toropov, Stepanov: Modeling of Helicopter Flight Imitation in the Vortex Ring State
-    CsvFileReader::ReadData("../tests/rotor/data/kv.csv", &vx_norm, &kv_ref);
+    ReadCsvDataFromFile("../tests/rotor/data/kv.csv", &vx_norm, &kv_ref);
 
     for ( unsigned int i = 0; i < vx_norm.size(); i++ )
     {
@@ -71,8 +71,8 @@ TEST_F(TestRotorUtils, CanGetInGroundEffectThrustCoef)
 
     // expected values from
     // Padfield G.: Helicopter Flight Dynamics, 2007, p.142
-    CsvFileReader::ReadData("../tests/rotor/data/ige.csv",
-                            &v_vi, &zg_r_06, &zg_r_08, &zg_r_10, &zg_r_20);
+    ReadCsvDataFromFile("../tests/rotor/data/ige.csv",
+                        &v_vi, &zg_r_06, &zg_r_08, &zg_r_10, &zg_r_20);
 
     for ( unsigned int i = 0; i < v_vi.size(); i++ )
     {

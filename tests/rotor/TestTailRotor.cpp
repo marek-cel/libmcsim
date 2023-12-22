@@ -19,8 +19,8 @@ protected:
 
 TEST_F(TestTailRotor, CanConstruct)
 {
-    mc::TailRotor *rotor = nullptr;
-    EXPECT_NO_THROW( rotor = new mc::TailRotor() );
+    mc::TailRotor* rotor = nullptr;
+    EXPECT_NO_THROW(rotor = new mc::TailRotor());
     delete rotor;
 }
 
@@ -28,8 +28,8 @@ TEST_F(TestTailRotor, CanConstruct)
 
 TEST_F(TestTailRotor, CanDestruct)
 {
-    mc::TailRotor *rotor = new mc::TailRotor();
-    EXPECT_NO_THROW( delete rotor );
+    mc::TailRotor* rotor = new mc::TailRotor();
+    EXPECT_NO_THROW(delete rotor);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,4 +37,10 @@ TEST_F(TestTailRotor, CanDestruct)
 TEST_F(TestTailRotor, CanInstantiate)
 {
     mc::TailRotor rotor;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_F(TestTailRotor, CanSimulateComparedToMomentumTheory)
+{
 }

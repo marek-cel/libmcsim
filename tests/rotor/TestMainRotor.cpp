@@ -5,7 +5,8 @@
 #include <mcutils/misc/Units.h>
 #include <mcsim/rotor/MainRotor.h>
 
-#include "MomentumTheory.h"
+#include <CsvFileReader.h>
+#include <rotor/MomentumTheory.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

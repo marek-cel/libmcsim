@@ -8,13 +8,13 @@
 
 void MomentumTheory::Update(double climb_rate, double vi0, double rho)
 {
+    double mu_c =  climb_rate / omegaR_;
+    double mu_d = -climb_rate / omegaR_;
+
     double lambda_i0 = vi0 / omegaR_;
 
     // reference values calculated with momentum theory
     double vc_vi0 = climb_rate / vi0;
-
-    double mu_c =  climb_rate / omegaR_;
-    double mu_d = -climb_rate / omegaR_;
 
     // induced velocity
     if ( vc_vi0 >= -1.0 )

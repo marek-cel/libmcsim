@@ -50,7 +50,7 @@ TEST_F(TestSchrenkDist, CanCalculateRectangularWing)
 
     // expected values from
     // Raymer DP. Aircraft Design: A Conceptual Approach, 6th Edition, 2018, p.84
-    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_rect.csv", &y_ref, &cl_ref);
+    ReadCsvDataFromFile("../tests/aero/data/schrenk_dist_rect.csv", &y_ref, &cl_ref);
 
     EXPECT_GT(y_ref.size(), 0) << "No reference data.";
     EXPECT_GT(cl_ref.size(), 0) << "No reference data.";
@@ -82,7 +82,7 @@ TEST_F(TestSchrenkDist, CanCalculateTrapezoidalWing)
 
     // expected values from
     // Schrenk O.: A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA TM-948, Figure 6
-    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_taper.csv", &y_ref, &cl_ref);
+    ReadCsvDataFromFile("../tests/aero/data/schrenk_dist_taper.csv", &y_ref, &cl_ref);
 
     EXPECT_GT(y_ref.size(), 0) << "No reference data.";
     EXPECT_GT(cl_ref.size(), 0) << "No reference data.";
@@ -115,7 +115,7 @@ TEST_F(TestSchrenkDist, CanCalculateDeltaWing)
 
     // expected values from
     // Corke TC.: Design of Aircraft, 2003, p.240
-    CsvFileReader::ReadData("../tests/aero/data/schrenk_dist_delta.csv", &y_ref, &l_ref);
+    ReadCsvDataFromFile("../tests/aero/data/schrenk_dist_delta.csv", &y_ref, &l_ref);
 
     EXPECT_GT(y_ref.size(), 0) << "No reference data.";
     EXPECT_GT(l_ref.size(), 0) << "No reference data.";
