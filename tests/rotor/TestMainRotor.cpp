@@ -5,7 +5,6 @@
 #include <mcutils/misc/Units.h>
 #include <mcsim/rotor/MainRotor.h>
 
-#include <CsvFileReader.h>
 #include <rotor/MomentumTheory.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -25,8 +24,6 @@ public:
 
     void InitData()
     {
-        data_.inclination = 0.0;
-
         data_.ccw = true;
 
         data_.nb = 4;
@@ -62,15 +59,6 @@ public:
     const Data& data() const override
     {
         return data_;
-    }
-
-    void UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double mu_x2, double mu_z,
-                                                    double p, double q, double a_z,
-                                                    double gamma)
-    {
-        mc::MainRotor::UpdateFlappingAnglesThrustCoefsAndVelocity(mu_x, mu_x2, mu_z,
-                                                                    p, q, a_z,
-                                                                    gamma);
     }
 
 private:
@@ -139,7 +127,7 @@ TEST_F(TestMainRotor, CanSimulateComparedToMomentumTheory)
     mr.InitData();
 
     double collective = mc::Units::deg2rad(6.0);
-    mr.Update(ROTOR_OMEGA, 0.0, collective, 0.0, 0.0);
+    mr.Update(ROTOR_OMEGA, collective, 0.0, 0.0);
 
     const double climb_rate_min  = -30.0;
     const double climb_rate_max  =  10.0;
@@ -150,15 +138,15 @@ TEST_F(TestMainRotor, CanSimulateComparedToMomentumTheory)
     {
         mc::Vector3 vel_bas(0.0, 0.0, -climb_rate);
 
-        mr.ComputeForceAndMoment(vel_bas,
-                                 mc::Vector3(),
-                                 mc::Vector3(),
-                                 mc::Vector3(),
-                                 vel_bas,
-                                 mc::Vector3(),
-                                 mc::Vector3(0.0, 0.0, GRAV_ACC),
-                                 AIR_DENSITY,
-                                 ALT_OUTSIDE_IGE);
+        mr.UpdateForceAndMoment(vel_bas,
+                                mc::Vector3(),
+                                mc::Vector3(),
+                                mc::Vector3(),
+                                vel_bas,
+                                mc::Vector3(),
+                                mc::Vector3(0.0, 0.0, GRAV_ACC),
+                                AIR_DENSITY,
+                                ALT_OUTSIDE_IGE);
 
         mt.Update(climb_rate, mr.vel_i0(), AIR_DENSITY);
 
@@ -190,7 +178,9 @@ TEST_F(TestMainRotor, CanGetData)
     EXPECT_DOUBLE_EQ(mr.data().r_hub_bas.y(), 0.0);
     EXPECT_DOUBLE_EQ(mr.data().r_hub_bas.z(), 0.0);
 
-    EXPECT_DOUBLE_EQ(mr.data().inclination, 0.0);
+    EXPECT_DOUBLE_EQ(mr.data().a_hub_bas.phi(), 0.0);
+    EXPECT_DOUBLE_EQ(mr.data().a_hub_bas.tht(), 0.0);
+    EXPECT_DOUBLE_EQ(mr.data().a_hub_bas.psi(), 0.0);
 
     EXPECT_TRUE(mr.data().ccw);
 

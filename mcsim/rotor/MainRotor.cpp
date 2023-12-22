@@ -23,7 +23,6 @@
 #include <mcsim/rotor/MainRotor.h>
 
 #include <mcutils/math/Math.h>
-#include <mcutils/misc/Units.h>
 
 #include <mcsim/aero/AeroAngles.h>
 #include <mcsim/rotor/RotorUtils.h>
@@ -35,15 +34,15 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
-                                      const Vector3 &omg_bas,
-                                      const Vector3 &acc_bas,
-                                      const Vector3 &eps_bas,
-                                      const Vector3 &vel_air_bas,
-                                      const Vector3 &omg_air_bas,
-                                      const Vector3 &grav_bas,
-                                      double rho,
-                                      double h_agl)
+void MainRotor::UpdateForceAndMoment(const Vector3 & /*vel_bas*/,
+                                     const Vector3 &omg_bas,
+                                     const Vector3 &acc_bas,
+                                     const Vector3 &eps_bas,
+                                     const Vector3 &vel_air_bas,
+                                     const Vector3 &omg_air_bas,
+                                     const Vector3 &grav_bas,
+                                     double rho,
+                                     double h_agl)
 {
     // Lock number
     double gamma = rho * data().a * data().c * r4_ / ib_;
@@ -59,9 +58,6 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
     // velocity transformations
     Vector3 vel_air_ras = bas2ras_ * (vel_air_bas + (omg_air_bas % data().r_hub_bas));
     Vector3 vel_air_cas = ras2cas_ * vel_air_ras;
-
-    // rotor hub airspeed
-    airspeed_ = vel_air_ras.GetLength();
 
     // sideslip angle
     double beta_cas = GetSideslipAngle(vel_air_cas);
@@ -181,10 +177,10 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
 
     // H-force coefficient (Bramwell p.100)
     ch_ = 0.5 * data().a * s_ * (0.5 * mu_x * cd / data().a
-                          + beta_1c_cwas * theta_0_ / 3.0
-                          + 0.75 * lambda_ * beta_1c_cwas
-                          - 0.5 * mu_x * theta_0_ * lambda_
-                          + 0.25 * mu_x * beta_1c_cwas * beta_1c_cwas);
+                            + beta_1c_cwas * theta_0_ / 3.0
+                            + 0.75 * lambda_ * beta_1c_cwas
+                            - 0.5 * mu_x * theta_0_ * lambda_
+                            + 0.25 * mu_x * beta_1c_cwas * beta_1c_cwas);
 
     // torque (Bramwell p.102, Padfield p.115)
     double cqp = cd * s_ * (1.0 +3.0 *  mu_x2) / 8.0;
@@ -199,7 +195,7 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
     cq_ = cq_ * (1.0 + c_vsr*data().vrs_torque_factor);
 
     // In-Ground-Effect
-    double c_ige = GetInGroundEffectThrustCoef(h_agl, airspeed_, vel_i_);
+    double c_ige = GetInGroundEffectThrustCoef(h_agl, airspeed, vel_i_);
     c_ige = Math::Satur(1.0, data().c_ige_max, c_ige);
     ct_ = ct_ * c_ige*data().ige_thrust_factor;
 
@@ -215,20 +211,11 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
            + rwas2bas_ * Vector3(hforce_, 0.0, 0.0);
     m_bas_ = (data().r_hub_bas % f_bas_)
            + ras2bas_ * Vector3(0.0, 0.0, cdir_ * torque_);
-
-    if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
-    {
-        f_bas_.Zeroize();
-        m_bas_.Zeroize();
-
-        // TODO
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainRotor::Update(double omega,
-                       double azimuth,
                        double collective,
                        double cyclicLat,
                        double cyclicLon)
@@ -236,8 +223,6 @@ void MainRotor::Update(double omega,
     omega_  = omega;
     omega2_ = omega * omega;
     omegaR_ = omega * data().r;
-
-    azimuth_ = azimuth;
 
     theta_0_  =  collective;
     theta_1c_ = -cyclicLat * cdir_;
@@ -248,7 +233,7 @@ void MainRotor::Update(double omega,
 
 void MainRotor::UpdateDataDerivedVariables()
 {
-    bas2ras_ = mc::Matrix3x3(mc::Angles(0.0, data().inclination, 0.0));
+    bas2ras_ = Matrix3x3(data().a_hub_bas);
     ras2bas_ = bas2ras_.GetTransposed();
 
     r2_ = data().r * data().r;
@@ -309,25 +294,24 @@ void MainRotor::UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double m
     if ( fabs(lambda_i_) < 10e-14 ) lambda_i_ = 10e-14;
 
     // iteration loop
-    for ( unsigned int i = 0; i < n_max; ++i )
+    for ( unsigned int i = 0; i < n_max_; ++i )
     {
         UpdateFlappingAnglesAndThrustCoef(mu_x, mu_x2, mu_z, p, q, a_z, gamma);
 
         double lambda_i0_new = sqrt(0.5 * ct_);
-
         if ( IsValid(lambda_i0_new) ) lambda_i0_ = lambda_i0_new;
 
         // zero function (Padfield p.124)
         // momentum theory - hover and climb
         double lambda_d = mu_x2 + Math::Pow2(lambda_);
-        double g_0 = lambda_i_ - ct_ / ( 2.0 * sqrt(lambda_d) );
+        double g_0 = lambda_i_ - ct_ / (2.0 * sqrt(lambda_d));
 
         // break condition
-        if ( fabs( g_0 ) < 1.0e-6 ) break;
+        if ( i > 0 && fabs(g_0) < 1.0e-6 ) break;
 
         // Newton's iterative scheme
         // (Padfield p.124)
-        double h_j = -(2.0*lambda_i_*sqrt( lambda_d ) - ct_)*lambda_d
+        double h_j = -(2.0*lambda_i_*sqrt(lambda_d) - ct_)*lambda_d
                 / (2.0*pow(lambda_d, 3.0/2.0) + data().a*s_*lambda_d/4.0 - ct_*lambda_);
 
         // (Padfield p.124)

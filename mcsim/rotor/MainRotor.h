@@ -27,6 +27,7 @@
 #include <cfloat>
 #include <memory>
 
+#include <mcutils/math/Angles.h>
 #include <mcutils/math/Matrix3x3.h>
 
 #include <mcsim/defs.h>
@@ -95,47 +96,46 @@ public:
      */
     struct Data
     {
-        Vector3 r_hub_bas;                  ///< [m] rotor hub coordinates expressed in BAS
+        Vector3 r_hub_bas;              ///< [m]   rotor hub coordinates expressed in BAS
+        Angles  a_hub_bas;              ///< [rad] rotor hub orientation relative to BAS
 
-        double inclination = 0.0;           ///< [rad] rotor axis inclination angle (positive rearwards)
+        bool ccw = false;               ///< specifies if rotor rotation direction is counter-clockwise
 
-        bool ccw = false;                   ///< specifies if rotor rotation direction is counter-clockwise
+        int nb = 0;                     ///< number of rotor blades
 
-        int nb = 0;                         ///< number of rotor blades
+        double blade_mass = 0.0;        ///< [kg] single blade mass
 
-        double blade_mass = 0.0;            ///< [kg] single blade mass
+        double r = 0.0;                 ///< [m] rotor radius
+        double c = 0.0;                 ///< [m] blades chord
+        double e = 0.0;                 ///< [m] flapping hinge offset
 
-        double r = 0.0;                     ///< [m] rotor radius
-        double c = 0.0;                     ///< [m] blades chord
-        double e = 0.0;                     ///< [m] flapping hinge offset
+        double a = 0.0;                 ///< [1/rad] blade section lift curve slope
+        double b = 0.0;                 ///< [-] tip losses coefficient
 
-        double a = 0.0;                     ///< [1/rad] blade section lift curve slope
-        double b = 0.0;                     ///< [-] tip losses coefficient
+        double delta_0 = 0.0;           ///< [-] drag coefficient constant component
+        double delta_2 = 0.0;           ///< [-] drag coefficient quadratic component
 
-        double delta_0 = 0.0;               ///< [-] drag coefficient constant component
-        double delta_2 = 0.0;               ///< [-] drag coefficient quadratic component
+        double beta_max = 0.0;          ///< [rad] maximum flapping angle
 
-        double beta_max = 0.0;              ///< [rad] maximum flapping angle
+        double ct_max = DBL_MAX;        ///< [-] maximum thrust coefficient
+        double ch_max = DBL_MAX;        ///< [-] maximum hforce coefficient
+        double cq_max = DBL_MAX;        ///< [-] maximum torque coefficient
 
-        double ct_max = DBL_MAX;            ///< [-] maximum thrust coefficient
-        double ch_max = DBL_MAX;            ///< [-] maximum hforce coefficient
-        double cq_max = DBL_MAX;            ///< [-] maximum torque coefficient
+        double thrust_factor = 1.0;     ///< [-] thrust tuning factor
+        double hforce_factor = 1.0;     ///< [-] hforce tuning factor
+        double torque_factor = 1.0;     ///< [-] torque tuning factor
 
-        double thrust_factor = 1.0;         ///< [-] thrust tuning factor
-        double hforce_factor = 1.0;         ///< [-] hforce tuning factor
-        double torque_factor = 1.0;         ///< [-] torque tuning factor
+        double c_ige_max = DBL_MAX;     ///< [-] maximum In-Ground-Effect influence coefficient
 
-        double c_ige_max = DBL_MAX;         ///< [-] maximum In-Ground-Effect influence coefficient
+        double ige_thrust_factor = 1.0; ///< [-] In-Ground-Effect influence coefficient tuning factor for thrust
+        double ige_torque_factor = 1.0; ///< [-] In-Ground-Effect influence coefficient tuning factor for torque
 
-        double ige_thrust_factor = 1.0;     ///< [-] In-Ground-Effect influence coefficient tuning factor for thrust
-        double ige_torque_factor = 1.0;     ///< [-] In-Ground-Effect influence coefficient tuning factor for torque
-
-        double vrs_thrust_factor = 1.0;     ///< [-] Vortex-Ring-State influence coefficient tuning factor for thrust
-        double vrs_torque_factor = 1.0;     ///< [-] Vortex-Ring-State influence coefficient tuning factor for torque
+        double vrs_thrust_factor = 1.0; ///< [-] Vortex-Ring-State influence coefficient tuning factor for thrust
+        double vrs_torque_factor = 1.0; ///< [-] Vortex-Ring-State influence coefficient tuning factor for torque
     };
 
     /**
-     * @brief Computes force and moment.
+     * @brief Updates force and moment.
      * @param vel_bas     [m/s]     aircraft linear velocity vector expressed in BAS
      * @param omg_bas     [rad/s]   aircraft angular velocity expressed in BAS
      * @param acc_bas     [m/s^2]   aircraft linear acceleration vector expressed in BAS
@@ -146,26 +146,24 @@ public:
      * @param rho         [kg/m^3]  air density
      * @param h_agl       [m]       altitude above ground level
      */
-    virtual void ComputeForceAndMoment(const Vector3 &vel_bas,
-                                       const Vector3 &omg_bas,
-                                       const Vector3 &acc_bas,
-                                       const Vector3 &eps_bas,
-                                       const Vector3 &vel_air_bas,
-                                       const Vector3 &omg_air_bas,
-                                       const Vector3 &grav_bas,
-                                       double rho,
-                                       double h_agl);
+    virtual void UpdateForceAndMoment(const Vector3 &vel_bas,
+                                      const Vector3 &omg_bas,
+                                      const Vector3 &acc_bas,
+                                      const Vector3 &eps_bas,
+                                      const Vector3 &vel_air_bas,
+                                      const Vector3 &omg_air_bas,
+                                      const Vector3 &grav_bas,
+                                      double rho,
+                                      double h_agl);
 
     /**
      * @brief Updates main rotor model.
      * @param omega      [rad/s] rotor revolution speed
-     * @param azimuth    [rad]   rotor azimuth
      * @param collective [rad]   collective pitch angle
      * @param cyclicLat  [rad]   cyclic lateral pitch angle
      * @param cyclicLon  [rad]   cyclic longitudinal pitch angle
      */
     virtual void Update(double omega,
-                        double azimuth,
                         double collective,
                         double cyclicLat,
                         double cyclicLon);
@@ -197,8 +195,6 @@ public:
     inline double hforce() const { return hforce_; }
     inline double torque() const { return torque_; }
 
-    inline double airspeed() const { return airspeed_; }
-
     inline double lambda()    const { return lambda_;    }
     inline double lambda_i()  const { return lambda_i_;  }
     inline double lambda_i0() const { return lambda_i0_; }
@@ -212,89 +208,85 @@ public:
 
 protected:
 
-    Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
-    Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS
+    Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
+    Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
 
-    Matrix3x3 bas2ras_;             ///< matrix of rotation from BAS to RAS
-    Matrix3x3 ras2bas_;             ///< matrix of rotation from RAS to BAS
+    Matrix3x3 bas2ras_;         ///< matrix of rotation from BAS to RAS
+    Matrix3x3 ras2bas_;         ///< matrix of rotation from RAS to BAS
 
-    Matrix3x3 ras2cas_;             ///< matrix of rotation from RAS to CAS
-    Matrix3x3 cas2ras_;             ///< matrix of rotation from CAS to RAS
+    Matrix3x3 ras2cas_;         ///< matrix of rotation from RAS to CAS
+    Matrix3x3 cas2ras_;         ///< matrix of rotation from CAS to RAS
 
-    Matrix3x3 bas2cas_;             ///< matrix of rotation from BAS to CAS
+    Matrix3x3 bas2cas_;         ///< matrix of rotation from BAS to CAS
 
-    Matrix3x3 bas2das_;             ///< matrix of rotation from BAS to DAS
-    Matrix3x3 das2bas_;             ///< matrix of rotation from DAS to BAS
+    Matrix3x3 bas2das_;         ///< matrix of rotation from BAS to DAS
+    Matrix3x3 das2bas_;         ///< matrix of rotation from DAS to BAS
 
-    Matrix3x3 ras2rwas_;            ///< matrix of rotation from RAS to RWAS
-    Matrix3x3 rwas2ras_;            ///< matrix of rotation from RWAS to RAS
+    Matrix3x3 ras2rwas_;        ///< matrix of rotation from RAS to RWAS
+    Matrix3x3 rwas2ras_;        ///< matrix of rotation from RWAS to RAS
 
-    Matrix3x3 cas2cwas_;            ///< matrix of rotation from CAS to CWAS
-    Matrix3x3 cwas2cas_;            ///< matrix of rotation from CWAS to CAS
+    Matrix3x3 cas2cwas_;        ///< matrix of rotation from CAS to CWAS
+    Matrix3x3 cwas2cas_;        ///< matrix of rotation from CWAS to CAS
 
-    Matrix3x3 bas2cwas_;            ///< matrix of rotation from BAS to CWAS
-    Matrix3x3 cwas2bas_;            ///< matrix of rotation from CWAS to BAS
+    Matrix3x3 bas2cwas_;        ///< matrix of rotation from BAS to CWAS
+    Matrix3x3 cwas2bas_;        ///< matrix of rotation from CWAS to BAS
 
-    Matrix3x3 bas2rwas_;            ///< matrix of rotation from BAS to RWAS
-    Matrix3x3 rwas2bas_;            ///< matrix of rotation from RWAS to BAS
+    Matrix3x3 bas2rwas_;        ///< matrix of rotation from BAS to RWAS
+    Matrix3x3 rwas2bas_;        ///< matrix of rotation from RWAS to BAS
 
-    double r2_ = 0.0;               ///< [m^2] rotor radius squared
-    double r3_ = 0.0;               ///< [m^3] rotor radius cubed
-    double r4_ = 0.0;               ///< [m^3] rotor radius to the power of 4
-    double b2_ = 0.0;               ///< [-]   tip losses coefficient squared
-    double b3_ = 0.0;               ///< [-]   tip losses coefficient cubed
-    double b4_ = 0.0;               ///< [-]   tip losses coefficient to the power of 4
-    double ar_ = 0.0;               ///< [m^2] rotor disk area
-    double s_  = 0.0;               ///< [-]   rotor solidity
+    double r2_ = 0.0;           ///< [m^2] rotor radius squared
+    double r3_ = 0.0;           ///< [m^3] rotor radius cubed
+    double r4_ = 0.0;           ///< [m^3] rotor radius to the power of 4
+    double b2_ = 0.0;           ///< [-]   tip losses coefficient squared
+    double b3_ = 0.0;           ///< [-]   tip losses coefficient cubed
+    double b4_ = 0.0;           ///< [-]   tip losses coefficient to the power of 4
+    double ar_ = 0.0;           ///< [m^2] rotor disk area
+    double s_  = 0.0;           ///< [-]   rotor solidity
 
-    double sb_ = 0.0;               ///< [kg*m]   single rotor blade first moment of mass about flapping hinge
-    double ib_ = 0.0;               ///< [kg*m^2] single rotor blade inertia about flapping hinge
-    double ir_ = 0.0;               ///< [kg*m^2] rotor total inertia about shaft axis
+    double sb_ = 0.0;           ///< [kg*m]   single rotor blade first moment of mass about flapping hinge
+    double ib_ = 0.0;           ///< [kg*m^2] single rotor blade inertia about flapping hinge
+    double ir_ = 0.0;           ///< [kg*m^2] rotor total inertia about shaft axis
 
-    double cdir_ = 0.0;             ///< [-] direction coefficient (equels 1 for CCW and -1 for CW)
+    double cdir_ = 0.0;         ///< [-] direction coefficient (equels 1 for CCW and -1 for CW)
 
-    double omega_  = 0.0;           ///< [rad/s]     rotor revolution speed
-    double omega2_ = 0.0;           ///< [rad^2/s^2] rotor revolution speed squared
-    double omegaR_ = 0.0;           ///< [m/s]       rotor tip velocity
+    double omega_  = 0.0;       ///< [rad/s]     rotor revolution speed
+    double omega2_ = 0.0;       ///< [rad^2/s^2] rotor revolution speed squared
+    double omegaR_ = 0.0;       ///< [m/s]       rotor tip velocity
 
-    double azimuth_ = 0.0;          ///< [rad] rotor azimuth position
+    double beta_0_       = 0.0; ///< [rad] rotor coning angle
+    double beta_1c_      = 0.0; ///< [rad] longitudinal flapping angle
+    double beta_1s_      = 0.0; ///< [rad] lateral flapping angle
+    double beta_1c_cwas_ = 0.0; ///< [rad] longitudinal flapping angle expressed in CWAS
+    double beta_1s_cwas_ = 0.0; ///< [rad] lateral flapping angle expressed in CWAS
 
-    double beta_0_       = 0.0;     ///< [rad] rotor coning angle
-    double beta_1c_      = 0.0;     ///< [rad] longitudinal flapping angle
-    double beta_1s_      = 0.0;     ///< [rad] lateral flapping angle
-    double beta_1c_cwas_ = 0.0;     ///< [rad] longitudinal flapping angle expressed in CWAS
-    double beta_1s_cwas_ = 0.0;     ///< [rad] lateral flapping angle expressed in CWAS
+    double theta_0_  = 0.0;     ///< [rad] collective feathering angle
+    double theta_1c_ = 0.0;     ///< [rad] cyclic longitudinal feathering angle
+    double theta_1s_ = 0.0;     ///< [rad] cyclic lateral feathering angle
 
-    double theta_0_  = 0.0;         ///< [rad] collective feathering angle
-    double theta_1c_ = 0.0;         ///< [rad] cyclic longitudinal feathering angle
-    double theta_1s_ = 0.0;         ///< [rad] cyclic lateral feathering angle
+    double coning_angle_ = 0.0; ///< [rad] rotor coning angle
+    double disk_roll_    = 0.0; ///< [rad] rotor disk roll angle
+    double disk_pitch_   = 0.0; ///< [rad] rotor disk pitch angle
 
-    double coning_angle_ = 0.0;     ///< [rad] rotor coning angle
-    double disk_roll_    = 0.0;     ///< [rad] rotor disk roll angle
-    double disk_pitch_   = 0.0;     ///< [rad] rotor disk pitch angle
+    double ct_ = 0.0;           ///< [-] thrust coefficient
+    double ch_ = 0.0;           ///< [-] hforce coefficient
+    double cq_ = 0.0;           ///< [-] torque coefficient
 
-    double ct_ = 0.0;               ///< [-] thrust coefficient
-    double ch_ = 0.0;               ///< [-] hforce coefficient
-    double cq_ = 0.0;               ///< [-] torque coefficient
+    double thrust_ = 0.0;       ///< [N]   rotor thrust
+    double hforce_ = 0.0;       ///< [N]   rotor hforce
+    double torque_ = 0.0;       ///< [N*m] rotor torque
 
-    double thrust_ = 0.0;           ///< [N]   rotor thrust
-    double hforce_ = 0.0;           ///< [N]   rotor hforce
-    double torque_ = 0.0;           ///< [N*m] rotor torque
+    double lambda_    = 0.0;    ///< [-] normalized velocity at rotor disc
+    double lambda_i_  = 0.0;    ///< [-] normalized rotor induced velocity
+    double lambda_i0_ = 0.0;    ///< [-] normalized rotor induced velocity in hover
 
-    double airspeed_ = 0.0;         ///< [m/s] rotor hub airspeed
+    double vel_i_  = 0.0;       ///< [m/s] rotor induced velocity
+    double vel_i0_ = 0.0;       ///< [m/s] rotor induced velocity in hover
 
-    double lambda_    = 0.0;        ///< [-] normalized velocity at rotor disc
-    double lambda_i_  = 0.0;        ///< [-] normalized rotor induced velocity
-    double lambda_i0_ = 0.0;        ///< [-] normalized rotor induced velocity in hover
+    double wake_skew_ = 0.0;    ///< [rad] rotor wake skew angle
 
-    double vel_i_  = 0.0;           ///< [m/s] rotor induced velocity
-    double vel_i0_ = 0.0;           ///< [m/s] rotor induced velocity in hover
+    bool in_vrs_ = false;       ///< specifies if rotor is in a vortex ring state
 
-    double wake_skew_ = 0.0;        ///< [rad] rotor wake skew angle
-
-    bool in_vrs_ = false;           ///< specifies if rotor is in a vortex ring state
-
-    unsigned int n_max = 100;       ///< maximum number of iteration loop steps
+    unsigned int n_max_ = 100;  ///< maximum number of iteration loop steps
 
     /**
      * @brief Updates auxiliary variables that are directly derived from data.
