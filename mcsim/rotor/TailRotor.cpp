@@ -59,7 +59,7 @@ void TailRotor::UpdateForceAndMoment(const Vector3& vel_air_bas,
     if ( fabs(lambda_i_) < 10e-14 ) lambda_i_ = 10e-14;
 
     // iteration loopp
-    for ( int i = 0; i < n_max_; ++i )
+    for ( unsigned int i = 0; i < n_max_; ++i )
     {
         lambda_ = mu_z - lambda_i_;
 
