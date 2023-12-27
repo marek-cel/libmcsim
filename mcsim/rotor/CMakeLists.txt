@@ -3,8 +3,6 @@ set(TARGET_NAME rotor)
 ################################################################################
 
 set(HEADERS
-    IInGroundEffect.h
-    IVortexRingState.h
     MainRotor.h
     RotorUtils.h
     TailRotor.h
