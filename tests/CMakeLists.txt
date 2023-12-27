@@ -49,13 +49,7 @@ target_link_libraries(${TARGET_NAME}
 
     gcov
 
-    aero
-    ctrl
-    env
-    gear
-    mass
-    prop
-    rotor
+    mcsim
 
     ${MCUTILS_LIBRARY}
 
