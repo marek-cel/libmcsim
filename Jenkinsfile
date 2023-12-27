@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker { 
-            image 'libmcsim-build-env:1' 
+            image 'libmcsim-dev-env' 
             args '-v /var/www/html/jenkins/:/var/www/html/jenkins/'
         }
     }
