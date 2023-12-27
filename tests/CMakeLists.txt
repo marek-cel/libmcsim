@@ -23,9 +23,6 @@ set(SOURCES
 
     env/TestAtmosphereUS76.cpp
 
-    extra/TestWinchLauncher.cpp
-    extra/TestWingRunner.cpp
-
     gear/TestPacejka.cpp
     gear/TestSimpleGear.cpp
 
