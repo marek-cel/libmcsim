@@ -4,6 +4,7 @@ RUN apt update
 RUN apt install -y \
     build-essential \
     cmake \
+    gdb \
     git \
     googletest \
     googletest-tools \
