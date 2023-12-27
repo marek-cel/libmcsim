@@ -1,16 +1,10 @@
 #!/usr/bin/env python3
 
-################################################################################
-
 import os
 import platform
 import subprocess
 
-################################################################################
-
 build_dir = "build"
-
-################################################################################
 
 
 def build():
@@ -28,14 +22,17 @@ def install():
 
 
 def installForLinux():
-    subprocess.run("sudo cmake --build " + build_dir + " --config Release --target install", shell=True)
+    subprocess.run(
+        "sudo cmake --build " + build_dir + " --config Release --target install",
+        shell=True
+    )
 
 
 def installForWindows():
-    subprocess.run("cmake --build " + build_dir + " --config Release --target INSTALL", shell=True)
-
-
-################################################################################
+    subprocess.run(
+        "cmake --build " + build_dir + " --config Release --target INSTALL",
+        shell=True
+    )
 
 
 if __name__ == "__main__":

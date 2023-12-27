@@ -1,20 +1,14 @@
 #!/usr/bin/env python3
 
-################################################################################
-
 import os
 import subprocess
 import clean
 
-################################################################################
-
 build_dir = "./build"
-base_dir  = "./mcsim"
+base_dir = "./mcsim"
 
 coverage_file_full = "coverage_full.info"
-coverage_file      = "coverage.info"
-
-################################################################################
+coverage_file = "coverage.info"
 
 
 def executeAllSteps():
@@ -55,19 +49,20 @@ def removeExclusions():
 
 
 def generateCoverageSummary():
-    subprocess.run("lcov --summary" + coverage_file + " > coverage_summary.txt", shell=True)
+    subprocess.run(
+        "lcov --summary" + coverage_file + " > coverage_summary.txt",
+        shell=True
+    )
 
 
 def generateCoverageReport():
-    cmd = ["genhtml", coverage_file,
+    cmd = [
+        "genhtml", coverage_file,
         "--legend",
         "--function-coverage",
         "--output-directory", "coverage-report"
     ]
     subprocess.run(cmd)
-
-
-################################################################################
 
 
 if __name__ == "__main__":

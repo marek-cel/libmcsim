@@ -43,12 +43,18 @@ def buildForLinux(with_tests):
         '-B', build_dir
     ]
     if with_tests:
-        cmake_cmd.append('-DCMAKE_CXX_FLAGS=-O0 -fno-elide-constructors -fno-default-inline -fprofile-arcs -ftest-coverage')
+        cmake_cmd.append('-DCMAKE_CXX_FLAGS=-O0 \
+                         -fno-elide-constructors \
+                         -fno-default-inline \
+                         -fprofile-arcs -ftest-coverage')
     else:
         cmake_cmd.append('-DBUILD_TESTING=Off')
     result = subprocess.run(cmake_cmd)
     if result.returncode == 0:
-        subprocess.run("cmake --build " + build_dir + " --config Release -j 4", shell=True)
+        subprocess.run(
+            "cmake --build " + build_dir + " --config Release -j 4",
+            shell=True
+        )
 
 
 def buildForWindows():
@@ -61,7 +67,10 @@ def buildForWindows():
     ]
     result = subprocess.run(cmake_cmd)
     if result.returncode == 0:
-        subprocess.run("cmake --build " + build_dir + " --config Release -j 4", shell=True)
+        subprocess.run(
+            "cmake --build " + build_dir + " --config Release -j 4",
+            shell=True
+        )
 
 
 ################################################################################
