@@ -23,7 +23,6 @@ set(SOURCES
 add_subdirectory(aero)
 add_subdirectory(ctrl)
 add_subdirectory(env)
-add_subdirectory(extra)
 add_subdirectory(gear)
 add_subdirectory(mass)
 add_subdirectory(prop)
