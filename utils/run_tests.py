@@ -5,6 +5,7 @@
 import os
 import platform
 import subprocess
+import misc
 
 ################################################################################
 
@@ -38,9 +39,11 @@ def setLibraryPathOnWindows():
 
 
 if __name__ == "__main__":
+    misc.printGreen("Running tests...")
     os.chdir("..")
     os_name = platform.system()
     if os_name == "Linux":
         runTestsOnLinux()
     elif os_name == "Windows":
         runTestsOnWindows()
+    misc.printGreen("Running tests done.")

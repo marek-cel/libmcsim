@@ -3,6 +3,7 @@
 import os
 import platform
 import subprocess
+import misc
 
 build_dir = "build"
 
@@ -12,13 +13,13 @@ def build():
 
 
 def install():
-    print("Installing...")
+    misc.printGreen("Installing...")
     os_name = platform.system()
     if os_name == "Linux":
         installForLinux()
     elif os_name == "Windows":
         installForWindows()
-    print("Installing done.")
+    misc.printGreen("Installing done.")
 
 
 def installForLinux():

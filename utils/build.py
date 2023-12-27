@@ -6,6 +6,7 @@ import os
 import platform
 import subprocess
 import sys
+import misc
 
 ################################################################################
 
@@ -24,15 +25,15 @@ def createBuildDir():
 
 def build(with_tests):
     if with_tests:
-        print("Building with tests...")
+        misc.printGreen("Building with tests...")
     else:
-        print("Building...")
+        misc.printGreen("Building...")
     os_name = platform.system()
     if os_name == "Linux":
         buildForLinux(with_tests)
     elif os_name == "Windows":
         buildForWindows()
-    print("Building done.")
+    misc.printGreen("Building done.")
 
 
 def buildForLinux(with_tests):

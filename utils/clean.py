@@ -2,6 +2,7 @@
 
 import os
 import shutil
+import misc
 
 
 def removeDir(dir_path):
@@ -43,10 +44,10 @@ def removePyCache():
 
 
 if __name__ == "__main__":
-    print("Cleaning...")
+    misc.printGreen("Cleaning...")
     removePyCache()
     removeBuildDirs()
     removeCoverageReport()
     removeCheckOutputs()
     removeDocumentation()
-    print("Cleaning done.")
+    misc.printGreen("Cleaning done.")

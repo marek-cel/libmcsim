@@ -3,6 +3,7 @@
 import os
 import subprocess
 import clean
+import misc
 
 build_dir = "./build"
 base_dir = "./mcsim"
@@ -12,12 +13,12 @@ coverage_file = "coverage.info"
 
 
 def executeAllSteps():
-    print("Generating coverage report...")
+    misc.printGreen("Generating coverage report...")
     captureCoverage()
     removeExclusions()
     generateCoverageSummary()
     generateCoverageReport()
-    print("Generating coverage report done.")
+    misc.printGreen("Generating coverage report done.")
 
 
 def captureCoverage():
