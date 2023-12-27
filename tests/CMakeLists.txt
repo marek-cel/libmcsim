@@ -52,7 +52,6 @@ target_link_libraries(${TARGET_NAME}
     aero
     ctrl
     env
-    extra
     gear
     mass
     prop
