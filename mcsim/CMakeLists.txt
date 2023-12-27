@@ -34,7 +34,6 @@ add_library(${TARGET_NAME} ${SOURCES}
     $<TARGET_OBJECTS:aero>
     $<TARGET_OBJECTS:ctrl>
     $<TARGET_OBJECTS:env>
-    $<TARGET_OBJECTS:extra>
     $<TARGET_OBJECTS:gear>
     $<TARGET_OBJECTS:mass>
     $<TARGET_OBJECTS:prop>
