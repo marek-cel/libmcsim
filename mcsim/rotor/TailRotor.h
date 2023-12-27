@@ -55,9 +55,12 @@ public:
      */
     struct Data
     {
-        Vector3 r_hub_bas;              ///< [m] rotor hub coordinates expressed in BAS
+        Vector3 r_hub_bas;              ///< [m]   rotor hub coordinates expressed in BAS
+        Angles  a_hub_bas;              ///< [rad] rotor hub orientation relative to BAS
 
         int nb = 0;                     ///< number of rotor blades
+
+        double blade_mass = 0.0;        ///< [kg] single blade mass
 
         double r = 0.0;                 ///< [m] rotor radius
         double c = 0.0;                 ///< [m] blades chord
@@ -75,31 +78,24 @@ public:
         double torque_factor = 1.0;     ///< [-] torque scaling factor
     };
 
-    // LCOV_EXCL_START
-    TailRotor() = default;
-    TailRotor(const TailRotor&) = delete;
-    TailRotor(TailRotor&&) = default;
-    TailRotor& operator=(const TailRotor&) = delete;
-    TailRotor& operator=(TailRotor&&) = default;
-    virtual ~TailRotor() = default;
-    // LCOV_EXCL_STOP
-
     /**
-     * @brief Computes force and moment.
+     * @brief Updates force and moment.
      * @param vel_air_bas [m/s]    aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s]  aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity  [kg/m^3] air density
      */
-    virtual void computeForceAndMoment(const Vector3& vel_air_bas,
-                                       const Vector3& omg_air_bas,
-                                       double airDensity);
+    virtual void UpdateForceAndMoment(const Vector3& vel_air_bas,
+                                      const Vector3& omg_air_bas,
+                                      double airDensity);
 
     /**
      * @brief Updates rotor model.
      * @param omega      [rad/s] rotor revolution speed
      * @param collective [rad]   collective pitch angle
      */
-    virtual void update(double omega, double collective);
+    virtual void Update(double omega, double collective);
+
+    virtual const Data& data() const = 0;
 
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
@@ -108,6 +104,13 @@ public:
 
     inline double thrust() const { return thrust_; }
     inline double torque() const { return torque_; }
+
+    inline double lambda()    const { return lambda_;    }
+    inline double lambda_i()  const { return lambda_i_;  }
+    inline double lambda_i0() const { return lambda_i0_; }
+
+    inline double vel_i()  const { return vel_i_;  }
+    inline double vel_i0() const { return vel_i0_; }
 
 protected:
 
@@ -127,14 +130,29 @@ protected:
     double ib_ = 0.0;           ///< [kg*m^2] single rotor blade inertia moment about flapping hinge
     double ir_ = 0.0;           ///< [kg*m^2] rotor total inertia about shaft axis
 
-    double omega_ = 0.0;        ///< [rad/s] rotor revolution speed
+    double omega_ = 0.0;        ///< [rad/s]     rotor revolution speed
+    double omega2_ = 0.0;       ///< [rad^2/s^2] rotor revolution speed squared
+    double omegaR_ = 0.0;       ///< [m/s]       rotor tip velocity
 
     double theta_ = 0.0;        ///< [rad] feathering angle
 
     double thrust_ = 0.0;       ///< [N]   rotor thrust
     double torque_ = 0.0;       ///< [N*m] rotor torque
 
+    double lambda_    = 0.0;    ///< [-] normalized velocity at rotor disc
+    double lambda_i_  = 0.0;    ///< [-] normalized rotor induced velocity
+    double lambda_i0_ = 0.0;    ///< [-] normalized rotor induced velocity in hover
+
     double vel_i_ = 0.0;        ///< [m/s] rotor induced velocity
+    double vel_i0_ = 0.0;       ///< [m/s] rotor induced velocity in hover
+
+    unsigned int n_max_ = 100;  ///< maximum number of iteration loop steps
+
+    /**
+     * @brief Updates auxiliary variables that are directly derived from data.
+     * Examples of such variables: radius squared, disk area, solidity, etc.
+     */
+    virtual void UpdateDataDerivedVariables();
 };
 
 } // namespace mc

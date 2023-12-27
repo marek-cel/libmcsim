@@ -11,25 +11,19 @@ include_directories(.)
 ################################################################################
 
 set(SOURCES
+    CsvFileReader.cpp
     main.cpp
 
     aero/TestAeroAngles.cpp
-    aero/TestAeroBody.cpp
-    aero/TestFuselage.cpp
     aero/TestMeanAeroChord.cpp
     aero/TestRhoEffects.cpp
     aero/TestSchrenkDist.cpp
-    aero/TestStabilizerHor.cpp
-    aero/TestStabilizerVer.cpp
-    aero/TestWingBody.cpp
 
     ctrl/TestHingeMoment.cpp
 
     env/TestAtmosphereUS76.cpp
 
-    extra/TestWinchLauncher.cpp
-    extra/TestWingRunner.cpp
-
+    gear/TestPacejka.cpp
     gear/TestSimpleGear.cpp
 
     mass/TestInertiaMatrix.cpp
@@ -39,6 +33,7 @@ set(SOURCES
     prop/TestPropeller.cpp
     prop/TestPropellerGovernor.cpp
 
+    rotor/MomentumTheory.cpp
     rotor/TestMainRotor.cpp
     rotor/TestRotorUtils.cpp
     rotor/TestTailRotor.cpp
@@ -54,14 +49,7 @@ target_link_libraries(${TARGET_NAME}
 
     gcov
 
-    aero
-    ctrl
-    env
-    extra
-    gear
-    mass
-    prop
-    rotor
+    mcsim
 
     ${MCUTILS_LIBRARY}
 

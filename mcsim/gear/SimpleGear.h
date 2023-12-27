@@ -43,7 +43,7 @@ namespace mc
  * - O’Rourke J. Computational Geometry in C, 1998
  * - Studzinski K. Samochod. Teoria, konstrukcja i obliczenia, 1980 [in Polish]
  * - [A Solid Friction Model, ADA041920](https://apps.dtic.mil/sti/citations/ADA041920)
- * - van Geffen V. A study of friction models and friction compensation, 2009
+ * - van Geffen V.: A study of friction models and friction compensation, 2009
  */
 class MCSIMAPI SimpleGear
 {
@@ -76,20 +76,6 @@ public:
     };
 
     /**
-     * @brief Constructor.
-     * @param stat_friction specifies if static friction model is enabled
-     */
-    explicit SimpleGear(bool stat_friction = true);
-
-    // LCOV_EXCL_START
-    SimpleGear(const SimpleGear&) = delete;
-    SimpleGear(SimpleGear&&) = default;
-    SimpleGear& operator=(const SimpleGear&) = delete;
-    SimpleGear& operator=(SimpleGear&&) = default;
-    virtual ~SimpleGear() = default;
-    // LCOV_EXCL_STOP
-
-    /**
      * @brief Computes force and moment.
      * @param vel_bas [m/s] aircraft linear velocity expressed in BAS
      * @param omg_bas [rad/s] aircraft angular velocity expressed in BAS
@@ -99,12 +85,13 @@ public:
      * @param antiskid
      * @param surf_coef
      */
-    virtual void ComputeForceAndMoment(const Vector3 &vel_bas,
-                                       const Vector3 &omg_bas,
-                                       const Vector3 &r_c_bas,
-                                       const Vector3 &n_c_bas,
-                                       bool steering, bool antiskid,
-                                       double surf_coef = 1.0);
+    virtual void UpdateForceAndMoment(const Vector3 &vel_bas,
+                                      const Vector3 &omg_bas,
+                                      const Vector3 &r_c_bas,
+                                      const Vector3 &n_c_bas,
+                                      bool steering,
+                                      bool antiskid,
+                                      double surf_coef = 1.0);
 
     /**
      * @brief Integrates wheel model.

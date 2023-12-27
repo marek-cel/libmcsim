@@ -38,6 +38,7 @@ namespace mc
  *
  * ### Refernces:
  * - [A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA-TM-948](https://ntrs.nasa.gov/citations/19930094469)
+ * - Corke TC.: Design of Aircraft, 2003, p.215 
  * - Galinski C.: Wybrane zagadnienia projektowania samolotow, 2016, p.118. [in Polish]
  */
 class MCSIMAPI SchrenkDist
@@ -45,26 +46,22 @@ class MCSIMAPI SchrenkDist
 public:
 
     /**
-     * @brief Computes approximation of drag coefficient.
-     *
-     * \par Computes simple approximation of normalized spanwise drag coefficient
-     * distribution.
-     *
+     * @brief Computes equivalent elliptic wing chord at the given spanwise coordinate. 
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
-     * @return [-] spanwise drag coefficient
+     * @return [m] equivalent elliptic wing chord
      */
-    virtual double GetDragCoefDist(double y) const;
+    double GetEllipticWingChord(double y) const;
 
     /**
      * @brief Computes approximation of lift coefficient.
      *
-     * \par Computes Schrenk approximation of normalized spanwise lift coefficient
+     * @par Computes Schrenk approximation of normalized spanwise lift coefficient
      * distribution.
      *
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
      * @return [-] spanwise lift coefficient
      */
-    virtual double GetLiftCoefDist(double y) const;
+    double GetLiftCoefDist(double y) const;
 
     /**
      * @brief Sets wing area.
@@ -86,16 +83,10 @@ public:
 
 protected:
 
-    double area_ = 0.0;         ///< [m^2] wing area
-    double span_ = 0.0;         ///< [m] wing span
+    double area_ = 0.0;     ///< [m^2] wing area
+    double span_ = 0.0;     ///< [m] wing span
 
-    Table chord_;               ///< [m] wing chord vs [m] spanwise coordinate
-
-    double aux_factor_1_ = 0.0; ///< [m]   4*S/(b*pi) where S is wing area and b is wing span
-    double aux_factor_2_ = 0.0; ///< [1/m] 2/b        where b is wing span
-
-    /** */
-    void UpdateAxiliaryParameters();
+    Table chord_;           ///< [m] wing chord vs [m] spanwise coordinate
 };
 
 } // namespace mc

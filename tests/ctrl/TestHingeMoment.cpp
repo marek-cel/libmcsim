@@ -47,3 +47,10 @@ TEST_F(TestHingeMoment, CanInstantiate)
 {
     TestHingeMoment::HingeMoment mom;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_F(TestHingeMoment, CanCompute)
+{
+    TestHingeMoment::HingeMoment mom;
+}

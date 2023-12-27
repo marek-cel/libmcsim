@@ -1,0 +1,25 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+{
+	"name": "mcsim-dev-env",
+	"containerUser" : "dev",
+	"build": {
+		"context": "..",
+		"dockerfile": "../Dockerfile"
+	},
+
+	// Configure tool-specific properties.
+	"customizations":
+	{
+		"vscode" : {
+			"settings": {},
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"ms-vscode.cmake-tools",
+				"ms-python.python",
+				"ms-azuretools.vscode-docker",
+				"twxs.cmake"
+			]
+		}
+	}
+}

@@ -63,7 +63,7 @@ MCSIMAPI inline double GetAngleOfAttack(const Vector3& vel_bas,
 /**
  * @brief Returns sideslip angle.
  *
- * \par It is positive when the aircraft velocity component along the transverse
+ * @par It is positive when the aircraft velocity component along the transverse
  * axis is positive.
  *
  * ### Refernces:

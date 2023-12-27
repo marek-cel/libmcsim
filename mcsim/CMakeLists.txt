@@ -23,7 +23,6 @@ set(SOURCES
 add_subdirectory(aero)
 add_subdirectory(ctrl)
 add_subdirectory(env)
-add_subdirectory(extra)
 add_subdirectory(gear)
 add_subdirectory(mass)
 add_subdirectory(prop)
@@ -35,7 +34,6 @@ add_library(${TARGET_NAME} ${SOURCES}
     $<TARGET_OBJECTS:aero>
     $<TARGET_OBJECTS:ctrl>
     $<TARGET_OBJECTS:env>
-    $<TARGET_OBJECTS:extra>
     $<TARGET_OBJECTS:gear>
     $<TARGET_OBJECTS:mass>
     $<TARGET_OBJECTS:prop>

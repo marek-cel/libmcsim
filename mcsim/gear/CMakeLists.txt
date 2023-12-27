@@ -4,6 +4,7 @@ set(TARGET_NAME gear)
 
 set(HEADERS
     BrakeGroup.h
+    Pacejka.h
     SimpleGear.h
 )
 

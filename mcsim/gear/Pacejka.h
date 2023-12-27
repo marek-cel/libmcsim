@@ -1,5 +1,5 @@
 /****************************************************************************//*
- * Copyright (C) 2022 Marek M. Cel
+ * Copyright (C) 2023 Marek M. Cel
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the "Software"),
@@ -19,74 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
+#ifndef MCSIM_GEAR_PACEJKA_H_
+#define MCSIM_GEAR_PACEJKA_H_
 
-#include <mcsim/rotor/RotorUtils.h>
+////////////////////////////////////////////////////////////////////////////////
 
-#include <mcutils/math/Math.h>
-
-#include <iostream>
+#include <cmath>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
-////////////////////////////////////////////////////////////////////////////////
-
-double GetVortexRingK0(double vz_norm)
+/**
+ * @brief Returns Pacejka "Magic Formula" coefficient.
+ * @param kappa [-] slip parameter (v_slip/v_roll)
+ * @param b b coefficient
+ * @param c c coefficient
+ * @param d d coefficient
+ * @param e e coefficient
+ * @return Pacejka "Magic Formula" coefficient
+ *
+ * ### Refernces:
+ * - [Magic Formula tire models - Wikipedia](https://en.wikipedia.org/wiki/Hans_B._Pacejka#Magic_Formula_tire_models)
+ * - [Tire-road dynamics given by magic formula coefficients - MATLAB](https://www.mathworks.com/help/physmod/sdl/ref/tireroadinteractionmagicformula.html)
+ */
+inline double PacejkaFormula(double kappa,
+                             double b = 10.0, double c = 1.9,
+                             double d = 1.0,  double e = 0.97)
 {
-    double k0 = 0.0;
-    if ( vz_norm > 0.0 && vz_norm < 2.0 )
-    {
-        k0 = -1.08*vz_norm*vz_norm + 2.04*vz_norm - 0.63;
-        k0 = Math::Satur(0.0, 1.0, k0);
-    }
-    return k0;
+    return d * sin(c * atan(b*(1.0 - e)*kappa + e*atan(b*kappa)));
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-double GetVortexRingKv(double vx_norm)
-{
-    double kv = 0.0;
-    vx_norm = fabs(vx_norm);
-    if ( vx_norm < 1.0 )
-    {
-        double vx_norm2 = vx_norm * vx_norm;
-        double vx_norm3 = vx_norm * vx_norm2;
-        double vx_norm4 = vx_norm * vx_norm3;
-        double vx_norm5 = vx_norm * vx_norm4;
-        kv = 11.25*vx_norm5 - 20.87*vx_norm4 + 9.49*vx_norm3
-           -  0.64*vx_norm2 -  0.22*vx_norm  + 1.0;
-        kv = Math::Satur(0.0, 1.0, kv);
-    }
-    return kv;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double GetInGroundEffectThrustCoef(double h_agl, double v, double vi, double r2)
-{
-    double c_ige = 1.0;
-
-    // Padfield: Helicopter Flight Dynamics, p.117
-    double v_factor = 1.0;
-    if ( vi > 1.0e-6 )
-    {
-        double v_vi = v / vi;
-        v_factor = 1.0 / (1.0 + v_vi * v_vi);
-    }
-
-    double c_ige_den = 1.0 - (r2 * v_factor) / (16.0 * h_agl * h_agl);
-
-    if ( c_ige_den > 1.0e-6 )
-    {
-        c_ige = 1.0 / c_ige_den;
-    }
-
-    return c_ige;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // MCSIM_GEAR_PACEJKA_H_

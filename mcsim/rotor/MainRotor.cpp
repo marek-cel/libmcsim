@@ -23,8 +23,6 @@
 #include <mcsim/rotor/MainRotor.h>
 
 #include <mcutils/math/Math.h>
-#include <mcutils/misc/String.h>
-#include <mcutils/misc/Units.h>
 
 #include <mcsim/aero/AeroAngles.h>
 #include <mcsim/rotor/RotorUtils.h>
@@ -36,22 +34,15 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-MainRotor::MainRotor( std::shared_ptr<IInGroundEffect>  ige,
-                      std::shared_ptr<IVortexRingState> vrs )
-    : ige_(ige)
-    , vrs_(vrs)
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
-                                      const Vector3 &omg_bas,
-                                      const Vector3 &acc_bas,
-                                      const Vector3 &eps_bas,
-                                      const Vector3 &vel_air_bas,
-                                      const Vector3 &omg_air_bas,
-                                      const Vector3 &grav_bas,
-                                      double rho)
+void MainRotor::UpdateForceAndMoment(const Vector3 & /*vel_bas*/,
+                                     const Vector3 &omg_bas,
+                                     const Vector3 &acc_bas,
+                                     const Vector3 &eps_bas,
+                                     const Vector3 &vel_air_bas,
+                                     const Vector3 &omg_air_bas,
+                                     const Vector3 &grav_bas,
+                                     double rho,
+                                     double h_agl)
 {
     // Lock number
     double gamma = rho * data().a * data().c * r4_ / ib_;
@@ -65,7 +56,7 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
     bas2cas_ = bas2ras_ * ras2cas_;
 
     // velocity transformations
-    Vector3 vel_air_ras = bas2ras_ * ( vel_air_bas + ( omg_air_bas % data().r_hub_bas ) );
+    Vector3 vel_air_ras = bas2ras_ * (vel_air_bas + (omg_air_bas % data().r_hub_bas));
     Vector3 vel_air_cas = ras2cas_ * vel_air_ras;
 
     // sideslip angle
@@ -77,7 +68,7 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
     rwas2ras_ = ras2rwas_.GetTransposed();
 
     // CAS <-> CWAS
-    cas2cwas_ = Matrix3x3( Angles( 0.0, 0.0, beta_cas ) );
+    cas2cwas_ = Matrix3x3(Angles(0.0, 0.0, beta_cas));
     cwas2cas_ = cas2cwas_.GetTransposed();
 
     // BAS <-> CWAS
@@ -95,8 +86,8 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
 
     // acceleration
     Vector3 acc_hub_bas = acc_bas
-                        + ( omg_bas % ( omg_bas % data().r_hub_bas ) )
-                        + ( eps_bas % data().r_hub_bas )
+                        + (omg_bas % (omg_bas % data().r_hub_bas))
+                        + (eps_bas % data().r_hub_bas)
                         - grav_bas;
     Vector3 acc_hub_cwas = bas2cwas_ * acc_hub_bas;
 
@@ -143,14 +134,14 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
             lambda_i_ = mu_z_half - sqrt(mu_z_half*mu_z_half - Math::Pow2(lambda_i0_));
 
             // maximum thrust coefficient according to momentum theory
-            ct_max = 2.0 * ( mu_z - lambda_i_ ) * lambda_i_;
+            ct_max = 2.0 * (mu_z - lambda_i_) * lambda_i_;
         }
         else
         {
             // Johnson: Helicopter Theory, p.106
             // NASA TP-2005-213477, p.14
             lambda_i_ = mu_c_norm * lambda_i0_
-                    * ( 0.373*Math::Pow2(mu_c_norm) - 1.991 + 0.598*Math::Pow2(mu_x_norm) );
+                    * (0.373*Math::Pow2(mu_c_norm) - 1.991 + 0.598*Math::Pow2(mu_x_norm));
         }
 
         UpdateFlappingAnglesAndThrustCoef(mu_x, mu_x2, mu_z, p, q, a_z, gamma);
@@ -166,8 +157,8 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
     double cos_beta_cas = cos(beta_cas);
     double sin_beta_cas = sin(beta_cas);
 
-    double beta_1c_cas = beta_1c_cwas * cos_beta_cas - beta_1s_cwas * sin_beta_cas * ( -1.0 * cdir_ );
-    double beta_1s_cas = beta_1s_cwas * cos_beta_cas + beta_1c_cwas * sin_beta_cas * ( -1.0 * cdir_ );
+    double beta_1c_cas = beta_1c_cwas * cos_beta_cas - beta_1s_cwas * sin_beta_cas * (-1.0 * cdir_);
+    double beta_1s_cas = beta_1s_cwas * cos_beta_cas + beta_1c_cwas * sin_beta_cas * (-1.0 * cdir_);
 
     // flapping coefficients
     beta_1c_ = Math::Satur(-data().beta_max, data().beta_max, beta_1c_cas - theta_1s_);
@@ -178,34 +169,35 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
     disk_pitch_   = -beta_1c_;
 
     // DAS <-> BAS
-    das2bas_ = Matrix3x3( Angles( disk_roll_, disk_pitch_, 0.0 ) ).GetTransposed() * ras2bas_;
+    das2bas_ = Matrix3x3(Angles(disk_roll_, disk_pitch_, 0.0)).GetTransposed() * ras2bas_;
     bas2das_ = das2bas_.GetTransposed();
 
     // drag coefficient (Padfield p.98)
     double cd = data().delta_0 + data().delta_2 * Math::Pow2(ct_);
 
     // H-force coefficient (Bramwell p.100)
-    ch_ = 0.5 * data().a * s_ * ( 0.5 * mu_x * cd / data().a
-                          + beta_1c_cwas * theta_0_ / 3.0
-                          + 0.75 * lambda_ * beta_1c_cwas
-                          - 0.5 * mu_x * theta_0_ * lambda_
-                          + 0.25 * mu_x * beta_1c_cwas * beta_1c_cwas );
+    ch_ = 0.5 * data().a * s_ * (0.5 * mu_x * cd / data().a
+                            + beta_1c_cwas * theta_0_ / 3.0
+                            + 0.75 * lambda_ * beta_1c_cwas
+                            - 0.5 * mu_x * theta_0_ * lambda_
+                            + 0.25 * mu_x * beta_1c_cwas * beta_1c_cwas);
 
     // torque (Bramwell p.102, Padfield p.115)
-    double cqp = cd * s_ * ( 1.0 +3.0 *  mu_x2 ) / 8.0;
+    double cqp = cd * s_ * (1.0 +3.0 *  mu_x2) / 8.0;
     double cqi = -lambda_ * ct_ - mu_x * ch_;
     cq_ = cqp + cqi;
     if ( cq_ > data().cq_max ) cq_ = data().cq_max;
 
     // Vortex-Ring-State
-    if ( vrs_ )
-    {
-        // Vortex-Ring-State influence
-        double kvr = GetVortexRingInfluenceCoef(mu_x_norm, mu_z_norm);
-        in_vrs_ = kvr > 0.0;
-        ct_ = ct_ * ( 1.0 - kvr*data().vrs_thrust_factor );
-        cq_ = cq_ * ( 1.0 + kvr*data().vrs_torque_factor );
-    }
+    double c_vsr = GetVortexRingInfluenceCoef(mu_x_norm, mu_z_norm);
+    in_vrs_ = c_vsr > 0.0;
+    ct_ = ct_ * (1.0 - c_vsr*data().vrs_thrust_factor);
+    cq_ = cq_ * (1.0 + c_vsr*data().vrs_torque_factor);
+
+    // In-Ground-Effect
+    double c_ige = GetInGroundEffectThrustCoef(h_agl, airspeed, vel_i_);
+    c_ige = Math::Satur(1.0, data().c_ige_max, c_ige);
+    ct_ = ct_ * c_ige*data().ige_thrust_factor;
 
     // rotor wake skew angle (Padfield p.121)
     wake_skew_ = atan2(mu_x, lambda_i_ - mu_z);
@@ -217,22 +209,13 @@ void MainRotor::ComputeForceAndMoment(const Vector3 & /*vel_bas*/,
 
     f_bas_ = das2bas_  * Vector3(0.0, 0.0, -thrust_)
            + rwas2bas_ * Vector3(hforce_, 0.0, 0.0);
-    m_bas_ = ( data().r_hub_bas % f_bas_ )
+    m_bas_ = (data().r_hub_bas % f_bas_)
            + ras2bas_ * Vector3(0.0, 0.0, cdir_ * torque_);
-
-    if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
-    {
-        f_bas_.Zeroize();
-        m_bas_.Zeroize();
-
-        // TODO
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainRotor::Update(double omega,
-                       double azimuth,
                        double collective,
                        double cyclicLat,
                        double cyclicLon)
@@ -240,8 +223,6 @@ void MainRotor::Update(double omega,
     omega_  = omega;
     omega2_ = omega * omega;
     omegaR_ = omega * data().r;
-
-    azimuth_ = azimuth;
 
     theta_0_  =  collective;
     theta_1c_ = -cyclicLat * cdir_;
@@ -252,7 +233,7 @@ void MainRotor::Update(double omega,
 
 void MainRotor::UpdateDataDerivedVariables()
 {
-    bas2ras_ = mc::Matrix3x3(mc::Angles(0.0, data().inclination, 0.0));
+    bas2ras_ = Matrix3x3(data().a_hub_bas);
     ras2bas_ = bas2ras_.GetTransposed();
 
     r2_ = data().r * data().r;
@@ -264,7 +245,7 @@ void MainRotor::UpdateDataDerivedVariables()
     b4_ = data().b * b3_;
 
     ar_ = M_PI * r2_;
-    s_ = ( static_cast<double>(data().nb) ) * data().c * data().r / ar_;
+    s_ = (static_cast<double>(data().nb)) * data().c * data().r / ar_;
 
     sb_ = data().blade_mass * data().r  / 2.0;
     ib_ = data().blade_mass * r2_ / 3.0;
@@ -282,15 +263,15 @@ void MainRotor::UpdateFlappingAnglesAndThrustCoef(double mu_x, double mu_x2, dou
     lambda_ = mu_z - lambda_i_;
 
     // flapping coefficients
-    beta_0_ = ( gamma / 2.0 )
-            * ( b3_ * lambda_ / 3.0 + cdir_ * b3_ * p * mu_x / ( 6.0 * omega_ ) + b4_ * theta_0_ / 4.0 + b2_ * theta_0_ * mu_x2 / 4.0 )
+    beta_0_ = (gamma / 2.0)
+            * (b3_ * lambda_ / 3.0 + cdir_ * b3_ * p * mu_x / (6.0 * omega_) + b4_ * theta_0_ / 4.0 + b2_ * theta_0_ * mu_x2 / 4.0)
             - a_z * sb_ / ( ib_ * omega2_ );
 
-    beta_1c_cwas_ = 2.0 * mu_x * ( lambda_ + 4.0 * data().b * theta_0_ / 3.0 ) / ( mu_x2 / 2.0 - b2_ )
-            + cdir_ * ( b4_ * p / omega_ - cdir_ * 16.0 * q / ( gamma * omega_ ) ) / ( b2_ * ( mu_x2 / 2.0 - b2_ ) );
+    beta_1c_cwas_ = 2.0 * mu_x * (lambda_ + 4.0 * data().b * theta_0_ / 3.0) / (mu_x2 / 2.0 - b2_)
+            + cdir_ * (b4_ * p / omega_ - cdir_ * 16.0 * q / (gamma * omega_)) / (b2_ * ( mu_x2 / 2.0 - b2_));
 
-    beta_1s_cwas_ = -4.0 * beta_0_ * mu_x * data().b / ( mu_x2 / 2.0 + b2_ ) / 3.0
-            + ( b4_ * q / omega_ + cdir_ * 16.0 * p / ( gamma * omega_ ) ) / ( b2_ * ( mu_x2 / 2.0 + b2_ ) );
+    beta_1s_cwas_ = -4.0 * beta_0_ * mu_x * data().b / (mu_x2 / 2.0 + b2_) / 3.0
+            + (b4_ * q / omega_ + cdir_ * 16.0 * p / (gamma * omega_)) / (b2_ * (mu_x2 / 2.0 + b2_));
 
     // limits
     beta_0_       = Math::Satur(-data().beta_max, data().beta_max, beta_0_);
@@ -298,9 +279,9 @@ void MainRotor::UpdateFlappingAnglesAndThrustCoef(double mu_x, double mu_x2, dou
     beta_1s_cwas_ = Math::Satur(-data().beta_max, data().beta_max, beta_1s_cwas_);
 
     // thrust coefficient
-    ct_ = 0.5 * data().a * s_ * data().b * ( lambda_ * data().b / 2.0
+    ct_ = 0.5 * data().a * s_ * data().b * (lambda_ * data().b / 2.0
                                          + theta_0_ * ( b2_ + 1.5 * mu_x2 ) / 3.0
-                                         + data().b * mu_x * beta_1c_cwas_ / 4.0 );
+                                         + data().b * mu_x * beta_1c_cwas_ / 4.0);
     ct_ = Math::Satur(-data().ct_max, data().ct_max, ct_);
 }
 
@@ -313,26 +294,25 @@ void MainRotor::UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double m
     if ( fabs(lambda_i_) < 10e-14 ) lambda_i_ = 10e-14;
 
     // iteration loop
-    for ( unsigned int i = 0; i < n_max; ++i )
+    for ( unsigned int i = 0; i < n_max_; ++i )
     {
         UpdateFlappingAnglesAndThrustCoef(mu_x, mu_x2, mu_z, p, q, a_z, gamma);
 
         double lambda_i0_new = sqrt(0.5 * ct_);
-
         if ( IsValid(lambda_i0_new) ) lambda_i0_ = lambda_i0_new;
 
         // zero function (Padfield p.124)
         // momentum theory - hover and climb
         double lambda_d = mu_x2 + Math::Pow2(lambda_);
-        double g_0 = lambda_i_ - ct_ / ( 2.0 * sqrt(lambda_d) );
+        double g_0 = lambda_i_ - ct_ / (2.0 * sqrt(lambda_d));
 
         // break condition
-        if ( fabs( g_0 ) < 1.0e-6 ) break;
+        if ( i > 0 && fabs(g_0) < 1.0e-6 ) break;
 
         // Newton's iterative scheme
         // (Padfield p.124)
-        double h_j = -( 2.0*lambda_i_*sqrt( lambda_d ) - ct_ )*lambda_d
-                / ( 2.0*pow(lambda_d, 3.0/2.0) + data().a*s_*lambda_d/4.0 - ct_*lambda_ );
+        double h_j = -(2.0*lambda_i_*sqrt(lambda_d) - ct_)*lambda_d
+                / (2.0*pow(lambda_d, 3.0/2.0) + data().a*s_*lambda_d/4.0 - ct_*lambda_);
 
         // (Padfield p.124)
         double f_j = 1.0;
@@ -347,9 +327,9 @@ void MainRotor::UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double m
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double MainRotor::GetInGroundEffectThrustCoef(double h_agl)
+double MainRotor::GetInGroundEffectThrustCoef(double h_agl, double v, double vi)
 {
-    return 0.0;//mc::getInGroundEffectThrustCoef(h_agl);
+    return mc::GetInGroundEffectThrustCoef(h_agl, v, vi, r2_);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

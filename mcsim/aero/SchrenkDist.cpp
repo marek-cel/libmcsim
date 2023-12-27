@@ -33,18 +33,16 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double SchrenkDist::GetDragCoefDist(double y) const
+double SchrenkDist::GetEllipticWingChord(double y) const
 {
-    return ( y < 0.4 * span_ ) ? 0.95 : 1.2;
+    return (4.0 * area_) / (span_ * M_PI) * sqrt(1.0 - std::min(Math::Pow2(2.0 * y / span_), 1.0));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double SchrenkDist::GetLiftCoefDist(double y) const
 {
-    // equivalent elliptical wing chord
-    double chord_e = aux_factor_1_ * sqrt( 1.0 - Math::Pow2(y * aux_factor_2_) );
-    return 0.5 * ( 1.0 + chord_e / chord_.GetValue(y) );
+    return (GetEllipticWingChord(y) + chord_.GetValue(y)) / area_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +50,6 @@ double SchrenkDist::GetLiftCoefDist(double y) const
 void SchrenkDist::set_area(double area)
 {
     area_ = area;
-    UpdateAxiliaryParameters();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +57,6 @@ void SchrenkDist::set_area(double area)
 void SchrenkDist::set_span(double span)
 {
     span_ = span;
-    UpdateAxiliaryParameters();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,14 +64,6 @@ void SchrenkDist::set_span(double span)
 void SchrenkDist::set_chord(const Table& chord)
 {
     chord_ = chord;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void SchrenkDist::UpdateAxiliaryParameters()
-{
-    aux_factor_1_ = ( 4.0 * area_ ) / ( span_ * M_PI );
-    aux_factor_2_ = 2.0 / span_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

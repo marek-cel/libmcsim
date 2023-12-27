@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker { 
-            image 'libmcsim-build-env:1' 
+            image 'libmcsim-dev-env' 
             args '-v /var/www/html/jenkins/:/var/www/html/jenkins/'
         }
     }
@@ -11,7 +11,7 @@ pipeline {
     }
 
     triggers {
-        pollSCM('0 3 * * 1-5')
+        pollSCM('0 3 * * *')
     }
 
     options {
@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Generate coverage report') {
             steps {
-                sh 'cd utils && python3 ./generate_coverage-report.py'
+                sh 'cd tools && python3 ./generate_coverage-report.py'
                 sh "mkdir -p /var/www/html/jenkins/coverage-reports/${env.JOB_NAME}"
                 sh "cp -r coverage-report /var/www/html/jenkins/coverage-reports/${env.JOB_NAME}/\$(date +%Y-%m-%d)_build-${env.BUILD_NUMBER}"
             }

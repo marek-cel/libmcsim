@@ -23,7 +23,6 @@
 #include <mcsim/gear/SimpleGear.h>
 
 #include <mcutils/math/Math.h>
-#include <mcutils/misc/String.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,23 +31,18 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SimpleGear::SimpleGear(bool stat_friction)
-    : stat_friction_(stat_friction)
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void SimpleGear::ComputeForceAndMoment(const Vector3& vel_bas,
-                                       const Vector3& omg_bas,
-                                       const Vector3& r_c_bas,
-                                       const Vector3& n_c_bas,
-                                       bool steering, bool antiskid,
-                                       double surf_coef)
+void SimpleGear::UpdateForceAndMoment(const Vector3& vel_bas,
+                                      const Vector3& omg_bas,
+                                      const Vector3& r_c_bas,
+                                      const Vector3& n_c_bas,
+                                      bool steering,
+                                      bool antiskid,
+                                      double surf_coef)
 {
     f_bas_.Zeroize();
     m_bas_.Zeroize();
 
-    double deflection_norm = n_c_bas * ( r_c_bas - data().r_u_bas );
+    double deflection_norm = n_c_bas * (r_c_bas - data().r_u_bas);
 
     if ( deflection_norm > 1.0e-6 )
     {
@@ -94,18 +88,34 @@ void SimpleGear::ComputeForceAndMoment(const Vector3& vel_bas,
             if ( fabs(d_roll_) < data().d_max && fabs(d_slip_) < data().d_max )
             {
                 // spring-like model of static friction as a logistic function
-                double cr = ( 2.0 / ( 1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_roll_) / data().d_max)) ) - 1.0 ) * Math::Sign(d_roll_);
-                double cs = ( 2.0 / ( 1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_slip_) / data().d_max)) ) - 1.0 ) * Math::Sign(d_slip_);
+                double cr = (2.0 / (1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_roll_) / data().d_max))) - 1.0) * Math::Sign(d_roll_);
+                double cs = (2.0 / (1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_slip_) / data().d_max))) - 1.0) * Math::Sign(d_slip_);
 
-                if      ( coef_roll < 0.0 && cr < 0.0 ) { if ( cr < coef_roll ) coef_roll = cr; }
-                else if ( coef_roll > 0.0 && cr > 0.0 ) { if ( cr > coef_roll ) coef_roll = cr; }
+                if ( coef_roll < 0.0 && cr < 0.0 )
+                { 
+                    if ( cr < coef_roll ) coef_roll = cr; 
+                }
+                else if ( coef_roll > 0.0 && cr > 0.0 )
+                { 
+                    if ( cr > coef_roll ) coef_roll = cr; 
+                }
                 else
+                {
                     coef_roll += cr;
+                }
 
-                if      ( coef_slip < 0.0 && cs < 0.0 ) { if ( cs < coef_slip ) coef_slip = cs; }
-                else if ( coef_slip > 0.0 && cs > 0.0 ) { if ( cs > coef_slip ) coef_slip = cs; }
+                if ( coef_slip < 0.0 && cs < 0.0 )
+                { 
+                    if ( cs < coef_slip ) coef_slip = cs; 
+                }
+                else if ( coef_slip > 0.0 && cs > 0.0 )
+                { 
+                    if ( cs > coef_slip ) coef_slip = cs; 
+                }
                 else
+                {
                     coef_slip += cs;
+                }
             }
         }
 
@@ -119,14 +129,17 @@ void SimpleGear::ComputeForceAndMoment(const Vector3& vel_bas,
 
         if ( antiskid )
         {
-            mu_roll_max = mu_surf_k + ( mu_surf_s - mu_surf_k ) * ( 1.0 - coef_slip );
+            mu_roll_max = mu_surf_k + (mu_surf_s - mu_surf_k) * (1.0 - coef_slip);
         }
         else
         {
             mu_roll_max = mu_surf_k;
         }
 
-        if ( mu_roll_t > mu_roll_max ) mu_roll_t = mu_roll_max;
+        if ( mu_roll_t > mu_roll_max )
+        {
+            mu_roll_t = mu_roll_max;
+        }
 
         // tire forces
         double for_norm_pos = ( for_norm < 0.0 ) ? 0.0 : for_norm;
@@ -156,14 +169,6 @@ void SimpleGear::ComputeForceAndMoment(const Vector3& vel_bas,
         // resulting forces
         f_bas_ = for_tan_bas + for_norm * n_c_bas;
         m_bas_ = r_c_bas % f_bas_;
-
-        if ( !f_bas_.IsValid() || !m_bas_.IsValid() )
-        {
-            f_bas_.Zeroize();
-            m_bas_.Zeroize();
-
-            // TODO
-        }
     }
 }
 
@@ -178,7 +183,7 @@ void SimpleGear::Integrate(double dt,
 {
     if ( stat_friction_ )
     {
-        double deflection_norm = n_c_bas * ( r_c_bas - data().r_u_bas );
+        double deflection_norm = n_c_bas * (r_c_bas - data().r_u_bas);
 
         if ( deflection_norm > 1.0e-6 )
         {
@@ -236,7 +241,7 @@ void SimpleGear::CalculateVariables(const Vector3& vel_bas,
                                     double* v_slip)
 {
     // contact point velocities components
-    Vector3 v_c_bas = vel_bas + ( omg_bas % r_c_bas );
+    Vector3 v_c_bas = vel_bas + (omg_bas % r_c_bas);
 
     *v_norm = n_c_bas * v_c_bas;
 
@@ -246,8 +251,8 @@ void SimpleGear::CalculateVariables(const Vector3& vel_bas,
     double v_tang = v_tang_bas.GetLength();
 
     // longitudal and lateral directions
-    *dir_lon_bas = ( n_c_bas % Vector3::ey() ).GetNormalized();
-    *dir_lat_bas = ( Vector3::ex() % n_c_bas ).GetNormalized();
+    *dir_lon_bas = (n_c_bas % Vector3::ey()).GetNormalized();
+    *dir_lat_bas = (Vector3::ex() % n_c_bas).GetNormalized();
 
     // longitudal and lateral velocity components
     double vel_lon = v_tang_bas * (*dir_lon_bas);
