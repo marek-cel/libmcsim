@@ -1,6 +1,6 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 {
-	"name": "mcsim-dev-env",
+	"name": "libmcsim-dev-env",
 	"containerUser" : "dev",
 	"build": {
 		"context": "..",

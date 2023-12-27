@@ -63,7 +63,7 @@ void Propeller::Integrate(double dt, double i_eng)
     // engine friction stops propeller
     if ( trq_a_ < trq_r_ && rps_ < 1.0 )
     {
-        rps_ = rps_ < 0.1 ? 0.0 : Inertia(0.0, rps_, dt, 0.1);
+        rps_ = rps_ < 0.1 ? 0.0 : FirstOrderInertia(0.0, rps_, dt, 0.1);
         omega_ = 2.0 * M_PI * rps_;
     }
 
