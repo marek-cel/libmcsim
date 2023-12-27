@@ -6,6 +6,7 @@ lib
 out_cloc.txt
 out_cppcheck.txt
 out_cpplint.txt
+out_pep.txt
 
 coverage.info
 coverage_full.info
