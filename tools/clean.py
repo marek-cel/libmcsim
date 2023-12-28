@@ -1,53 +1,50 @@
 #!/usr/bin/env python3
 
-import os
-import shutil
 import misc
 
 
-def removeDir(dir_path):
-    if os.path.exists(dir_path):
-        shutil.rmtree(dir_path)
-
-
-def removeFile(file_path):
-    if os.path.exists(file_path):
-        os.remove(file_path)
-
-
 def removeBuildDirs():
-    removeDir("../bin")
-    removeDir("../build")
-    removeDir("../lib")
+    misc.removeDir("../bin")
+    misc.removeDir("../build")
+    misc.removeDir("../lib")
 
 
 def removeCoverageReport():
-    removeFile("../coverage_full.info")
-    removeFile("../coverage.info")
-    removeDir("../coverage-report")
-    removeFile("../coverage_summary.txt")
+    misc.removeFile("../coverage_full.info")
+    misc.removeFile("../coverage.info")
+    misc.removeFile("../coverage_summary.txt")
+    misc.removeDir("../coverage-report")
 
 
 def removeCheckOutputs():
-    removeFile("../out_cloc.txt")
-    removeFile("../out_cppcheck.txt")
-    removeFile("../out_cpplint.txt")
-    removeFile("../out_pep.txt")
+    misc.removeFile("../out_cloc.txt")
+    misc.removeFile("../out_cppcheck.txt")
+    misc.removeFile("../out_cpplint.txt")
+    misc.removeFile("../out_pep.txt")
 
 
 def removeDocumentation():
-    removeDir("../docs")
+    misc.removeDir("../docs")
 
 
 def removePyCache():
-    removeDir("__pycache__")
+    misc.removeDir("__pycache__")
 
 
-if __name__ == "__main__":
-    misc.printGreen("Cleaning...")
+def removeTempDir():
+    misc.removeDir("../temp")
+
+
+def cleanAll():
     removePyCache()
     removeBuildDirs()
     removeCoverageReport()
     removeCheckOutputs()
     removeDocumentation()
+    removeTempDir()
+
+
+if __name__ == "__main__":
+    misc.printGreen("Cleaning...")
+    cleanAll()
     misc.printGreen("Cleaning done.")

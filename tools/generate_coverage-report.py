@@ -46,7 +46,7 @@ def removeExclusions():
     for exclusion in exclusions:
         cmd.append(exclusion)
     subprocess.run(cmd + ["--output-file", coverage_file])
-    clean.removeFile(coverage_file_full)
+    misc.removeFile(coverage_file_full)
 
 
 def generateCoverageSummary():
