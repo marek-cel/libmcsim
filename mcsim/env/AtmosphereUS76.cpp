@@ -22,6 +22,7 @@
 
 #include <mcsim/env/AtmosphereUS76.h>
 
+#include <algorithm>
 #include <cmath>
 
 #include <mcutils/misc/Log.h>

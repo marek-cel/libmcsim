@@ -22,6 +22,7 @@
 
 #include <mcsim/aero/SchrenkDist.h>
 
+#include <algorithm>
 #include <cmath>
 
 #include <mcutils/math/Math.h>
