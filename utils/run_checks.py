@@ -23,7 +23,7 @@ def run_cppcheck():
 
 
 def run_cpplint():
-    filter = "-build/c++17" \
+    filter = "-build/c++11,+build/c++14,+build/c++17" \
         + ",-readability/multiline_comment" \
         + ",-readability/alt_tokens" \
         + ",-whitespace,-legal/copyright" \
