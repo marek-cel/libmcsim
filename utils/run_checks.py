@@ -23,17 +23,10 @@ def run_cppcheck():
 
 
 def run_cpplint():
-    filter = "-build/c++11,+build/c++14" \
+    filter = "-build/c++17" \
         + ",-readability/multiline_comment" \
         + ",-readability/alt_tokens" \
-        + ",-whitespace/parens" \
-        + ",-whitespace/braces" \
-        + ",-whitespace/indent" \
-        + ",-whitespace/comments" \
-        + ",-whitespace/newline" \
-        + ",-whitespace/blank_line" \
-        + ",-whitespace/comma" \
-        + ",-whitespace/line_length" \
+        + ",-whitespace,-legal/copyright" \
         + ",-build/include_order"
     cmd = "cpplint" \
         + " --filter=" + filter \
