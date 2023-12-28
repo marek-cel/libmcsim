@@ -22,12 +22,7 @@
 
 #include <mcsim/ctrl/HingeMoment.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
+namespace mc {
 
 double HingeMoment::GetHingeMoment(double dynPress, double alpha, double delta,
                                    double delta_t) const
@@ -39,7 +34,5 @@ double HingeMoment::GetHingeMoment(double dynPress, double alpha, double delta,
 
     return dynPress * data().area * data().chord * ch;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace mc

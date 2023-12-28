@@ -22,18 +22,13 @@
 #ifndef MCSIM_MASS_INERTIAMATRIX_H_
 #define MCSIM_MASS_INERTIAMATRIX_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
 #include <mcutils/math/Matrix3x3.h>
 #include <mcutils/math/Matrix6x6.h>
 #include <mcutils/math/Vector3.h>
 
 #include <mcsim/defs.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+namespace mc {
 
 /**
  * @brief Returns inertia matrix.
@@ -45,7 +40,5 @@ namespace mc
 Matrix6x6 GetInertiaMatrix(double mass, Vector3 s_bas, Matrix3x3 i_bas);
 
 } // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // MCSIM_MASS_INERTIAMATRIX_H_

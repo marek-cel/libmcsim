@@ -4,8 +4,6 @@
 
 #include <mcsim/aero/RhoEffects.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 class TestRhoEffects : public ::testing::Test
 {
 protected:
@@ -16,8 +14,6 @@ protected:
     void SetUp() override {}
     void TearDown() override {}
 };
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestRhoEffects, CanGetPrandtlGlauertCpFactor)
 {
@@ -34,8 +30,7 @@ TEST_F(TestRhoEffects, CanGetPrandtlGlauertCpFactor)
         double factor_expected = 1.0 / sqrt( fabs(1.0 - pow(mach, 2.0)) );
         factor_expected = std::min(factor_expected, factor_max);
 
-        EXPECT_NEAR( factor, factor_expected, 1.0e-3 );
-
+        EXPECT_NEAR(factor, factor_expected, 1.0e-3);
 
         mach += 0.1;
     }

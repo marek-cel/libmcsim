@@ -22,16 +22,11 @@
 #ifndef MCSIM_AERO_AEROANGLES_H_
 #define MCSIM_AERO_AEROANGLES_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
 #include <mcutils/math/Matrix3x3.h>
 
 #include <mcsim/defs.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+namespace mc {
 
 /**
  * @brief Returns angle of attack.
@@ -127,7 +122,5 @@ MCSIMAPI Matrix3x3 GetStab2BAS(double alpha);
 MCSIMAPI Matrix3x3 GetStab2BAS(double sin_alpha, double cos_alpha);
 
 } // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // MCSIM_AERO_AEROANGLES_H_

@@ -27,12 +27,7 @@
 #include <mcsim/aero/AeroAngles.h>
 #include <mcsim/rotor/RotorUtils.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
+namespace mc {
 
 void MainRotor::UpdateForceAndMoment(const Vector3 & /*vel_bas*/,
                                      const Vector3 &omg_bas,
@@ -213,8 +208,6 @@ void MainRotor::UpdateForceAndMoment(const Vector3 & /*vel_bas*/,
            + ras2bas_ * Vector3(0.0, 0.0, cdir_ * torque_);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 void MainRotor::Update(double omega,
                        double collective,
                        double cyclicLat,
@@ -228,8 +221,6 @@ void MainRotor::Update(double omega,
     theta_1c_ = -cyclicLat * cdir_;
     theta_1s_ =  cyclicLon;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void MainRotor::UpdateDataDerivedVariables()
 {
@@ -253,8 +244,6 @@ void MainRotor::UpdateDataDerivedVariables()
 
     cdir_ = data().ccw ? 1.0 : -1.0;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void MainRotor::UpdateFlappingAnglesAndThrustCoef(double mu_x, double mu_x2, double mu_z,
                                                   double p, double q, double a_z,
@@ -284,8 +273,6 @@ void MainRotor::UpdateFlappingAnglesAndThrustCoef(double mu_x, double mu_x2, dou
                                          + data().b * mu_x * beta_1c_cwas_ / 4.0);
     ct_ = Math::Satur(-data().ct_max, data().ct_max, ct_);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void MainRotor::UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double mu_x2, double mu_z,
                                                            double p, double q, double a_z,
@@ -325,20 +312,14 @@ void MainRotor::UpdateFlappingAnglesThrustCoefsAndVelocity(double mu_x, double m
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 double MainRotor::GetInGroundEffectThrustCoef(double h_agl, double v, double vi)
 {
     return mc::GetInGroundEffectThrustCoef(h_agl, v, vi, r2_);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 double MainRotor::GetVortexRingInfluenceCoef(double vx_norm, double vz_norm)
 {
     return mc::GetVortexRingInfluenceCoef(vx_norm, vz_norm);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace mc

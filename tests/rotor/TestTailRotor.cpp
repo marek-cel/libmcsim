@@ -5,16 +5,12 @@
 
 #include <rotor/MomentumTheory.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 #define AIR_DENSITY 1.225
 #define GRAV_ACC 9.80665
 #define ALT_OUTSIDE_IGE 1000.0
 
 #define ROTOR_RADIUS 1.675
 #define ROTOR_OMEGA (2 * M_PI * 1190.0 / 60.0)
-
-////////////////////////////////////////////////////////////////////////////////
 
 class TailRotorAdapter : public mc::TailRotor
 {
@@ -54,8 +50,6 @@ private:
     Data data_;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
 class MomentumTheoryAdapter : public MomentumTheory
 {
 public:
@@ -66,8 +60,6 @@ public:
         set_omega(ROTOR_OMEGA);
     }
 };
-
-////////////////////////////////////////////////////////////////////////////////
 
 class TestTailRotor : public ::testing::Test
 {
@@ -80,8 +72,6 @@ protected:
     void TearDown() override {}
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestTailRotor, CanConstruct)
 {
     TailRotorAdapter* rotor = nullptr;
@@ -89,22 +79,16 @@ TEST_F(TestTailRotor, CanConstruct)
     delete rotor;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestTailRotor, CanDestruct)
 {
     TailRotorAdapter* rotor = new TailRotorAdapter();
     EXPECT_NO_THROW(delete rotor);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestTailRotor, CanInstantiate)
 {
     TailRotorAdapter rotor;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestTailRotor, CanSimulateComparedToMomentumTheory)
 {

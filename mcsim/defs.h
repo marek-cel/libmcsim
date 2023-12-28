@@ -22,8 +22,6 @@
 #ifndef MCSIM_DEFS_H_
 #define MCSIM_DEFS_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
 #if defined(_MSC_VER) && !defined(MCSIM_STATIC_LIB)
 #   if defined(MCSIM_DLL_EXPORTS)
 #       define MCSIM_DLL_SPEC __declspec(dllexport)
@@ -41,7 +39,5 @@
 #if !defined(MCSIMAPI)
 #   define MCSIMAPI
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // MCSIM_DEFS_H_

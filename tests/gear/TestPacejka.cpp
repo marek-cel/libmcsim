@@ -2,8 +2,6 @@
 
 #include <mcsim/gear/Pacejka.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 class TestPacejka : public ::testing::Test
 {
 protected:
@@ -14,8 +12,6 @@ protected:
     void SetUp() override {}
     void TearDown() override {}
 };
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestPacejka, CanComputePacejkaFormula)
 {

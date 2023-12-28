@@ -22,14 +22,9 @@
 #ifndef MCSIM_ROTOR_ROTORUTILS_H_
 #define MCSIM_ROTOR_ROTORUTILS_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
 #include <mcsim/defs.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+namespace mc {
 
 /**
  * @brief Gets Vortex-Ring-State intensity for the axial flow.
@@ -83,7 +78,5 @@ MCSIMAPI inline double GetVortexRingInfluenceCoef(double vx_norm, double vz_norm
 MCSIMAPI double GetInGroundEffectThrustCoef(double h_agl, double v, double vi, double r2);
 
 } // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // MCSIM_ROTOR_ROTORUTILS_H_

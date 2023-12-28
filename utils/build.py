@@ -1,22 +1,13 @@
 #!/usr/bin/env python3
 
-################################################################################
-
 import os
 import platform
 import subprocess
 import sys
+import clean
 import misc
 
-################################################################################
-
 build_dir = "build"
-
-################################################################################
-
-
-def clean():
-    subprocess.run(["python3", "clean.py"])
 
 
 def createBuildDir():
@@ -74,11 +65,8 @@ def buildForWindows():
         )
 
 
-################################################################################
-
-
 if __name__ == "__main__":
-    clean()
+    clean.cleanAll()
     os.chdir("..")
     createBuildDir()
     with_tests = False

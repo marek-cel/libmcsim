@@ -27,39 +27,36 @@
 #include <mcutils/math/Math.h>
 #include <mcutils/misc/Units.h>
 
-////////////////////////////////////////////////////////////////////////////////
+namespace mc {
 
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
-
-void PistonEngine::Update( double throttleLever,
-                           double mixtureLever,
-                           double rpm,
-                           double airPressure,
-                           double airDensity,
-                           double densityAlt,
-                           bool fuel,
-                           bool starter,
-                           bool magneto_l,
-                           bool magneto_r )
+void PistonEngine::Update(double throttleLever,
+                          double mixtureLever,
+                          double rpm,
+                          double airPressure,
+                          double airDensity,
+                          double densityAlt,
+                          bool fuel,
+                          bool starter,
+                          bool magneto_l,
+                          bool magneto_r)
 {
     double omega = M_PI * rpm / 30.0;
 
     rpm_ = rpm;
-    map_ = GetManifoldAbsolutePressure( throttleLever, rpm_, airPressure );
-    pwr_ = GetNetPower( throttleLever, mixtureLever, rpm_, airDensity, densityAlt,
-                          fuel, magneto_l, magneto_r );
+    map_ = GetManifoldAbsolutePressure(throttleLever, rpm_, airPressure);
+    pwr_ = GetNetPower(throttleLever, mixtureLever, rpm_, airDensity, densityAlt,
+                       fuel, magneto_l, magneto_r);
 
-    af_ = 0.5 * data().displacement * airDensity * ( rpm_ / 60.0 );
-    ff_ = std::max( 0.0, pwr_ ) * data().specFuelCons;
+    af_ = 0.5 * data().displacement * airDensity * (rpm_ / 60.0);
+    ff_ = std::max(0.0, pwr_) * data().specFuelCons;
 
     // engine torque [N*m]
     trq_ = ( omega > 1.0 ) ? pwr_ / omega : pwr_;
 
     // state
-    if ( pwr_ > 0.0 || ( rpm_ > data().rpm_min && fuel && ( magneto_l || magneto_r ) ) )
+    bool rpm_above_min = rpm_ > data().rpm_min;
+    bool ignition_on = magneto_l || magneto_r;
+    if ( pwr_ > 0.0 || (rpm_above_min && fuel && ignition_on) )
     {
         state_ = State::Running;
     }
@@ -75,43 +72,35 @@ void PistonEngine::Update( double throttleLever,
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void PistonEngine::set_rpm( double rpm )
+void PistonEngine::set_rpm(double rpm)
 {
     rpm_ = std::max(0.0, rpm);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-double PistonEngine::GetManifoldAbsolutePressure( double throttleLever,
-                                                  double rpm, double airPressure )
+double PistonEngine::GetManifoldAbsolutePressure(double throttleLever,
+                                                 double rpm, double airPressure)
 {
     double map = airPressure
-            * data().map_throttle.GetValue( throttleLever )
-            * data().map_rpm.GetValue( rpm );
+        * data().map_throttle.GetValue(throttleLever)
+        * data().map_rpm.GetValue(rpm);
 
     map = std::max( 0.0, map );
 
     return map;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-double PistonEngine::GetFuelToAirRatio( double mixture, double airDensity )
+double PistonEngine::GetFuelToAirRatio(double mixture, double airDensity)
 {
     return mixture * (1.225 / airDensity );
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-double PistonEngine::GetPowerFactor( double mixture, double airDensity, bool fuel,
-                                     bool magneto_l, bool magneto_r )
+double PistonEngine::GetPowerFactor(double mixture, double airDensity, bool fuel,
+                                    bool magneto_l, bool magneto_r)
 {
-    double fuelToAirRatio = GetFuelToAirRatio( mixture, airDensity );
+    double fuelToAirRatio = GetFuelToAirRatio(mixture, airDensity);
 
     // Allerton D.: Principles of Flight Simulation, p.130
-    double powerFactor = data().power_factor.GetValue( fuelToAirRatio );
+    double powerFactor = data().power_factor.GetValue(fuelToAirRatio);
 
     if ( !fuel )
     {
@@ -123,35 +112,31 @@ double PistonEngine::GetPowerFactor( double mixture, double airDensity, bool fue
         // both magnetos disabled
         powerFactor = 0.0;
     }
-    else if ( ( magneto_l && !magneto_r ) || ( !magneto_l && magneto_r ) )
+    else if ( (magneto_l && !magneto_r) || (!magneto_l && magneto_r) )
     {
         // 5% reduction in power caused by the reduced effectiveness of the combustion
         // Allerton D.: Principles of Flight Simulation, p.131
         powerFactor *= 0.95;
     }
 
-    powerFactor = Math::Satur( 0.0, 1.0, powerFactor );
+    powerFactor = Math::Satur(0.0, 1.0, powerFactor);
 
     return powerFactor;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-double PistonEngine::GetNetPower( double throttleLever, double mixtureLever, double rpm,
-                                  double airDensity, double densityAltitude,
-                                  bool fuel, bool magneto_l, bool magneto_r )
+double PistonEngine::GetNetPower(double throttleLever, double mixtureLever, double rpm,
+                                 double airDensity, double densityAltitude,
+                                 bool fuel, bool magneto_l, bool magneto_r)
 {
-    double power = data().power_rpm.GetValue( rpm );
-    power *= data().power_throttle.GetValue( throttleLever );
-    power *= data().power_altitude.GetValue( densityAltitude );
-    power *= GetPowerFactor( data().mixture.GetValue( mixtureLever ), airDensity,
-                             fuel, magneto_l, magneto_r );
+    double power = data().power_rpm.GetValue(rpm);
+    power *= data().power_throttle.GetValue(throttleLever);
+    power *= data().power_altitude.GetValue(densityAltitude);
+    power *= GetPowerFactor(data().mixture.GetValue(mixtureLever), airDensity,
+                            fuel, magneto_l, magneto_r);
 
     if ( rpm < data().rpm_min ) power = 0.0;
 
     return power;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace mc

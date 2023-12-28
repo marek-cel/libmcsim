@@ -2,8 +2,6 @@
 
 #include <mcsim/gear/SimpleGear.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 class TestSimpleGear : public ::testing::Test
 {
 protected:
@@ -24,24 +22,18 @@ protected:
     void TearDown() override {}
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestSimpleGear, CanConstruct)
 {
-    TestSimpleGear::SimpleGear *sg = nullptr;
-    EXPECT_NO_THROW( sg = new TestSimpleGear::SimpleGear() );
+    TestSimpleGear::SimpleGear* sg = nullptr;
+    EXPECT_NO_THROW(sg = new TestSimpleGear::SimpleGear());
     delete sg;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestSimpleGear, CanDestruct)
 {
-    TestSimpleGear::SimpleGear *sg = new TestSimpleGear::SimpleGear();
-    EXPECT_NO_THROW( delete sg );
+    TestSimpleGear::SimpleGear* sg = new TestSimpleGear::SimpleGear();
+    EXPECT_NO_THROW(delete sg);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestSimpleGear, CanInstantiate)
 {

@@ -22,19 +22,12 @@
 #ifndef MCSIM_MASS_POINTMASS_H_
 #define MCSIM_MASS_POINTMASS_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
-#include <memory>
-
 #include <mcutils/math/Matrix3x3.h>
 #include <mcutils/math/Vector3.h>
 
 #include <mcsim/defs.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+namespace mc {
 
 /**
  * @brief Point mass component data.
@@ -79,11 +72,9 @@ public:
 
 private:
 
-    double mass_;                   ///< [kg] current mass
+    double mass_ = 0.0;     ///< [kg] current mass
 };
 
 } // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // MCSIM_MASS_POINTMASS_H_

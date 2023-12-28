@@ -3,8 +3,6 @@
 #include <fstream>
 #include <sstream>
 
-////////////////////////////////////////////////////////////////////////////////
-
 bool ReadCsvColumnsDataFromFile(const char* path, std::vector<std::vector<double>*> cols)
 {
     std::ifstream ifs(path, std::ifstream::in);

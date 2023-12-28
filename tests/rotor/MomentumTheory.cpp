@@ -4,8 +4,6 @@
 
 #include <mcsim/rotor/RotorUtils.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 void MomentumTheory::Update(double climb_rate, double vi0, double rho)
 {
     double mu_c =  climb_rate / omegaR_;
@@ -51,23 +49,17 @@ void MomentumTheory::Update(double climb_rate, double vi0, double rho)
     thrust_ = thrust_ * (1.0 - kvr);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 void MomentumTheory::set_omega(double omega)
 {
     omega_ = omega;
     UpdateDerivedVariables();
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 void MomentumTheory::set_radius(double radius)
 {
     radius_ = radius;
     UpdateDerivedVariables();
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void MomentumTheory::UpdateDerivedVariables()
 {

@@ -22,16 +22,11 @@
 #ifndef MCSIM_AERO_MEANAEROCHORD_H_
 #define MCSIM_AERO_MEANAEROCHORD_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
 #include <mcutils/math/Table.h>
 
 #include <mcsim/defs.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+namespace mc {
 
 /**
  * @brief Returns mean aerodynamic chord.
@@ -53,7 +48,5 @@ double GetMeanAerodynamicChord(double cr, double ct);
 double GetMeanAerodynamicChord(const Table& chord);
 
 } // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // MCSIM_AERO_MEANAEROCHORD_H_

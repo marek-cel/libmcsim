@@ -29,12 +29,7 @@
 #include <mcutils/misc/Units.h>
 #include <mcutils/physics/Inertia.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
+namespace mc {
 
 void Propeller::ComputeThrust(double airspeed, double rho)
 {
@@ -50,8 +45,6 @@ void Propeller::ComputeThrust(double airspeed, double rho)
         thrust_ = 0.0;
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void Propeller::Integrate(double dt, double i_eng)
 {
@@ -69,8 +62,6 @@ void Propeller::Integrate(double dt, double i_eng)
 
     rpm_ = 60.0 * rps_;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void Propeller::Update(double prop_lever,
                        double torque,
@@ -90,16 +81,12 @@ void Propeller::Update(double prop_lever,
     trq_n_ = std::min(trq_r_, trq_a_);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 void Propeller::set_rpm(double rpm)
 {
     rpm_ = std::max(0.0, rpm);
     rps_ = rpm_ / 60.0;
     omega_ = 2.0 * M_PI * rps_;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 double Propeller::GetInducedVelocity(double airspeed, double rho)
 {
@@ -123,13 +110,9 @@ double Propeller::GetInducedVelocity(double airspeed, double rho)
     return vi;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 double Propeller::GetPropellerPitch(double prop_lever)
 {
     return data().prop_pitch.GetValue(prop_lever);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace mc

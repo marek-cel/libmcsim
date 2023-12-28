@@ -7,8 +7,6 @@
 
 #include <CsvFileReader.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 class TestAtmosphereUS76 : public ::testing::Test
 {
 protected:
@@ -20,8 +18,6 @@ protected:
     void TearDown() override {}
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestAtmosphereUS76, CanConstruct)
 {
     mc::AtmosphereUS76* atm = nullptr;
@@ -29,22 +25,16 @@ TEST_F(TestAtmosphereUS76, CanConstruct)
     delete atm;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestAtmosphereUS76, CanDestruct)
 {
     mc::AtmosphereUS76* atm = new mc::AtmosphereUS76();
     EXPECT_NO_THROW(delete atm);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestAtmosphereUS76, CanInstantiate)
 {
     mc::AtmosphereUS76 atm;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestAtmosphereUS76, CanGetDensityAltitude)
 {
@@ -53,8 +43,6 @@ TEST_F(TestAtmosphereUS76, CanGetDensityAltitude)
     EXPECT_NEAR(     0.0, atm.GetDensityAltitude( 101325.0, 288.15,     0.0 ), 1.0 );
     EXPECT_NEAR( 11000.0, atm.GetDensityAltitude(  22632.1, 216.65, 11000.0 ), 1.0 );
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestAtmosphereUS76, CanCalculate)
 {
@@ -110,8 +98,6 @@ TEST_F(TestAtmosphereUS76, CanCalculate)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestAtmosphereUS76, CanCalculateOutOfRange)
 {
     mc::AtmosphereUS76 atm;
@@ -130,8 +116,6 @@ TEST_F(TestAtmosphereUS76, CanCalculateOutOfRange)
     EXPECT_TRUE(mc::IsValid(mu));
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestAtmosphereUS76, CanSetSeaLevelPressure)
 {
     mc::AtmosphereUS76 atm;
@@ -139,8 +123,6 @@ TEST_F(TestAtmosphereUS76, CanSetSeaLevelPressure)
     EXPECT_NO_THROW(atm.set_sl_pressure(100000.0));
     EXPECT_DOUBLE_EQ(atm.sl_pressure(), 100000.0);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestAtmosphereUS76, CanSetSeaLevelPressureOutOfRange)
 {
@@ -150,8 +132,6 @@ TEST_F(TestAtmosphereUS76, CanSetSeaLevelPressureOutOfRange)
     EXPECT_DOUBLE_EQ(atm.sl_pressure(), mc::AtmosphereUS76::kStdSlPress);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestAtmosphereUS76, CanSetSeaLevelTemperature)
 {
     mc::AtmosphereUS76 atm;
@@ -159,8 +139,6 @@ TEST_F(TestAtmosphereUS76, CanSetSeaLevelTemperature)
     EXPECT_NO_THROW(atm.set_sl_temperature(300.0));
     EXPECT_DOUBLE_EQ(atm.sl_temperature(), 300.0);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestAtmosphereUS76, CanSetSeaLevelTemperatureOutOfRange)
 {

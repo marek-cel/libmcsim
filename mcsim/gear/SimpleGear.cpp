@@ -24,12 +24,7 @@
 
 #include <mcutils/math/Math.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
+namespace mc {
 
 void SimpleGear::UpdateForceAndMoment(const Vector3& vel_bas,
                                       const Vector3& omg_bas,
@@ -172,8 +167,6 @@ void SimpleGear::UpdateForceAndMoment(const Vector3& vel_bas,
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 void SimpleGear::Integrate(double dt,
                            const Vector3 &vel_bas,
                            const Vector3 &omg_bas,
@@ -216,16 +209,12 @@ void SimpleGear::Integrate(double dt,
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 void SimpleGear::Update(double position, double delta, double brake)
 {
     position_ = position;
     delta_ = delta;
     brake_ = brake;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void SimpleGear::CalculateVariables(const Vector3& vel_bas,
                                     const Vector3& omg_bas,
@@ -283,7 +272,5 @@ void SimpleGear::CalculateVariables(const Vector3& vel_bas,
     *v_roll = vel_lon * (*cos_delta) - vel_lat * (*sin_delta);
     *v_slip = vel_lat * (*cos_delta) - vel_lon * (*sin_delta);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace mc

@@ -22,12 +22,7 @@
 
 #include <mcsim/aero/AeroAngles.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
+namespace mc {
 
 double GetAngleOfAttack(double u, double w, double vel_min)
 {
@@ -39,8 +34,6 @@ double GetAngleOfAttack(double u, double w, double vel_min)
     }
     return alpha;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 double GetSideslipAngle(double v, double uw, double vel_min)
 {
@@ -54,14 +47,10 @@ double GetSideslipAngle(double v, double uw, double vel_min)
     return beta;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 Matrix3x3 GetAero2BAS(double alpha, double beta)
 {
     return GetAero2BAS(sin(alpha), cos(alpha), sin(beta), cos(beta));
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 Matrix3x3 GetAero2BAS(double sin_alpha , double cos_alpha,
                       double sin_beta  , double cos_beta)
@@ -83,14 +72,10 @@ Matrix3x3 GetAero2BAS(double sin_alpha , double cos_alpha,
     return aero2bas;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 Matrix3x3 GetStab2BAS(double alpha)
 {
     return GetStab2BAS(sin(alpha), cos(alpha));
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 Matrix3x3 GetStab2BAS(double sin_alpha, double cos_alpha)
 {
@@ -110,7 +95,5 @@ Matrix3x3 GetStab2BAS(double sin_alpha, double cos_alpha)
 
     return stab2bas;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace mc

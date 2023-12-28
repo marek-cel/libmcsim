@@ -22,14 +22,9 @@
 #ifndef MCSIM_AERO_RHOEFFECTS_H_
 #define MCSIM_AERO_RHOEFFECTS_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
 #include <mcsim/defs.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+namespace mc {
 
 /**
  * @brief Returns pressure coefficient factor based on Prandtl-Glauert rule.
@@ -44,7 +39,5 @@ namespace mc
 double MCSIMAPI GetPrandtlGlauertFactor(double mach, double max = 5.0);
 
 } // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // MCSIM_AERO_RHOEFFECTS_H_

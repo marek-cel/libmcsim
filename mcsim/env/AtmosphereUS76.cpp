@@ -29,12 +29,7 @@
 #include <mcutils/physics/Constants.h>
 #include "AtmosphereUS76.h"
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
+namespace mc {
 
 // US Standard Atmosphere 1976, Table 3, p.3
 const double AtmosphereUS76::kMi[] = {
@@ -155,23 +150,19 @@ const double AtmosphereUS76::kSlTempMin = 203.15;
 const double AtmosphereUS76::kSlPressMax = 110000.0;
 const double AtmosphereUS76::kSlPressMin = 90000.0;
 
-////////////////////////////////////////////////////////////////////////////////
-
 double AtmosphereUS76::GetDensityAltitude(double pressure, double temperature,
                                           double altitude)
 {
-    static double b = (-kLb[0]*kR) / (kG*kM + kLb[0]*kR);
     double result = altitude;
     if ( altitude < kHb[0] )
     {
+        static double b = (-kLb[0]*kR) / (kG*kM + kLb[0]*kR);
         double a = (pressure / kStdSlPress ) / ( temperature / kStdSlTemp);
         result = -(kStdSlTemp / kLb[0] ) * ( 1.0 - pow(a, b));
     }
 
     return result;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void AtmosphereUS76::Update(double altitude)
 {
@@ -187,8 +178,6 @@ void AtmosphereUS76::Update(double altitude)
     kin_viscosity_  = ComputeKinematicViscosity(dyn_viscosity_, density_);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 void AtmosphereUS76::set_sl_pressure(double press)
 {
     if ( press > kSlPressMin && press < kSlPressMax )
@@ -201,8 +190,6 @@ void AtmosphereUS76::set_sl_pressure(double press)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 void AtmosphereUS76::set_sl_temperature(double temp)
 {
     if ( temp > kSlTempMin && temp < kSlTempMax )
@@ -214,8 +201,6 @@ void AtmosphereUS76::set_sl_temperature(double temp)
         Log::Warning("Atmosphere wrong value of sea level temperature.");
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 int AtmosphereUS76::GetAltitudeIndex(double altitude)
 {
@@ -243,16 +228,9 @@ int AtmosphereUS76::GetAltitudeIndex(double altitude)
     return kAltTabsIndexMax;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 AtmosphereUS76::AltConstants AtmosphereUS76::GetAltitudeConstants(double altitude)
 {
     AltConstants result;
-
-    result.Hb = kHb[5];
-    result.Pb = kPb[6];
-    result.Tb = kTb[6];
-    result.Lb = 0.0;
 
     int alt_index = GetAltitudeIndex(altitude);
 
@@ -274,15 +252,11 @@ AtmosphereUS76::AltConstants AtmosphereUS76::GetAltitudeConstants(double altitud
     return result;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 double AtmosphereUS76::ComputeTemperature(double delta_h, double Tb, double Lb)
 {
     // [K] temperature, US Standard Atmosphere 1976, p.10
     return Tb + Lb * delta_h;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 double AtmosphereUS76::ComputePressure(double delta_h, double Tb, double Lb, double Pb,
                                        double altitude, double temperature)
@@ -309,15 +283,11 @@ double AtmosphereUS76::ComputePressure(double delta_h, double Tb, double Lb, dou
     return pressure;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 double AtmosphereUS76::ComputeDensity(double temperature, double pressure)
 {
     // [kg/m^3] density, US Standard Atmosphere 1976, p.15
     return (pressure * kM) / (kR * temperature);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 double AtmosphereUS76::ComputeSpeedOfSound(double temperature)
 {
@@ -325,22 +295,16 @@ double AtmosphereUS76::ComputeSpeedOfSound(double temperature)
     return sqrt((kGamma * kR * temperature) / kM);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 double AtmosphereUS76::ComputeDynamicViscosity(double temperature)
 {
     // [Pa*s] dynamic viscosity, US Standard Atmosphere 1976, p.19
     return kBeta * pow(temperature, 3.0 / 2.0) / (temperature + kS);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 double AtmosphereUS76::ComputeKinematicViscosity(double dyn_viscosity, double density)
 {
     // [m^2/s] kinematic viscosity, US Standard Atmosphere 1976, p.19
     return dyn_viscosity / density;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace mc

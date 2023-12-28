@@ -7,16 +7,12 @@
 
 #include <rotor/MomentumTheory.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 #define AIR_DENSITY 1.225
 #define GRAV_ACC 9.80665
 #define ALT_OUTSIDE_IGE 1000.0
 
 #define ROTOR_RADIUS 8.18
 #define ROTOR_OMEGA (2 * M_PI *  258.0 / 60.0)
-
-////////////////////////////////////////////////////////////////////////////////
 
 class MainRotorAdapter : public mc::MainRotor
 {
@@ -66,8 +62,6 @@ private:
     Data data_;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
 class MomentumTheoryAdapter : public MomentumTheory
 {
 public:
@@ -78,8 +72,6 @@ public:
         set_omega(ROTOR_OMEGA);
     }
 };
-
-////////////////////////////////////////////////////////////////////////////////
 
 class TestMainRotor : public ::testing::Test
 {
@@ -92,8 +84,6 @@ protected:
     void TearDown() override {}
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestMainRotor, CanConstruct)
 {
     MainRotorAdapter* mr = nullptr;
@@ -101,22 +91,16 @@ TEST_F(TestMainRotor, CanConstruct)
     delete mr;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestMainRotor, CanDestruct)
 {
     MainRotorAdapter* mr = new MainRotorAdapter();
     EXPECT_NO_THROW(delete mr);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestMainRotor, CanInstantiate)
 {
     MainRotorAdapter mr;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestMainRotor, CanSimulateComparedToMomentumTheory)
 {
@@ -166,8 +150,6 @@ TEST_F(TestMainRotor, CanSimulateComparedToMomentumTheory)
     }
     while ( climb_rate <= climb_rate_max );
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestMainRotor, CanGetData)
 {

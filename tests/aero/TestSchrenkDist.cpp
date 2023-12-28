@@ -4,8 +4,6 @@
 
 #include <CsvFileReader.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 class TestSchrenkDist : public ::testing::Test
 {
 protected:
@@ -17,8 +15,6 @@ protected:
     void TearDown() override {}
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestSchrenkDist, CanConstruct)
 {
     mc::SchrenkDist* dist = nullptr;
@@ -26,22 +22,16 @@ TEST_F(TestSchrenkDist, CanConstruct)
     delete dist;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestSchrenkDist, CanDestruct)
 {
     mc::SchrenkDist* dist = new mc::SchrenkDist();
     EXPECT_NO_THROW( delete dist );
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestSchrenkDist, CanInstantiate)
 {
     mc::SchrenkDist dist;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestSchrenkDist, CanCalculateRectangularWing)
 {
@@ -52,12 +42,12 @@ TEST_F(TestSchrenkDist, CanCalculateRectangularWing)
     // Raymer DP. Aircraft Design: A Conceptual Approach, 6th Edition, 2018, p.84
     ReadCsvDataFromFile("../tests/aero/data/schrenk_dist_rect.csv", &y_ref, &cl_ref);
 
-    EXPECT_GT(y_ref.size(), 0) << "No reference data.";
-    EXPECT_GT(cl_ref.size(), 0) << "No reference data.";
-    EXPECT_EQ(y_ref.size(), cl_ref.size()) << "Reference data corrupted.";
+    EXPECT_GT(y_ref  .size(), 0) << "No reference data.";
+    EXPECT_GT(cl_ref .size(), 0) << "No reference data.";
+    EXPECT_EQ(y_ref  .size(), cl_ref.size()) << "Reference data corrupted.";
 
     mc::SchrenkDist dist;
-    std::vector span {0.0, 1.0};
+    std::vector span  {0.0, 1.0};
     std::vector chord {1.0, 1.0};
 
     dist.set_area(2.0);
@@ -73,8 +63,6 @@ TEST_F(TestSchrenkDist, CanCalculateRectangularWing)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestSchrenkDist, CanCalculateTrapezoidalWing)
 {
     std::vector<double> y_ref;
@@ -84,12 +72,12 @@ TEST_F(TestSchrenkDist, CanCalculateTrapezoidalWing)
     // Schrenk O.: A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA TM-948, Figure 6
     ReadCsvDataFromFile("../tests/aero/data/schrenk_dist_taper.csv", &y_ref, &cl_ref);
 
-    EXPECT_GT(y_ref.size(), 0) << "No reference data.";
-    EXPECT_GT(cl_ref.size(), 0) << "No reference data.";
-    EXPECT_EQ(y_ref.size(), cl_ref.size()) << "Reference data corrupted.";
+    EXPECT_GT(y_ref  .size(), 0) << "No reference data.";
+    EXPECT_GT(cl_ref .size(), 0) << "No reference data.";
+    EXPECT_EQ(y_ref  .size(), cl_ref.size()) << "Reference data corrupted.";
 
     mc::SchrenkDist dist;
-    std::vector span {0.0, 1.0};
+    std::vector span  {0.0, 1.0};
     std::vector chord {1.0, 0.5};
     mc::Table xxx(span, chord);
 
@@ -105,8 +93,6 @@ TEST_F(TestSchrenkDist, CanCalculateTrapezoidalWing)
         EXPECT_NEAR(cl, cl_ref.at(i), tol) << "Mismatch at span= " << y;
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestSchrenkDist, CanCalculateDeltaWing)
 {
@@ -138,4 +124,9 @@ TEST_F(TestSchrenkDist, CanCalculateDeltaWing)
         double tol = 0.05 * l_ref.at(i);
         EXPECT_NEAR(l, l_ref.at(i), tol) << "Mismatch at span= " << y;
     }
+}
+
+TEST_F(TestSchrenkDist, CanIntegrateToOne)
+{
+    // TODO
 }

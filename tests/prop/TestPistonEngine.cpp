@@ -2,8 +2,6 @@
 
 #include <mcsim/prop/PistonEngine.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 class TestPistonEngine : public ::testing::Test
 {
 protected:
@@ -24,24 +22,18 @@ protected:
     void TearDown() override {}
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestPistonEngine, CanConstruct)
 {
-    TestPistonEngine::PistonEngine *engine = nullptr;
-    EXPECT_NO_THROW( engine = new TestPistonEngine::PistonEngine() );
+    TestPistonEngine::PistonEngine* engine = nullptr;
+    EXPECT_NO_THROW(engine = new TestPistonEngine::PistonEngine());
     delete engine;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestPistonEngine, CanDestruct)
 {
-    TestPistonEngine::PistonEngine *engine = new TestPistonEngine::PistonEngine();
-    EXPECT_NO_THROW( delete engine );
+    TestPistonEngine::PistonEngine* engine = new TestPistonEngine::PistonEngine();
+    EXPECT_NO_THROW(delete engine);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestPistonEngine, CanInstantiate)
 {

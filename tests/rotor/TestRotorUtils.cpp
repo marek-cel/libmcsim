@@ -8,8 +8,6 @@
 
 #include <iostream>
 
-////////////////////////////////////////////////////////////////////////////////
-
 class TestRotorUtils : public ::testing::Test
 {
 protected:
@@ -20,8 +18,6 @@ protected:
     void SetUp() override {}
     void TearDown() override {}
 };
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestRotorUtils, CanGetVortexRingK0)
 {
@@ -40,8 +36,6 @@ TEST_F(TestRotorUtils, CanGetVortexRingK0)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestRotorUtils, CanGetVortexRingKv)
 {
     std::vector<double> vx_norm;
@@ -58,8 +52,6 @@ TEST_F(TestRotorUtils, CanGetVortexRingKv)
         EXPECT_NEAR(kv, kv_ref.at(i), tol);
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestRotorUtils, CanGetInGroundEffectThrustCoef)
 {

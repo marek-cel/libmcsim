@@ -22,16 +22,11 @@
 #ifndef MCSIM_CTRL_HINGEMOMENT_H_
 #define MCSIM_CTRL_HINGEMOMENT_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
 #include <memory>
 
 #include <mcsim/defs.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+namespace mc {
 
 /**
  * @brief Flight control hinge moment model class.
@@ -57,15 +52,6 @@ public:
         double dch_ddelta_t = 0.0;  ///< [1/rad] hinge moment coefficient due to trim deflection
     };
 
-    // LCOV_EXCL_START
-    HingeMoment() = default;
-    HingeMoment(const HingeMoment&) = delete;
-    HingeMoment(HingeMoment&&) = default;
-    HingeMoment& operator=(const HingeMoment&) = delete;
-    HingeMoment& operator=(HingeMoment&&) = default;
-    virtual ~HingeMoment() = default;
-    // LCOV_EXCL_STOP
-
     /**
      * @brief Computes hinge moment.
      * @param dynPress [Pa] dynamic pressure
@@ -80,7 +66,5 @@ public:
 };
 
 } // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // MCSIM_CTRL_HINGEMOMENT_H_

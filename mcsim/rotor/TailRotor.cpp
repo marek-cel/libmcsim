@@ -26,12 +26,7 @@
 
 #include <mcsim/aero/AeroAngles.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
+namespace mc {
 
 void TailRotor::UpdateForceAndMoment(const Vector3& vel_air_bas,
                                      const Vector3& omg_air_bas,
@@ -108,8 +103,6 @@ void TailRotor::UpdateForceAndMoment(const Vector3& vel_air_bas,
     m_bas_ = data_.r_hub_bas % f_bas_;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 void TailRotor::Update(double omega, double collective)
 {
     omega_  = omega;
@@ -118,8 +111,6 @@ void TailRotor::Update(double omega, double collective)
 
     theta_ = collective;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void TailRotor::UpdateDataDerivedVariables()
 {
@@ -135,7 +126,5 @@ void TailRotor::UpdateDataDerivedVariables()
     ib_ = data().blade_mass * r2_ / 3.0;
     ir_ = data().nb * ib_;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace mc

@@ -2,8 +2,6 @@
 
 #include <mcsim/mass/PointMass.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
 class TestPointMass : public ::testing::Test
 {
 protected:
@@ -24,24 +22,18 @@ protected:
     void TearDown() override {}
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestPointMass, CanConstruct)
 {
-    TestPointMass::PointMass *mass = nullptr;
-    EXPECT_NO_THROW( mass = new TestPointMass::PointMass() );
+    TestPointMass::PointMass* mass = nullptr;
+    EXPECT_NO_THROW(mass = new TestPointMass::PointMass());
     delete mass;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 TEST_F(TestPointMass, CanDestruct)
 {
-    TestPointMass::PointMass *mass = new TestPointMass::PointMass();
-    EXPECT_NO_THROW( delete mass );
+    TestPointMass::PointMass* mass = new TestPointMass::PointMass();
+    EXPECT_NO_THROW(delete mass);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 TEST_F(TestPointMass, CanInstantiate)
 {

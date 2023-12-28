@@ -22,19 +22,12 @@
 #ifndef MCSIM_GEAR_SIMPLEGEAR_H_
 #define MCSIM_GEAR_SIMPLEGEAR_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
-#include <memory>
-
 #include <mcutils/math/Vector3.h>
 
 #include <mcsim/defs.h>
 #include <mcsim/gear/BrakeGroup.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+namespace mc {
 
 /**
  * @brief Simple landing gear model class.
@@ -170,7 +163,5 @@ protected:
 };
 
 } // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // MCSIM_GEAR_SIMPLEGEAR_H_

@@ -1,8 +1,6 @@
 #ifndef LIBMCSIM_TESTS_ROTOR_MOMENTUMTHEORY_H_
 #define LIBMCSIM_TESTS_ROTOR_MOMENTUMTHEORY_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
 /**
  * Tests auxiliary class. Uses momentum theory to calculate rotor state.
  */
@@ -31,7 +29,5 @@ private:
 
     void UpdateDerivedVariables();
 };
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // LIBMCSIM_TESTS_ROTOR_MOMENTUMTHEORY_H_

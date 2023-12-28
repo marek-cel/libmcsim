@@ -63,8 +63,6 @@ def runScanBuild():
     subprocess.run("scan-build-10 -analyze-headers make -j 4", shell=True)
 
 
-################################################################################
-
 if __name__ == "__main__":
     clean.removeCheckOutputs()
     misc.printGreen("Running checks...")
