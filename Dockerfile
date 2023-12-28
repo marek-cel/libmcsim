@@ -9,7 +9,6 @@ RUN apt install -y \
     googletest \
     googletest-tools \
     lcov \
-    libarmadillo-dev \
     libgmock-dev \
     libgtest-dev \
     python3-all

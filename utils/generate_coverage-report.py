@@ -33,7 +33,7 @@ def captureCoverage():
 
 
 def getExclusions():
-    file_path = 'tools/lcov_exclude.txt'
+    file_path = 'utils/lcov_exclude.txt'
     with open(file_path, 'r') as file:
         exclusions = file.readlines()
     exclusions = [line.strip() for line in exclusions]
@@ -46,7 +46,7 @@ def removeExclusions():
     for exclusion in exclusions:
         cmd.append(exclusion)
     subprocess.run(cmd + ["--output-file", coverage_file])
-    clean.removeFile(coverage_file_full)
+    misc.removeFile(coverage_file_full)
 
 
 def generateCoverageSummary():
