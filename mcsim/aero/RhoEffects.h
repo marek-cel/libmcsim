@@ -36,7 +36,7 @@ namespace mc {
  * @param max maximum value
  * @return pressure coefficient factor
  */
-double MCSIMAPI GetPrandtlGlauertFactor(double mach, double max = 5.0);
+MCSIMAPI double GetPrandtlGlauertFactor(double mach, double max = 5.0);
 
 } // namespace mc
 

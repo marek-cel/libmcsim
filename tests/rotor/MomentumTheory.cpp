@@ -2,6 +2,10 @@
 
 #include <cmath>
 
+#ifdef _MSC_VER
+#   include <limits>
+#endif // _MSC_VER
+
 #include <mcsim/rotor/RotorUtils.h>
 
 void MomentumTheory::Update(double climb_rate, double vi0, double rho)

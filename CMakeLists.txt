@@ -74,13 +74,18 @@ endif()
 
 ################################################################################
 
-find_library(MCUTILS_LIBRARY NAMES mcutils)
+if(UNIX)
+    find_library(MCUTILS_LIBRARY NAMES mcutils)
+elseif(WIN32)
+    find_library(MCUTILS_LIBRARY NAMES mcutils PATHS "$ENV{LIBMCUTILS_DIR}/lib")
+endif()
 
 ################################################################################
 
 include_directories(.)
 
 if(WIN32)
+    set(MCUTILS_INCLUDE_DIR "$ENV{LIBMCUTILS_DIR}/include")
     include_directories(${MCUTILS_INCLUDE_DIR})
 endif()
 

@@ -63,4 +63,4 @@ endif()
 
 ################################################################################
 
-target_link_libraries(${TARGET_NAME})
+target_link_libraries(${TARGET_NAME} ${LIBS})

@@ -44,11 +44,10 @@ set(SOURCES
 add_executable(${TARGET_NAME} ${SOURCES})
 
 set(LIBS
+    ${MCUTILS_LIBRARY}
     mcsim
-    mcutils
     GTest::gtest
     GTest::gtest_main
-    ${MCUTILS_LIBRARY}
 )
 
 if (UNIX)
