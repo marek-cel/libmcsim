@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    environment {
+        RECIPIENT_LIST = 'dev@marekcel.pl'
+    }
+
+    triggers {
+        pollSCM('0 3 * * *')
+    }
+
+    options {
+        skipStagesAfterUnstable()
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                bat 'cmake . -DCMAKE_BUILD_TYPE=Release -B build'
+                bat 'cmake --build build --config Release -j 4'
+            }
+        }
+        stage('Test') {
+            steps {
+                bat 'cd build && ctest'
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                def buildDate = new Date(currentBuild.startTimeInMillis).format("yyyy-MM-dd")
+                env.BUILD_DATE = buildDate
+                def jenkinsBaseUrl = env.BUILD_URL.split('/')[2].split(':')[0]
+                env.JENKINS_BASE_URL = jenkinsBaseUrl
+            }
+            emailext (
+                to: "${env.RECIPIENT_LIST}",
+                subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                <p>Check console output at <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a></p>""",
+                mimeType: 'text/html'
+            )
+        }
+
+        failure {
+            emailext (
+                to: "${env.RECIPIENT_LIST}",
+                subject: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                <p>Check console output at <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a></p>""",
+                mimeType: 'text/html'
+            )
+        }
+    }
+}
