@@ -78,7 +78,6 @@ if(UNIX)
     find_library(MCUTILS_LIBRARY NAMES mcutils)
 elseif(WIN32)
     find_library(MCUTILS_LIBRARY NAMES mcutils PATHS "$ENV{LIBMCUTILS_DIR}/lib")
-    message("LIBMCUTILS_DIR= $ENV{LIBMCUTILS_DIR}")
 endif()
 
 ################################################################################
