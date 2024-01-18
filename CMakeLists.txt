@@ -52,7 +52,6 @@ endif()
 
 if(UNIX)
     set(CMAKE_CXX_FLAGS "-Wall -std=c++17")
-
     if (BUILD_TESTING)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fno-default-inline -fno-inline -fno-inline-small-functions -fprofile-arcs -ftest-coverage -pedantic")
         set(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g")

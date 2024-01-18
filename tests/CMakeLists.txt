@@ -41,23 +41,21 @@ set(SOURCES
 
 ################################################################################
 
-add_executable(${TARGET_NAME} WIN32 ${SOURCES})
+add_executable(${TARGET_NAME} ${SOURCES})
 
-target_link_libraries(${TARGET_NAME}
-
-    -Wl,--start-group
-
-    gcov
-
+set(LIBS
     mcsim
-
-    ${MCUTILS_LIBRARY}
-
+    mcutils
     GTest::gtest
     GTest::gtest_main
-
-    -Wl,--end-group
+    ${MCUTILS_LIBRARY}
 )
+
+if (UNIX)
+    set(LIBS ${LIBS} gcov)
+endif()
+
+target_link_libraries(${TARGET_NAME} ${LIBS})
 
 ################################################################################
 
