@@ -11,6 +11,7 @@ public:
     void Update(double climbRate, double vi0, double rho);
 
     inline double lambda_i() const { return lambda_i_; }
+    inline double vi_vi0()   const { return vi_vi0_; }
     inline double thrust()   const { return thrust_; }
 
     void set_omega(double omega);
@@ -25,6 +26,7 @@ private:
     double area_   = 0.0;   ///< [m^2] rotor disc area
 
     double lambda_i_ = 0.0; ///< [-] normalized rotor induced velocity
+    double vi_vi0_   = 0.0; ///< [-] ratio of climb rate to induced velocity at hover
     double thrust_   = 0.0; ///< [N] rotor thrust
 
     void UpdateDerivedVariables();

@@ -6,8 +6,6 @@
 #   include <limits>
 #endif // _MSC_VER
 
-#include <mcsim/rotor/RotorUtils.h>
-
 void MomentumTheory::Update(double climb_rate, double vi0, double rho)
 {
     double mu_c =  climb_rate / omegaR_;
@@ -37,6 +35,9 @@ void MomentumTheory::Update(double climb_rate, double vi0, double rho)
     }
     double vel_i = lambda_i_ * omegaR_;
 
+    // ratio of climb rate to induced velocity at hover
+    vi_vi0_ = vel_i / vi0;
+
     // thrust
     thrust_ = std::numeric_limits<double>::quiet_NaN();
     if ( vc_vi0 > -1.0 )
@@ -47,10 +48,6 @@ void MomentumTheory::Update(double climb_rate, double vi0, double rho)
     {
         thrust_ = 2.0 * rho * area_ * ( fabs( climb_rate ) - vel_i ) * vel_i;
     }
-
-    // Vortex-Ring-State influence
-    double kvr = mc::GetVortexRingInfluenceCoef(0.0, mu_d / lambda_i0);
-    thrust_ = thrust_ * (1.0 - kvr);
 }
 
 void MomentumTheory::set_omega(double omega)
