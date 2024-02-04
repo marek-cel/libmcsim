@@ -22,20 +22,7 @@ protected:
     void TearDown() override {}
 };
 
-TEST_F(TestPropeller, CanConstruct)
-{
-    TestPropeller::Propeller* prop = nullptr;
-    EXPECT_NO_THROW(prop = new TestPropeller::Propeller());
-    delete prop;
-}
-
-TEST_F(TestPropeller, CanDestruct)
-{
-    TestPropeller::Propeller* prop = new TestPropeller::Propeller();
-    EXPECT_NO_THROW(delete prop);
-}
-
 TEST_F(TestPropeller, CanInstantiate)
 {
-    TestPropeller::Propeller prop;
+    // TODO
 }

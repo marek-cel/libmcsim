@@ -69,15 +69,6 @@ public:
         double specFuelCons = 0.0;  ///< [kg/(W*s)] specific fuel consumption
     };
 
-    // LCOV_EXCL_START
-    PistonEngine() = default;
-    PistonEngine(const PistonEngine&) = delete;
-    PistonEngine(PistonEngine&&) = default;
-    PistonEngine& operator=(const PistonEngine&) = delete;
-    PistonEngine& operator=(PistonEngine&&) = default;
-    virtual ~PistonEngine() = default;
-    // LCOV_EXCL_STOP
-
     /**
      * @brief Updates engine.
      * @param throttleLever [0.0,1.0] throttle lever position

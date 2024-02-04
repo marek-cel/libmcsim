@@ -18,19 +18,6 @@ protected:
     void TearDown() override {}
 };
 
-TEST_F(TestAtmosphereUS76, CanConstruct)
-{
-    mc::AtmosphereUS76* atm = nullptr;
-    EXPECT_NO_THROW(atm = new mc::AtmosphereUS76());
-    delete atm;
-}
-
-TEST_F(TestAtmosphereUS76, CanDestruct)
-{
-    mc::AtmosphereUS76* atm = new mc::AtmosphereUS76();
-    EXPECT_NO_THROW(delete atm);
-}
-
 TEST_F(TestAtmosphereUS76, CanInstantiate)
 {
     mc::AtmosphereUS76 atm;

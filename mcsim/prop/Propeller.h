@@ -64,15 +64,6 @@ public:
         bool ccw = false;           ///< specifies if rotation direction is counter-clockwise (looking from cockpit)
     };
 
-    // LCOV_EXCL_START
-    Propeller() = default;
-    Propeller(const Propeller&) = delete;
-    Propeller(Propeller&&) = default;
-    Propeller& operator=(const Propeller&) = delete;
-    Propeller& operator=(Propeller&&) = default;
-    virtual ~Propeller() = default;
-    // LCOV_EXCL_STOP
-
     /**
      * @brief Computes thrust.
      * @param airspeed [m/s]    airspeed

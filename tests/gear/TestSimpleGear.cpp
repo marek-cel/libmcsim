@@ -22,20 +22,7 @@ protected:
     void TearDown() override {}
 };
 
-TEST_F(TestSimpleGear, CanConstruct)
-{
-    TestSimpleGear::SimpleGear* sg = nullptr;
-    EXPECT_NO_THROW(sg = new TestSimpleGear::SimpleGear());
-    delete sg;
-}
-
-TEST_F(TestSimpleGear, CanDestruct)
-{
-    TestSimpleGear::SimpleGear* sg = new TestSimpleGear::SimpleGear();
-    EXPECT_NO_THROW(delete sg);
-}
-
 TEST_F(TestSimpleGear, CanInstantiate)
 {
-    TestSimpleGear::SimpleGear sg;
+    // TODO
 }

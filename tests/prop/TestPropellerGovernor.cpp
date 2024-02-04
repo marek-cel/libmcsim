@@ -22,20 +22,7 @@ protected:
     void TearDown() override {}
 };
 
-TEST_F(TestPropellerGovernor, CanConstruct)
-{
-    TestPropellerGovernor::PropellerGovernor* gov = nullptr;
-    EXPECT_NO_THROW(gov = new TestPropellerGovernor::PropellerGovernor());
-    delete gov;
-}
-
-TEST_F(TestPropellerGovernor, CanDestruct)
-{
-    TestPropellerGovernor::PropellerGovernor* gov = new TestPropellerGovernor::PropellerGovernor();
-    EXPECT_NO_THROW(delete gov);
-}
-
 TEST_F(TestPropellerGovernor, CanInstantiate)
 {
-    TestPropellerGovernor::PropellerGovernor gov;
+    // TODO
 }

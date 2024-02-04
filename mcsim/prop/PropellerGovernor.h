@@ -44,15 +44,6 @@ public:
         double gain_2 = 0.0;    ///< second order gain
     };
 
-    // LCOV_EXCL_START
-    PropellerGovernor() = default;
-    PropellerGovernor(const PropellerGovernor&) = delete;
-    PropellerGovernor(PropellerGovernor&&) = default;
-    PropellerGovernor& operator=(const PropellerGovernor&) = delete;
-    PropellerGovernor& operator=(PropellerGovernor&&) = default;
-    virtual ~PropellerGovernor() = default;
-    // LCOV_EXCL_STOP
-
     virtual void Update(double prop_lever, double rpm);
 
     virtual const Data& data() const = 0;

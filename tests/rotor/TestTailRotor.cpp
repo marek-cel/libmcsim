@@ -72,19 +72,6 @@ protected:
     void TearDown() override {}
 };
 
-TEST_F(TestTailRotor, CanConstruct)
-{
-    TailRotorAdapter* rotor = nullptr;
-    EXPECT_NO_THROW(rotor = new TailRotorAdapter());
-    delete rotor;
-}
-
-TEST_F(TestTailRotor, CanDestruct)
-{
-    TailRotorAdapter* rotor = new TailRotorAdapter();
-    EXPECT_NO_THROW(delete rotor);
-}
-
 TEST_F(TestTailRotor, CanInstantiate)
 {
     TailRotorAdapter rotor;
