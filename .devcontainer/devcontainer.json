@@ -1,7 +1,6 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 {
 	"name": "libmcsim-dev-env",
-	"containerUser" : "dev",
 	"build": {
 		"context": "..",
 		"dockerfile": "../Dockerfile"
@@ -21,5 +20,9 @@
 				"twxs.cmake"
 			]
 		}
-	}
+	},
+
+	"remoteUser": "vscode",
+	"containerUser" : "vscode",
+	"updateRemoteUserUID": true
 }
