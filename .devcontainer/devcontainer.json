@@ -1,12 +1,11 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
 {
 	"name": "libmcsim-dev-env",
+	
 	"build": {
 		"context": "..",
 		"dockerfile": "../Dockerfile"
 	},
 
-	// Configure tool-specific properties.
 	"customizations":
 	{
 		"vscode" : {
