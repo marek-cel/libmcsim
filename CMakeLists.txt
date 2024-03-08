@@ -1,13 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(mcsim CXX)
+################################################################################
 
-set(MCSIM_VERSION_MAJOR 0)
-set(MCSIM_VERSION_MINOR 1)
-set(MCSIM_VERSION_PATCH 0)
-set(MCSIM_VERSION_STRING
-    ${MCSIM_VERSION_MAJOR}.${MCSIM_VERSION_MINOR}.${MCSIM_VERSION_PATCH}
-)
+project(mcsim)
 
 ################################################################################
 
