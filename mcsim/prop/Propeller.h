@@ -92,29 +92,29 @@ public:
 
     virtual const Data& data() const = 0;
 
-    inline double rpm()    const { return rpm_;    }
-    inline double omega()  const { return omega_;  }
-    inline double thrust() const { return thrust_; }
-    inline double vel_i()  const { return vel_i_;  }
-    inline double trq_n()  const { return trq_n_;  }
+    inline double rpm()    const { return _rpm;    }
+    inline double omega()  const { return _omega;  }
+    inline double thrust() const { return _thrust; }
+    inline double vel_i()  const { return _vel_i;  }
+    inline double trq_n()  const { return _trq_n;  }
 
     void set_rpm(double rpm);
 
 protected:
 
-    double area_ = 0.0;             ///< [m^2] propeller disc area
+    double _area = 0.0;             ///< [m^2] propeller disc area
 
-    double pitch_  = 0.0;           ///< [rad]   propeller pitch at 0.75 radius
-    double omega_  = 0.0;           ///< [rad/s] propeller angular velocity
-    double rps_    = 0.0;           ///< [rps]   propeller speed
-    double rpm_    = 0.0;           ///< [rpm]   propeller speed
-    double thrust_ = 0.0;           ///< [N] t   hrust
+    double _pitch  = 0.0;           ///< [rad]   propeller pitch at 0.75 radius
+    double _omega  = 0.0;           ///< [rad/s] propeller angular velocity
+    double _rps    = 0.0;           ///< [rps]   propeller speed
+    double _rpm    = 0.0;           ///< [rpm]   propeller speed
+    double _thrust = 0.0;           ///< [N] t   hrust
 
-    double vel_i_ = 0.0;            ///< [m/s] induced velocity
+    double _vel_i = 0.0;            ///< [m/s] induced velocity
 
-    double trq_a_ = 0.0;            ///< [N*m] available torque
-    double trq_r_ = 0.0;            ///< [N*m] required torque
-    double trq_n_ = 0.0;            ///< [N*m]
+    double _trq_a = 0.0;            ///< [N*m] available torque
+    double _trq_r = 0.0;            ///< [N*m] required torque
+    double _trq_n = 0.0;            ///< [N*m] net torque
 
     /**
      * @brief Computes induced velocity.

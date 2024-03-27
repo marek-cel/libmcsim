@@ -68,11 +68,11 @@ public:
 
     virtual const Data& data() const = 0;
 
-    inline double mass() const { return mass_; }
+    inline double mass() const { return _mass; }
 
 private:
 
-    double mass_ = 0.0;     ///< [kg] current mass
+    double _mass = 0.0;     ///< [kg] current mass
 };
 
 } // namespace mc

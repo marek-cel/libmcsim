@@ -119,15 +119,15 @@ public:
      */
     void Update(double altitude);
 
-    inline double temperature()    const { return temperature_;    }
-    inline double pressure()       const { return pressure_;       }
-    inline double density()        const { return density_;        }
-    inline double speed_of_sound() const { return speed_of_sound_; }
-    inline double dyn_viscosity()  const { return dyn_viscosity_;  }
-    inline double kin_viscosity()  const { return kin_viscosity_;  }
+    inline double temperature()    const { return _temperature;    }
+    inline double pressure()       const { return _pressure;       }
+    inline double density()        const { return _density;        }
+    inline double speed_of_sound() const { return _speed_of_sound; }
+    inline double dyn_viscosity()  const { return _dyn_viscosity;  }
+    inline double kin_viscosity()  const { return _kin_viscosity;  }
 
-    inline double sl_temperature() const { return sl_temperature_; }
-    inline double sl_pressure()    const { return sl_pressure_;    }
+    inline double sl_temperature() const { return _sl_temperature; }
+    inline double sl_pressure()    const { return _sl_pressure;    }
 
     /**
      * @brief Sets sea level air pressure value.
@@ -143,15 +143,15 @@ public:
 
 private:
 
-    double sl_temperature_ = kStdSlTemp;   ///< [K]      sea level air temperature
-    double sl_pressure_    = kStdSlPress;  ///< [Pa]     sea level air pressure
+    double _sl_temperature = kStdSlTemp;   ///< [K]      sea level air temperature
+    double _sl_pressure    = kStdSlPress;  ///< [Pa]     sea level air pressure
 
-    double temperature_    = kStdSlTemp;   ///< [K]      air temperature
-    double pressure_       = kStdSlPress;  ///< [Pa]     air static pressure
-    double density_        = kStdSlRho;    ///< [kg/m^3] air density
-    double speed_of_sound_ = kStdSlSoS;    ///< [m/s]    speed of sound
-    double dyn_viscosity_  = kStdSlMu;     ///< [Pa*s]   dynamic viscosity
-    double kin_viscosity_  = kStdSlNu;     ///< [m^2/s]  kinematic viscosity
+    double _temperature    = kStdSlTemp;   ///< [K]      air temperature
+    double _pressure       = kStdSlPress;  ///< [Pa]     air static pressure
+    double _density        = kStdSlRho;    ///< [kg/m^3] air density
+    double _speed_of_sound = kStdSlSoS;    ///< [m/s]    speed of sound
+    double _dyn_viscosity  = kStdSlMu;     ///< [Pa*s]   dynamic viscosity
+    double _kin_viscosity  = kStdSlNu;     ///< [m^2/s]  kinematic viscosity
 
     /**
      * @brief Gets index of altitude dependent constants tables.

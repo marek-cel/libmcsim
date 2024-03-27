@@ -95,27 +95,27 @@ public:
 
     virtual const Data& data() const = 0;
 
-    inline State state() const { return state_; }
+    inline State state() const { return _state; }
 
-    inline double rpm() const { return rpm_; }
-    inline double map() const { return map_; }
-    inline double pwr() const { return pwr_; }
-    inline double trq() const { return trq_; }
-    inline double af()  const { return af_;  }
-    inline double ff()  const { return ff_;  }
+    inline double rpm() const { return _rpm; }
+    inline double map() const { return _map; }
+    inline double pwr() const { return _pwr; }
+    inline double trq() const { return _trq; }
+    inline double af()  const { return _af;  }
+    inline double ff()  const { return _ff;  }
 
     void set_rpm(double rpm);
 
 protected:
 
-    State state_ = State::Stopped;  ///< engine state
+    State _state = State::Stopped;  ///< engine state
 
-    double rpm_ = 0.0;              ///< [rpm]  engine rpm
-    double map_ = 0.0;              ///< [Pa]   manifold absolute pressure
-    double pwr_ = 0.0;              ///< [W]    net power
-    double trq_ = 0.0;              ///< [N*m]  torque
-    double af_  = 0.0;              ///< [kg/s] air flow
-    double ff_  = 0.0;              ///< [kg/s] fuel flow
+    double _rpm = 0.0;              ///< [rpm]  engine rpm
+    double _map = 0.0;              ///< [Pa]   manifold absolute pressure
+    double _pwr = 0.0;              ///< [W]    net power
+    double _trq = 0.0;              ///< [N*m]  torque
+    double _af  = 0.0;              ///< [kg/s] air flow
+    double _ff  = 0.0;              ///< [kg/s] fuel flow
 
     /**
      * @brief Computes manifold absolute pressure.

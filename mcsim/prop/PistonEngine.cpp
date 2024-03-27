@@ -42,39 +42,39 @@ void PistonEngine::Update(double throttleLever,
 {
     double omega = M_PI * rpm / 30.0;
 
-    rpm_ = rpm;
-    map_ = GetManifoldAbsolutePressure(throttleLever, rpm_, airPressure);
-    pwr_ = GetNetPower(throttleLever, mixtureLever, rpm_, airDensity, densityAlt,
+    _rpm = rpm;
+    _map = GetManifoldAbsolutePressure(throttleLever, _rpm, airPressure);
+    _pwr = GetNetPower(throttleLever, mixtureLever, _rpm, airDensity, densityAlt,
                        fuel, magneto_l, magneto_r);
 
-    af_ = 0.5 * data().displacement * airDensity * (rpm_ / 60.0);
-    ff_ = std::max(0.0, pwr_) * data().specFuelCons;
+    _af = 0.5 * data().displacement * airDensity * (_rpm / 60.0);
+    _ff = std::max(0.0, _pwr) * data().specFuelCons;
 
     // engine torque [N*m]
-    trq_ = ( omega > 1.0 ) ? pwr_ / omega : pwr_;
+    _trq = ( omega > 1.0 ) ? _pwr / omega : _pwr;
 
     // state
-    bool rpm_above_min = rpm_ > data().rpm_min;
+    bool rpm_above_min = _rpm > data().rpm_min;
     bool ignition_on = magneto_l || magneto_r;
-    if ( pwr_ > 0.0 || (rpm_above_min && fuel && ignition_on) )
+    if ( _pwr > 0.0 || (rpm_above_min && fuel && ignition_on) )
     {
-        state_ = State::Running;
+        _state = State::Running;
     }
     else
     {
-        state_ = State::Stopped;
+        _state = State::Stopped;
 
         if ( starter )
         {
-            state_ = State::Starting;
-            trq_ += data().starter;
+            _state = State::Starting;
+            _trq += data().starter;
         }
     }
 }
 
 void PistonEngine::set_rpm(double rpm)
 {
-    rpm_ = std::max(0.0, rpm);
+    _rpm = std::max(0.0, rpm);
 }
 
 double PistonEngine::GetManifoldAbsolutePressure(double throttleLever,

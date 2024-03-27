@@ -170,19 +170,19 @@ void AtmosphereUS76::Update(double altitude)
     AltConstants ac = GetAltitudeConstants(alt_limited);
     double delta_h = alt_limited - ac.Hb;
     
-    temperature_    = ComputeTemperature(delta_h, ac.Tb, ac.Lb);
-    pressure_       = ComputePressure(delta_h, ac.Tb, ac.Lb, ac.Pb, altitude, temperature_);
-    density_        = ComputeDensity(temperature_, pressure_);
-    speed_of_sound_ = ComputeSpeedOfSound(temperature_);
-    dyn_viscosity_  = ComputeDynamicViscosity(temperature_);
-    kin_viscosity_  = ComputeKinematicViscosity(dyn_viscosity_, density_);
+    _temperature    = ComputeTemperature(delta_h, ac.Tb, ac.Lb);
+    _pressure       = ComputePressure(delta_h, ac.Tb, ac.Lb, ac.Pb, altitude, _temperature);
+    _density        = ComputeDensity(_temperature, _pressure);
+    _speed_of_sound = ComputeSpeedOfSound(_temperature);
+    _dyn_viscosity  = ComputeDynamicViscosity(_temperature);
+    _kin_viscosity  = ComputeKinematicViscosity(_dyn_viscosity, _density);
 }
 
 void AtmosphereUS76::set_sl_pressure(double press)
 {
     if ( press > kSlPressMin && press < kSlPressMax )
     {
-        sl_pressure_ = press;
+        _sl_pressure = press;
     }
     else
     {
@@ -194,7 +194,7 @@ void AtmosphereUS76::set_sl_temperature(double temp)
 {
     if ( temp > kSlTempMin && temp < kSlTempMax )
     {
-        sl_temperature_ = temp;
+        _sl_temperature = temp;
     }
     else
     {
@@ -238,8 +238,8 @@ AtmosphereUS76::AltConstants AtmosphereUS76::GetAltitudeConstants(double altitud
     {
         result.Hb = 0.0;
         result.Pb = kPb[0];
-        result.Tb = sl_temperature_;
-        result.Lb = -(sl_temperature_ - kTb[1]) / kHb[0];
+        result.Tb = _sl_temperature;
+        result.Lb = -(_sl_temperature - kTb[1]) / kHb[0];
     }
     else
     {
@@ -275,7 +275,7 @@ double AtmosphereUS76::ComputePressure(double delta_h, double Tb, double Lb, dou
         if (altitude < kHb[0])
         {
             double c_h = (kHb[0] - altitude) / kHb[0];
-            double c_p = (c_h * sl_pressure_ + (1.0 - c_h) * kStdSlPress) / kStdSlPress;
+            double c_p = (c_h * _sl_pressure + (1.0 - c_h) * kStdSlPress) / kStdSlPress;
             pressure = pressure * c_p;
         }
     }

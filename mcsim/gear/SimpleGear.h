@@ -112,26 +112,26 @@ public:
 
     virtual const Data& data() const = 0;
 
-    inline const Vector3& f_bas() const { return f_bas_; }
-    inline const Vector3& m_bas() const { return m_bas_; }
+    inline const Vector3& f_bas() const { return _f_bas; }
+    inline const Vector3& m_bas() const { return _m_bas; }
 
-    inline double position() const { return position_; }
+    inline double position() const { return _position; }
 
 protected:
 
-    Vector3 f_bas_;                 ///< [N] total force vector expressed in BAS
-    Vector3 m_bas_;                 ///< [N*m] total moment vector expressed in BAS
+    Vector3 _f_bas;                 ///< [N] total force vector expressed in BAS
+    Vector3 _m_bas;                 ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 r_0_wgs_;               ///< [m] coordinates of the reference point for calculating static frinction expressed in WGS
+    Vector3 _r_0_wgs;               ///< [m] coordinates of the reference point for calculating static frinction expressed in WGS
 
-    double d_roll_ = 0.0;           ///< [m] roll direction distance for static friction spring like model
-    double d_slip_ = 0.0;           ///< [m] slip direction distance for static friction spring like model
+    double _d_roll = 0.0;           ///< [m] roll direction distance for static friction spring like model
+    double _d_slip = 0.0;           ///< [m] slip direction distance for static friction spring like model
 
-    double position_ = 0.0;         ///< <0.0;1.0> normalized position (0.0 - retracted, 1.0 - extended)
-    double delta_    = 0.0;         ///< [rad] wheel turn angle
-    double brake_    = 0.0;         ///< <0.0;1.0> normalized brake force
+    double _position = 0.0;         ///< <0.0;1.0> normalized position (0.0 - retracted, 1.0 - extended)
+    double _delta    = 0.0;         ///< [rad] wheel turn angle
+    double _brake    = 0.0;         ///< <0.0;1.0> normalized brake force
 
-    bool stat_friction_ = true;     ///< specifies if static friction model is enabled
+    bool _stat_friction = true;     ///< specifies if static friction model is enabled
 
     /**
      * @brief Calculates wheel variables.

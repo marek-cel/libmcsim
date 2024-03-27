@@ -78,10 +78,10 @@ public:
 
 protected:
 
-    double area_ = 0.0;     ///< [m^2] wing area
-    double span_ = 0.0;     ///< [m] wing span
+    double _area = 0.0;     ///< [m^2] wing area
+    double _span = 0.0;     ///< [m] wing span
 
-    Table chord_;           ///< [m] wing chord vs [m] spanwise coordinate
+    Table _chord;           ///< [m] wing chord vs [m] spanwise coordinate
 };
 
 } // namespace mc

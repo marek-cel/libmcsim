@@ -34,8 +34,8 @@ void SimpleGear::UpdateForceAndMoment(const Vector3& vel_bas,
                                       bool antiskid,
                                       double surf_coef)
 {
-    f_bas_.Zeroize();
-    m_bas_.Zeroize();
+    _f_bas.Zeroize();
+    _m_bas.Zeroize();
 
     double deflection_norm = n_c_bas * (r_c_bas - data().r_u_bas);
 
@@ -78,13 +78,13 @@ void SimpleGear::UpdateForceAndMoment(const Vector3& vel_bas,
             coef_slip = Math::Sign(v_slip);
         }
 
-        if ( stat_friction_ )
+        if ( _stat_friction )
         {
-            if ( fabs(d_roll_) < data().d_max && fabs(d_slip_) < data().d_max )
+            if ( fabs(_d_roll) < data().d_max && fabs(_d_slip) < data().d_max )
             {
                 // spring-like model of static friction as a logistic function
-                double cr = (2.0 / (1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_roll_) / data().d_max))) - 1.0) * Math::Sign(d_roll_);
-                double cs = (2.0 / (1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(d_slip_) / data().d_max))) - 1.0) * Math::Sign(d_slip_);
+                double cr = (2.0 / (1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(_d_roll) / data().d_max))) - 1.0) * Math::Sign(_d_roll);
+                double cs = (2.0 / (1.0 + exp(-3.0 * Math::Satur(0.0, 1.0, fabs(_d_slip) / data().d_max))) - 1.0) * Math::Sign(_d_slip);
 
                 if ( coef_roll < 0.0 && cr < 0.0 )
                 { 
@@ -118,7 +118,7 @@ void SimpleGear::UpdateForceAndMoment(const Vector3& vel_bas,
         coef_slip = Math::Satur(-1.0, 1.0, coef_slip);
 
         // braking friction
-        mu_roll_t += mu_surf_s * brake_;
+        mu_roll_t += mu_surf_s * _brake;
 
         double mu_roll_max = mu_surf_s;
 
@@ -162,8 +162,8 @@ void SimpleGear::UpdateForceAndMoment(const Vector3& vel_bas,
         }
 
         // resulting forces
-        f_bas_ = for_tan_bas + for_norm * n_c_bas;
-        m_bas_ = r_c_bas % f_bas_;
+        _f_bas = for_tan_bas + for_norm * n_c_bas;
+        _m_bas = r_c_bas % _f_bas;
     }
 }
 
@@ -174,7 +174,7 @@ void SimpleGear::Integrate(double dt,
                            const Vector3 &n_c_bas,
                            bool steering)
 {
-    if ( stat_friction_ )
+    if ( _stat_friction )
     {
         double deflection_norm = n_c_bas * (r_c_bas - data().r_u_bas);
 
@@ -194,26 +194,26 @@ void SimpleGear::Integrate(double dt,
                                &dir_lon_bas, &dir_lat_bas,
                                &cosDelta, &sinDelta, &v_norm, &v_roll, &v_slip);
 
-            d_roll_ += v_roll * dt;
-            d_slip_ += v_slip * dt;
+            _d_roll += v_roll * dt;
+            _d_slip += v_slip * dt;
 
             if ( fabs(v_roll) > data().v_max || fabs(v_slip) > data().v_max )
             {
-                d_roll_ = 0.0;
-                d_slip_ = 0.0;
+                _d_roll = 0.0;
+                _d_slip = 0.0;
             }
 
-            if ( fabs(d_roll_) > data().d_max ) d_roll_ = 0.0;
-            if ( fabs(d_slip_) > data().d_max ) d_slip_ = 0.0;
+            if ( fabs(_d_roll) > data().d_max ) _d_roll = 0.0;
+            if ( fabs(_d_slip) > data().d_max ) _d_slip = 0.0;
         }
     }
 }
 
 void SimpleGear::Update(double position, double delta, double brake)
 {
-    position_ = position;
-    delta_ = delta;
-    brake_ = brake;
+    _position = position;
+    _delta = delta;
+    _brake = brake;
 }
 
 void SimpleGear::CalculateVariables(const Vector3& vel_bas,
@@ -255,7 +255,7 @@ void SimpleGear::CalculateVariables(const Vector3& vel_bas,
 
     if ( data().steerable && steering )
     {
-        delta = Math::Satur(-data().delta_max, data().delta_max, delta_);
+        delta = Math::Satur(-data().delta_max, data().delta_max, _delta);
 
         *cos_delta = cos(delta);
         *sin_delta = sin(delta);

@@ -29,7 +29,7 @@ namespace mc {
 void PropellerGovernor::Update(double prop_lever, double rpm)
 {
     double error = data().prop_rpm.GetValue(prop_lever) - rpm;
-    pitch_ = prop_lever + data().gain_1 * error + data().gain_2 * error * fabs(error);
+    _pitch = prop_lever + data().gain_1 * error + data().gain_2 * error * fabs(error);
 }
 
 } // namespace mc

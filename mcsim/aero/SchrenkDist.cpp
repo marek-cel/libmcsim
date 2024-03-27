@@ -31,27 +31,27 @@ namespace mc {
 
 double SchrenkDist::GetEllipticWingChord(double y) const
 {
-    return (4.0 * area_) / (span_ * M_PI) * sqrt(1.0 - std::min(Math::Pow2(2.0 * y / span_), 1.0));
+    return (4.0 * _area) / (_span * M_PI) * sqrt(1.0 - std::min(Math::Pow2(2.0 * y / _span), 1.0));
 }
 
 double SchrenkDist::GetLiftCoefDist(double y) const
 {
-    return (GetEllipticWingChord(y) + chord_.GetValue(y)) / area_;
+    return (GetEllipticWingChord(y) + _chord.GetValue(y)) / _area;
 }
 
 void SchrenkDist::set_area(double area)
 {
-    area_ = area;
+    _area = area;
 }
 
 void SchrenkDist::set_span(double span)
 {
-    span_ = span;
+    _span = span;
 }
 
 void SchrenkDist::set_chord(const Table& chord)
 {
-    chord_ = chord;
+    _chord = chord;
 }
 
 } // namespace mc

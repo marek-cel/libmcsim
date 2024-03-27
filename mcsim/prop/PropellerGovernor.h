@@ -48,11 +48,11 @@ public:
 
     virtual const Data& data() const = 0;
 
-    inline double pitch() const { return pitch_; }
+    inline double pitch() const { return _pitch; }
 
 protected:
 
-    double pitch_ = 0.0;    ///< <0.0;1.0> normalized propeller pitch
+    double _pitch = 0.0;    ///< <0.0;1.0> normalized propeller pitch
 };
 
 } // namespace mc
