@@ -10,24 +10,24 @@ public:
 
     void Update(double climbRate, double vi0, double rho);
 
-    inline double lambda_i() const { return lambda_i_; }
-    inline double vi_vi0()   const { return vi_vi0_; }
-    inline double thrust()   const { return thrust_; }
+    inline double lambda_i() const { return _lambda_i; }
+    inline double vi_vi0()   const { return _vi_vi0; }
+    inline double thrust()   const { return _thrust; }
 
     void set_omega(double omega);
     void set_radius(double radius);
 
 private:
 
-    double omega_  = 0.0;   ///< [rad/s] rotor rotatational speed
-    double radius_ = 0.0;   ///< [m] rotor radius
+    double _omega  = 0.0;   ///< [rad/s] rotor rotatational speed
+    double _radius = 0.0;   ///< [m] rotor radius
 
-    double omegaR_ = 0.0;   ///< [m/s] rotor blade tip velocity
-    double area_   = 0.0;   ///< [m^2] rotor disc area
+    double _omegaR = 0.0;   ///< [m/s] rotor blade tip velocity
+    double _area   = 0.0;   ///< [m^2] rotor disc area
 
-    double lambda_i_ = 0.0; ///< [-] normalized rotor induced velocity
-    double vi_vi0_   = 0.0; ///< [-] ratio of climb rate to induced velocity at hover
-    double thrust_   = 0.0; ///< [N] rotor thrust
+    double _lambda_i = 0.0; ///< [-] normalized rotor induced velocity
+    double _vi_vi0   = 0.0; ///< [-] ratio of climb rate to induced velocity at hover
+    double _thrust   = 0.0; ///< [N] rotor thrust
 
     void UpdateDerivedVariables();
 };

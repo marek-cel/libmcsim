@@ -24,41 +24,41 @@ public:
 
     void InitData()
     {
-        data_.ccw = true;
+        _data.ccw = true;
 
-        data_.nb = 4;
+        _data.nb = 4;
 
-        data_.blade_mass = 116.5;
+        _data.blade_mass = 116.5;
 
-        data_.r = ROTOR_RADIUS;
-        data_.c = 0.53;
-        data_.e = 0.38;
+        _data.r = ROTOR_RADIUS;
+        _data.c = 0.53;
+        _data.e = 0.38;
 
-        data_.a = 5.73;
-        data_.b = 0.97;
+        _data.a = 5.73;
+        _data.b = 0.97;
 
-        data_.delta_0 = 0.0;
-        data_.delta_2 = 0.0;
+        _data.delta_0 = 0.0;
+        _data.delta_2 = 0.0;
 
-        data_.beta_max = mc::Units::deg2rad(20.0);
+        _data.beta_max = mc::Units::deg2rad(20.0);
 
-        data_.ct_max = DBL_MAX;
-        data_.ch_max = DBL_MAX;
-        data_.cq_max = DBL_MAX;
+        _data.ct_max = DBL_MAX;
+        _data.ch_max = DBL_MAX;
+        _data.cq_max = DBL_MAX;
 
-        data_.thrust_factor = 1.0;
-        data_.hforce_factor = 1.0;
-        data_.torque_factor = 1.0;
+        _data.thrust_factor = 1.0;
+        _data.hforce_factor = 1.0;
+        _data.torque_factor = 1.0;
 
-        data_.vrs_thrust_factor = 1.0;
-        data_.vrs_torque_factor = 1.0;
+        _data.vrs_thrust_factor = 1.0;
+        _data.vrs_torque_factor = 1.0;
 
         UpdateDataDerivedVariables();
     }
 
-    const Data& data() const override
+    const Data* GetData() const override
     {
-        return data_;
+        return &_data;
     }
 
     double GetInGroundEffectThrustCoef(double, double, double) override
@@ -73,7 +73,7 @@ public:
 
 private:
 
-    Data data_;
+    Data _data;
 };
 
 class MomentumTheoryAdapter : public MomentumTheory
@@ -246,40 +246,40 @@ TEST_F(TestMainRotor, CanGetData)
     MainRotorAdapter mr;
     mr.InitData();
 
-    EXPECT_DOUBLE_EQ(mr.data().r_hub_bas.x(), 0.0);
-    EXPECT_DOUBLE_EQ(mr.data().r_hub_bas.y(), 0.0);
-    EXPECT_DOUBLE_EQ(mr.data().r_hub_bas.z(), 0.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->r_hub_bas.x(), 0.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->r_hub_bas.y(), 0.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->r_hub_bas.z(), 0.0);
 
-    EXPECT_DOUBLE_EQ(mr.data().a_hub_bas.phi(), 0.0);
-    EXPECT_DOUBLE_EQ(mr.data().a_hub_bas.tht(), 0.0);
-    EXPECT_DOUBLE_EQ(mr.data().a_hub_bas.psi(), 0.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->a_hub_bas.phi(), 0.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->a_hub_bas.tht(), 0.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->a_hub_bas.psi(), 0.0);
 
-    EXPECT_TRUE(mr.data().ccw);
+    EXPECT_TRUE(mr.GetData()->ccw);
 
-    EXPECT_EQ(mr.data().nb, 4);
+    EXPECT_EQ(mr.GetData()->nb, 4);
 
-    EXPECT_DOUBLE_EQ(mr.data().blade_mass, 116.5);
+    EXPECT_DOUBLE_EQ(mr.GetData()->blade_mass, 116.5);
 
-    EXPECT_DOUBLE_EQ(mr.data().r, ROTOR_RADIUS);
-    EXPECT_DOUBLE_EQ(mr.data().c, 0.53);
-    EXPECT_DOUBLE_EQ(mr.data().e, 0.38);
+    EXPECT_DOUBLE_EQ(mr.GetData()->r, ROTOR_RADIUS);
+    EXPECT_DOUBLE_EQ(mr.GetData()->c, 0.53);
+    EXPECT_DOUBLE_EQ(mr.GetData()->e, 0.38);
 
-    EXPECT_DOUBLE_EQ(mr.data().a, 5.73);
-    EXPECT_DOUBLE_EQ(mr.data().b, 0.97);
+    EXPECT_DOUBLE_EQ(mr.GetData()->a, 5.73);
+    EXPECT_DOUBLE_EQ(mr.GetData()->b, 0.97);
 
-    EXPECT_DOUBLE_EQ(mr.data().delta_0, 0.0);
-    EXPECT_DOUBLE_EQ(mr.data().delta_2, 0.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->delta_0, 0.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->delta_2, 0.0);
 
-    EXPECT_DOUBLE_EQ(mr.data().beta_max, mc::Units::deg2rad(20.0));
+    EXPECT_DOUBLE_EQ(mr.GetData()->beta_max, mc::Units::deg2rad(20.0));
 
-    EXPECT_DOUBLE_EQ(mr.data().ct_max, DBL_MAX);
-    EXPECT_DOUBLE_EQ(mr.data().ch_max, DBL_MAX);
-    EXPECT_DOUBLE_EQ(mr.data().cq_max, DBL_MAX);
+    EXPECT_DOUBLE_EQ(mr.GetData()->ct_max, DBL_MAX);
+    EXPECT_DOUBLE_EQ(mr.GetData()->ch_max, DBL_MAX);
+    EXPECT_DOUBLE_EQ(mr.GetData()->cq_max, DBL_MAX);
 
-    EXPECT_DOUBLE_EQ(mr.data().thrust_factor, 1.0);
-    EXPECT_DOUBLE_EQ(mr.data().hforce_factor, 1.0);
-    EXPECT_DOUBLE_EQ(mr.data().torque_factor, 1.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->thrust_factor, 1.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->hforce_factor, 1.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->torque_factor, 1.0);
 
-    EXPECT_DOUBLE_EQ(mr.data().vrs_thrust_factor, 1.0);
-    EXPECT_DOUBLE_EQ(mr.data().vrs_torque_factor, 1.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->vrs_thrust_factor, 1.0);
+    EXPECT_DOUBLE_EQ(mr.GetData()->vrs_torque_factor, 1.0);
 }
