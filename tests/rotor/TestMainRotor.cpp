@@ -205,7 +205,6 @@ TEST_F(TestMainRotor, CanSimulateComparedToMomentumTheory)
     const double climb_rate_step =   0.1;
     double climb_rate = climb_rate_min;
 
-    //ResultsWriter rw("../main_rotor1.csv");
     do
     {
         mc::Vector3 vel_bas(0.0, 0.0, -climb_rate);
@@ -221,8 +220,6 @@ TEST_F(TestMainRotor, CanSimulateComparedToMomentumTheory)
                                 ALT_OUTSIDE_IGE);
 
         mt.Update(climb_rate, mr.vel_i0(), AIR_DENSITY);
-
-        //rw.WriteResults(climb_rate, mr.vel_i0(), &mr, &mt);
 
         // 5% tolerance
         double tol_lambda_i = std::max(0.05 * fabs(mt.lambda_i()), 1.0e-9);

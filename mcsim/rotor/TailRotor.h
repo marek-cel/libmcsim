@@ -73,6 +73,8 @@ public:
         double torque_factor = 1.0;     ///< [-] torque scaling factor
     };
 
+    virtual const Data* GetData() const = 0;
+
     /**
      * @brief Updates force and moment.
      * @param vel_air_bas [m/s]    aircraft linear velocity relative to the air expressed in BAS
@@ -90,8 +92,6 @@ public:
      */
     virtual void Update(double omega, double collective);
 
-    virtual const Data& data() const = 0;
-
     inline const Vector3& f_bas() const { return f_bas_; }
     inline const Vector3& m_bas() const { return m_bas_; }
 
@@ -108,8 +108,6 @@ public:
     inline double vel_i0() const { return vel_i0_; }
 
 protected:
-
-    Data data_;                 ///< tail rotor data
 
     Vector3 f_bas_;             ///< [N] total force vector expressed in BAS
     Vector3 m_bas_;             ///< [N*m] total moment vector expressed in BAS
